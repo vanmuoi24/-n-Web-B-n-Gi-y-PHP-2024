@@ -1,0 +1,722 @@
+* {
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+
+  box-sizing: 0;
+}
+.container {
+  width: 100%;
+  height: auto;
+}
+.header {
+  font-family: "Open Sans", sans-serif;
+  margin-top: 40px;
+  color: #0078ff;
+  width: 80%;
+  height: 60.103px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header .img {
+  width: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header .img img {
+  width: 100%;
+}
+.header .search {
+  width: 65%;
+}
+.header i {
+  font-size: 1.2rem;
+}
+.header .search input {
+  width: 80%;
+  border-radius: 40px;
+  border: 2px solid #dfeeff;
+  outline: none;
+  height: 30px;
+  padding: 10px 10px;
+}
+.icon_header {
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  display: flex;
+}
+
+/* ////// */
+
+.header_content {
+  font-family: "Open Sans", sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 70px;
+  margin-top: 20px;
+  background-color: #0078ff;
+}
+.content_side {
+  color: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  width: 80%;
+  margin: auto;
+}
+
+.content_side .side_item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ///// */
+.Mange_client {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+}
+.Mange_item {
+  width: 100%;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Open Sans", sans-serif;
+}
+/* //////// */
+.table_product {
+  width: 80%;
+  margin: auto;
+  margin-top: 30px;
+}
+#table_product {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#table_product td,
+#table_product th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+#table_product td img {
+  width: 50px;
+}
+#table_product tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#table_product tr:hover {
+  background-color: #ddd;
+}
+
+#table_product th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #0078ff;
+  color: white;
+}
+.table_product i {
+  margin-left: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* ///// */
+
+.admin_home {
+  width: 80%;
+  margin: auto;
+  text-align: center;
+}
+.home_img1 {
+  position: relative;
+}
+.home_img2 {
+  top: 40%;
+  left: 35%;
+  position: absolute;
+}
+
+/* ..... */
+
+.admin_voucher {
+}
+.voucher {
+  font-family: "Open Sans", sans-serif;
+
+  border-collapse: collapse;
+  margin-top: 20px;
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.voucher input {
+  height: 30px;
+  outline: none;
+  padding: 5px 5px;
+  border-radius: 5px;
+  border: 1px solid #e7e7e7;
+}
+.voucher select,
+button {
+  cursor: pointer;
+  height: 30px;
+  border: 1px solid #e7e7e7;
+}
+
+.CTKHM {
+  background-color: #0078ff;
+  color: white;
+  border-radius: 5px;
+}
+.btn-voucher {
+  margin-left: 15px;
+  background-color: red;
+  color: white;
+  border-radius: 5px;
+}
+.btn-new {
+  margin-left: 15px;
+  background-color: rgb(27, 205, 50);
+  color: white;
+  border-radius: 5px;
+}
+.btn-using {
+  border-radius: 4px;
+  color: white;
+  background-color: #44ad50;
+}
+.btn-online {
+  border-radius: 4px;
+  color: white;
+  background-color: #44ad50;
+}
+.voucher_table table {
+  font-family: "Open Sans", sans-serif;
+
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.voucher_table th,
+td {
+  text-align: center;
+  padding: 8px;
+}
+
+.voucher_table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.voucher_table table i {
+  font-size: 20px;
+  margin-top: 7px;
+  cursor: pointer;
+}
+
+/* .///// */
+.add_new_voucher {
+  background-color: #f1f1f1;
+  position: absolute;
+  top: -10000px;
+}
+.add_new_voucher hr {
+  margin-top: 20px;
+}
+
+.add_cover {
+  top: 20%;
+  width: 80%;
+}
+.btn-addnew {
+  font-family: "Open Sans", sans-serif;
+  background-color: white;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 10px;
+}
+.btn-addnew span {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-left: 15px;
+}
+.btn-out-save {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-out-save button {
+  cursor: pointer;
+  border-radius: 5px;
+  height: 40px;
+}
+.btn-out-save button:last-child:hover {
+  background-color: red;
+  color: white;
+}
+
+.add_new_item {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.add_text {
+  width: 20%;
+}
+.add_new_input {
+  background-color: white;
+  width: 80%;
+  display: flex;
+  gap: 20px;
+}
+
+.input_add_one {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding: 30px;
+  display: flex;
+  width: 60%;
+  gap: 10px;
+  flex-direction: column;
+  justify-content: center;
+}
+.input_add_one input,
+select {
+  height: 30px;
+  outline: none;
+  padding: 5px 5px;
+  border-radius: 5px;
+  border: 1px solid #e7e7e7;
+}
+.add_check {
+  padding: 20px;
+  margin-left: 10px;
+}
+.add_text {
+  margin-left: 20px;
+}
+/* ///////// */
+
+.client_status {
+  display: flex;
+  padding: 50px 0 50px;
+  justify-content: center;
+  align-items: center;
+}
+.status_demo {
+  width: 15%;
+}
+.status_demo select option {
+  cursor: pointer;
+}
+.serch_client {
+  width: 40%;
+}
+.serch_client input {
+  width: 80%;
+  height: 30px;
+  outline: none;
+}
+.serch_date {
+  width: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.serch_date div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.serch_date div input {
+  height: 30px;
+  margin-right: 10px;
+}
+.add_client {
+  width: 20%;
+}
+.add_client button {
+  margin-left: 20px;
+  background-color: #0078ff;
+  color: white;
+  height: 30px;
+}
+
+/* Phieu Nhap */
+
+.entry_btn {
+  height: 30px;
+}
+.entry_btn button {
+  background-color: #0078ff;
+  color: white;
+}
+.entry_table table,
+.entry_table th,
+.entry_table td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+.entry_table table {
+  width: 100%;
+}
+.entry_table {
+  margin: auto;
+  width: 60%;
+  top: -1000px;
+  position: absolute;
+}
+.remove_top {
+  top: 40%;
+  left: 20%;
+}
+.entry_span {
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+.for_add_item {
+  width: 50%;
+  border: 1px solid black;
+  margin: auto;
+  position: absolute;
+  top: 20%;
+  left: 25%;
+  background-color: #f9f9f9;
+}
+
+.input_add_item {
+  display: flex;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+/* chi tiet phieu nhap */
+.table_cthd {
+  width: 80%;
+  margin: 50px auto;
+}
+
+.table_cthd table {
+  margin-bottom: 1000px;
+  width: 100%;
+  position: relative;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+.closstable i {
+  position: absolute;
+  left: 94%;
+  top: 8%;
+  cursor: pointer;
+  font-size: 1.9rem;
+}
+
+.table_cthd th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table_cthd thead {
+  background-color: #f8f8f8;
+}
+
+.table_cthd th {
+  background-color: #f2f2f2;
+}
+
+.table_cthd tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table_cthd tbody tr:hover {
+  background-color: #ddd;
+}
+/* Style cho nội dung của mỗi item */
+.add_item_content1,
+.add_item_content2 {
+  flex: 1;
+  margin-right: 20px;
+}
+.add_item_content i {
+  margin-top: 10px;
+  margin-left: 100px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.add_item_content i:hover {
+  margin-top: 10px;
+  color: red;
+
+  font-size: 1.7rem;
+}
+/* Style cho các label */
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.content_item_add {
+  padding-bottom: 10px;
+  padding-top: 10px;
+  padding-left: 20;
+}
+.item_text {
+  font-size: 2rem;
+  text-align: center;
+  font-weight: 600;
+}
+/* Style cho input và select */
+input[type="text"],
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 5px;
+}
+#loai {
+  height: auto;
+}
+#thuong_hieu {
+  height: auto;
+}
+#mausac {
+  height: auto;
+}
+#size {
+  height: auto;
+}
+/* Style cho nút Lưu */
+#btn1 {
+  text-align: center;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  width: 100px;
+}
+
+#btn1:hover {
+  background-color: #45a049;
+}
+
+/* Style cho nút Thoát */
+#btn2 {
+  width: 100px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.btn_content_exit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+#btn2:hover {
+  background-color: #d32f2f;
+}
+
+.move_top {
+  top: 40%;
+  left: 20%;
+}
+/* phân trang */
+.pagination {
+  margin-top: 50px;
+  display: inline-block;
+  margin-left: 35%;
+}
+.pagination a {
+  color: black;
+  float: left;
+
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  border: 1px solid #ddd;
+}
+.pagination a.active {
+  background-color: #4b00ff;
+  color: white;
+  border: 1px solid #4b00ff;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+}
+
+/* Chi Tiet Don Hang  */
+
+.Order_Details {
+  margin: auto;
+  border: 1px solid black;
+  background-color: #f8f8fc;
+  width: 80%;
+  position: absolute;
+  top: 25%;
+}
+.item_order {
+  gap: 10px;
+  display: flex;
+  padding: 10px 10px 10px 10px;
+}
+.oder_title {
+  color: black;
+  font-weight: 700;
+  text-align: center;
+  font-size: 1.5rem;
+}
+.order_box {
+  width: 70%;
+}
+.order_box1 {
+  width: 30%;
+}
+.box1 {
+  background-color: white;
+  border-radius: 5px;
+
+  border: 1px solid #f3f3f7;
+}
+.box2 {
+  border-radius: 5px;
+  margin-top: 30px;
+  background-color: #f8f8fc;
+  display: flex;
+  width: 100%;
+
+  gap: 10px;
+}
+.box_item1 {
+  border-radius: 5px;
+  border: 3px solid white;
+  width: 30%;
+  background-color: white;
+}
+.box_item2 {
+  border-radius: 5px;
+  background-color: white;
+  width: 70%;
+  border: 3px solid white;
+}
+.box_header {
+  background-color: #f8f8fc;
+  padding: 10px 10px 10px 10px;
+}
+.box_header P {
+  color: #918f8f;
+  font-weight: 600;
+}
+.box_footer {
+  padding: 10px 10px 10px 10px;
+}
+.box_footer P {
+  color: black;
+  font-weight: 700;
+  font-size: 1rem;
+}
+.box3 table {
+  margin-top: 30px;
+  background-color: #f8f8fc;
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.box3 td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.box3 tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.number_pay {
+  display: flex;
+  justify-content: space-between;
+}
+.Pay-ment {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border: 3px solid white;
+  padding: 10px 10px 10px 10px;
+}
+.Pay-ment p {
+  color: #918f8f;
+  margin-top: 10px;
+}
+.Pay-ment span {
+  color: black;
+  margin-top: 10px;
+}
+.pay_item {
+  background-color: #f8f8fc;
+}
+.pay_tbody {
+  border: 3px solid white;
+  margin-top: 30px;
+  border-radius: 5px;
+  padding: 10px 10px 10px 10px;
+}
+.pay_tbody p {
+  margin-top: 10px;
+  color: #918f8f;
+}
+.pay_tbody span {
+  color: #000000;
+  margin-top: 10px;
+}
+.btn-handle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.btn-handle button {
+  width: 30%;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+.btn_out button {
+  margin-top: 10px;
+  border-radius: 5px;
+  width: 100%;
+  background-color: #f05b2a;
+  color: white;
+}

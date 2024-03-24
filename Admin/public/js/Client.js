@@ -27,8 +27,6 @@ function handleclient() {
     </table>
   </div>
 </div>
-
-
         `;
 
   Mange_client.innerHTML = client;
