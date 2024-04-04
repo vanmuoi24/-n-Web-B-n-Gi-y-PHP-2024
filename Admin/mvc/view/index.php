@@ -13,7 +13,80 @@
     <title>Document</title>
 </head>
 <style>
+/* Reset CSS */
 
+
+
+.thong-ke ul {
+    list-style: none;
+    padding: 0;
+}
+
+.thong-ke ul li {
+    font-size: 1.2rem;
+
+    color: white;
+    padding: 30px 30px 30px 30px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-right: 20px;
+
+}
+
+.thong-ke ul li span {
+    font-weight: bold;
+}
+
+.loc {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.loc div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loc {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.loc div {
+    height: 40px;
+}
+
+.loc input {
+    height: 40px;
+}
+
+#seacrch {
+    outline: none;
+    width: 150%;
+    margin-bottom: 5px;
+
+}
+
+.loc button {
+    width: 100%;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+}
+
+.bang-thong-ke table {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.bang-thong-ke table th {
+    background-color: #007bff;
+    color: white;
+}
 </style>
 
 <body>
@@ -71,10 +144,10 @@
                     <div><i class="fa-solid fa-user"></i></div>
                     <div><span>Quản lí Khách Hàng</span></div>
                 </div>
-                <div class="side_item" onclick="handleStastical()">
-                    <div><i class="fa-solid fa-chart-simple"></i></div>
+                <div class="side_item" onclick="Manage_permissions()">
+                    <div><i class="fa-solid fa-user-group"></i></i></div>
                     <div>
-                        <p>Thống Kê</p>
+                        <p>Quản Lí Quyền </p>
                     </div>
                 </div>
                 <div class="side_item" id="promotion_item" onclick="handlePromotion()">
@@ -83,24 +156,80 @@
                         <p>Khuyến Mãi</p>
                     </div>
                 </div>
+                <div class="side_item" onclick="handleStastical()">
+                    <div><i class="fa-solid fa-chart-simple"></i></div>
+                    <div>
+                        <p>Thống Kê</p>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="Mange_client">
             <div class="admin_home">
                 <h4>Chào Mừng Đến Với Admin</h4>
-                <!-- <div class="home_img1">
-            <img src="../src//img/NIKE.png" alt="" />
-          </div>
-          <div class="home_img2">
-            <img src="../src/img/Shoe 1.png" alt="" />
-          </div> -->
             </div>
+            <div>
+                <h1>THỐNG KÊ CỬA HÀNG GIÀY</h1>
+            </div>
+            <div>
+                <div class="thong-ke">
 
+                    <ul>
+                        <li style="background-color: #007bff;">
+                            <span>Số lượng đơn hàng:</span>
+                            <span id="so-luong-don-hang">36</span>
+                        </li>
+                        <li style="background-color: red;">
+                            <span>Số lượng bán ra:</span>
+                            <span id="so-luong-ban-ra">15</span>
+                        </li>
+                        <li style="background-color: #1BCD32">
+                            <span>Doanh thu:</span>
+                            <span id="doanh-thu">10.850.000 ₫</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="loc">
+                    <div>
+                        <label for="tu-ngay">Từ ngày : </label>
+                        <input type="date" id="tu-ngay" name="tu-ngay">
+                    </div>
+                    <div><label for="den-ngay">Đến ngày : </label>
+                        <input type="date" id="den-ngay" name="den-ngay">
+                    </div>
+                    <div style="width: 40%;">
+                        <input type="text" name="" id="seacrch" placeholder="Tìm kiếm sản phẩm">
+                    </div>
+                    <div style="width: 10%;"> <button><i class="fa-solid fa-magnifying-glass"></i></button></div>
 
-            <!-- Vocher -->
+                </div>
+                <div class="bang-thong-ke">
 
-
-
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>ẢNH SẢN PHẨM</th>
+                                <th>TÊN SẢN PHẨM</th>
+                                <th>SỐ LƯỢNG BÁN RA</th>
+                                <th>DOANH THU</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><img src="images/ao-khoac-nam-hoodie-ni-bong.jpg" alt="Áo khoác nam hoodie nỉ bóng">
+                                </td>
+                                <td>Áo khoác nam hoodie nỉ bóng</td>
+                                <td>6</td>
+                                <td>2.130.000 ₫</td>
+                                <td><a href="#">Xem chi tiết</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -110,7 +239,8 @@
     <script src="../../public/js/Promotion.js"></script>
     <script src="../../public/js/Receipt.js"></script>
     <script src="../../public/js/Entry.js"></script>
-
+    <script src="../../public/js/Manage_permissions.js"></script>
+    <script src="../../public/js/handleStastical.js"></script>
 </body>
 
 </html>

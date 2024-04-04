@@ -2,7 +2,12 @@ function handleOrder() {
   const Mange_client = document.getElementsByClassName("Mange_client")[0];
   const recceip = `
 
-
+  <div>
+  <div class="Mange_item">
+      <h3>Quản lý Phiếu Nhập</h3>
+   
+  </div>
+</div>
   <div class="client_status">
           <div class="status_demo">
             <select>
@@ -24,9 +29,7 @@ function handleOrder() {
               <input type="date" />
             </div>
           </div>
-          <div class="add_client">
-            <button>Thêm Khách Hàng <i class="fa-solid fa-plus"></i></button>
-          </div>
+          
         </div>
  <div style="overflow-x: auto" class="voucher_table">
  <table>

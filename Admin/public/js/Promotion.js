@@ -29,7 +29,7 @@ function handlePromotion() {
           <div style="width: 60%">
               <input type="text" style="width: 100%" />
           </div>
-          <div style="width: 20%"><button>Tìm Kiếm</button></div>
+        <button>Tìm Kiếm</button>
       </div>
       <hr style="margin-top: 20px" />
       <div style="overflow-x: auto" class="voucher_table">

@@ -29,4 +29,9 @@ class Entry_slipcontroller
         $dschitiethd = $this->Entry_SlipModel->ChiTietPhieuNhap($id);
         return json_encode($dschitiethd);
     }
+    public function themmoisanpham($data)
+    {
+        $dsthemsanpham = $this->Entry_SlipModel->themmoisanpham($data);
+        return json_encode($dsthemsanpham);
+    }
 }

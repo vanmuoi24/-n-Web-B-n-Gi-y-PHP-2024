@@ -1,0 +1,52 @@
+function displayQuyen(quyenData) {
+  const update_quyen = document.querySelector(".update_quyen");
+  let tableHTML = `
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Tên quyền</th>
+          <th>Xem</th>
+          <th>Thêm mới</th>
+          <th>Cập nhật</th>
+          <th>Xoá</th>
+        </tr>
+      </thead>
+      <tbody>`;
+  let quyenActions = {};
+  quyenData.forEach((quyen) => {
+    if (!quyenActions[quyen.ten_chuc_nang]) {
+      quyenActions[quyen.ten_chuc_nang] = {
+        xem: false,
+        them: false,
+        sua: false,
+        xoa: false,
+      };
+    }
+    quyenActions[quyen.ten_chuc_nang][quyen.hanh_dong] = true;
+  });
+  Object.keys(quyenActions).forEach((ten_quyen) => {
+    tableHTML += `
+      <tr>
+        <td>${ten_quyen}</td>
+        <td><input type="checkbox" name="quyen[]" ${
+          quyenActions[ten_quyen].xem ? "checked" : ""
+        }></td>
+        <td><input type="checkbox" name="quyen[]" ${
+          quyenActions[ten_quyen].them ? "checked" : ""
+        }></td>
+        <td><input type="checkbox" name="quyen[]" ${
+          quyenActions[ten_quyen].sua ? "checked" : ""
+        }></td>
+        <td><input type="checkbox" name="quyen[]" ${
+          quyenActions[ten_quyen].xoa ? "checked" : ""
+        }></td>
+      </tr>`;
+  });
+
+  tableHTML += `</tbody></table>`;
+  update_quyen.innerHTML = tableHTML;
+  if (quyenData.length > 0) {
+    const tenNhomQuyenInput = document.getElementById("ten-nhom-quyen");
+    tenNhomQuyenInput.value = quyenData[0].ten_nhom_quyen;
+  }
+}

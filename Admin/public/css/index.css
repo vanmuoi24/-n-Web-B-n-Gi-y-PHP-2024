@@ -160,16 +160,16 @@
 }
 .voucher {
   font-family: "Open Sans", sans-serif;
-
   border-collapse: collapse;
   margin-top: 20px;
   width: 60%;
   display: flex;
+  align-items: center;
   justify-content: space-between;
 }
 
 .voucher input {
-  height: 30px;
+  height: 40px;
   outline: none;
   padding: 5px 5px;
   border-radius: 5px;
@@ -178,10 +178,15 @@
 .voucher select,
 button {
   cursor: pointer;
-  height: 30px;
+  height: 40px;
   border: 1px solid #e7e7e7;
 }
-
+.voucher button {
+  margin-top: 5px;
+  border-radius: 5px;
+  background-color: #0078ff;
+  color: white;
+}
 .CTKHM {
   background-color: #0078ff;
   color: white;
@@ -329,13 +334,17 @@ select {
 }
 .status_demo select option {
   cursor: pointer;
+  height: 40px;
+}
+.status_demo select {
+  height: 40px;
 }
 .serch_client {
   width: 40%;
 }
 .serch_client input {
   width: 80%;
-  height: 30px;
+  height: 40px;
   outline: none;
 }
 .serch_date {
@@ -347,6 +356,8 @@ select {
 .serch_date div {
   display: flex;
   justify-content: center;
+  justify-content: center;
+  align-items: center;
   align-items: center;
 }
 .serch_date div input {
@@ -719,4 +730,162 @@ th {
   width: 100%;
   background-color: #f05b2a;
   color: white;
+}
+/* Phan Quyen */
+
+.quyen table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.quyen th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+.quyen th {
+  background-color: #f2f2f2;
+}
+.quyen button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #ccc;
+}
+
+.Manage_permissions table {
+  width: 80%;
+  margin-top: 30px;
+}
+.Manage_permissions input {
+  width: 40%;
+  height: 40px;
+}
+.group_btn {
+  margin-top: 30px;
+}
+.Manage_permissions .group_btn button {
+  margin-top: 5px;
+  margin-left: 10px;
+  background-color: #0078ff;
+  color: white;
+  border-radius: 5px;
+  height: 40px;
+}
+
+.container_add_posi {
+  width: 80%;
+  border: 1px solid #ccc;
+  padding: 0px 10px 0px 10px;
+  position: absolute;
+  background-color: white;
+}
+
+.container_add_posi h2 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.container_add_posi i {
+  cursor: pointer;
+}
+.container_add_posi .form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 65%;
+  padding: 5px 10px;
+  outline: none;
+  border: 1px solid #ccc;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.table thead th {
+  text-align: center;
+}
+
+.table tbody td {
+  padding: 5px;
+}
+
+.btn {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-secondary {
+  background-color: #ccc;
+  color: #000;
+}
+
+.add_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 10px 0px 10px;
+}
+
+.add_header p {
+  font-size: 1.6rem;
+}
+#notifications {
+  position: fixed;
+  top: 160px; /* Khoảng cách từ trên xuống */
+  right: 20px; /* Khoảng cách từ phải sang */
+  z-index: 9999;
+  width: 20%;
+}
+.notification {
+  margin-bottom: 705px;
+  margin-top: 10px;
+}
+
+.close {
+  float: right;
+  cursor: pointer;
+}
+.alert-success {
+  margin-top: 10px;
+  padding: 10px 10px 10px 10px;
+  border-radius: 5px;
+}
+.alert-danger {
+  margin-top: 10px;
+  padding: 10px 10px 10px 10px;
+  border-radius: 5px;
+  color: white;
+}
+#notifications a {
+  text-decoration: none;
+  color: white;
+}
+#notifications button {
+  margin-bottom: 15px;
+}
+.update_quyen {
+  background-color: white;
+  z-index: 100;
+  width: 10px;
+}
+.update_quyen .container_add_posi {
+  width: 60%;
+  margin-top: 100px;
 }

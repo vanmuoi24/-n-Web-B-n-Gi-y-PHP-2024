@@ -17,7 +17,6 @@ class GiayModel
                 INNER JOIN xuatxu ON giay.MaXX = xuatxu.MaXX
                 INNER JOIN size ON giay.MaSize = size.MaSize
                 INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu";
-
         $result = $this->conn->query($sql);
         $data = array();
         if ($result->num_rows > 0) {
@@ -38,7 +37,7 @@ class GiayModel
                     'MaLoai' => $row['MaLoai'],
                     'TenLoai' => $row['TenLoai'],
                 );
-                $giay = array(
+                $giay[] = array(
                     'MaGiay' => $row['MaGiay'],
                     'Tengia' => $row['Tengia'],
                     'SoLuong' => $row['SoLuong'],
@@ -51,8 +50,7 @@ class GiayModel
                     'Loai' => $loai,
                     'Size' => $size,
                 );
-
-                $data[] = $giay;
+                $data = $giay;
             }
         }
         return $data;

@@ -38,7 +38,6 @@ function handleReceipt() {
 
                   </div>         
               </div>
-
               <div class="add_item_content0">
                   <label>Mã PN : </label>
                   <div>
@@ -57,7 +56,6 @@ function handleReceipt() {
               <div class="add_item_content1">
                   <label>Tên Giày : </label>
                   <div> <input type="text" name="ten_giay" id="ten_giay" /></div>
-
               </div>
               <div class=" add_item_content2">
                   <label>Chất Liệu : </label>
@@ -102,6 +100,15 @@ function handleReceipt() {
                   </select>
               </div>
           </div>
+          <div class="input_add_item">
+            <div class="add_item_content1">
+                <label>Nhà Cung Cấp : </label>
+                <select name="loai" id="loai">
+                </select>
+            </div>
+          <div></div>
+         
+      </div>
           <div class="btn_content_exit">
               <button  id="btn1" onclick ="handlesavepn()" >
                   Lưu <i class="fa-solid fa-floppy-disk"></i>
@@ -315,78 +322,8 @@ function handleviewctph(id) {
     }
   };
   xhr.send();
-  cityop(); // Nếu cityop là một hàm khác bạn muốn gọi sau khi gửi request, bạn có thể gọi nó ở đây.
+  cityop();
 }
-
-// function handleGetItem(itemId) {
-// let table = document.getElementsByClassName("table_product")[0];
-// table.style.display = "none";
-// let entrytable = document.getElementsByClassName("for_add_item ")[0];
-
-// entrytable.style.display = "block";
-//   console.log(itemId);
-//   var xhr = new XMLHttpRequest();
-//   xhr.open("POST", "../php/filteritem.php", true);
-//   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-//   xhr.onreadystatechange = function () {
-//     if (xhr.readyState == 4 && xhr.status == 200) {
-//       if (xhr.readyState == 4 && xhr.status == 200) {
-//         var data = JSON.parse(xhr.responseText);
-//         document.getElementById("ma_giay").value = data.MaGiay;
-//         document.getElementById("ten_giay").value = data.Tengia;
-//         document.getElementById("chat_lieu").value = data.ChatLieu;
-//         document.getElementById("so_luong").value = data.SoLuong;
-//         document.getElementById("gia_nhap").value = data.DonGia;
-//         document.getElementById("loai").value = data.Loai;
-//         document.getElementById("thuong_hieu").value = data.ChatLieu;
-//       }
-//     }
-//   };
-//   xhr.send("item_id=" + itemId);
-// }
-// function view_Enty(itemId) {
-//   const entry_table = document.getElementsByClassName("entry_table")[0];
-//   entry_table.classList.add("remove_top");
-//   cityop();
-
-//   var xhr = new XMLHttpRequest();
-//   xhr.open("POST", "../php/getitemctpn.php", true);
-//   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-//   xhr.onreadystatechange = function () {
-//     if (xhr.readyState == 4 && xhr.status == 200) {
-//       var data = JSON.parse(xhr.responseText);
-//       console.log(data);
-//       let ctpn = document.getElementsByClassName("table_ctpn")[0];
-//       let tb = `
-//         <tr>
-//           <th>MaPN</th>
-//           <th>MaSP</th>
-//           <th>Giá</th>
-//           <th>Số Lượng</th>
-//         </tr>
-//       `;
-//       data.forEach((item) => {
-//         tb += `
-//           <tr>
-//             <td>${item.MaGiay}</td>
-//             <td>${item.MaPN}</td>
-//             <td>${formatCurrency(item.GiaNhap)}</td>
-//             <td>${item.SoLuong}</td>
-//           </tr>
-//         `;
-//       });
-//       ctpn.innerHTML = tb;
-//     }
-//   };
-
-//   xhr.send("item_id=" + itemId);
-// }
-// function formatCurrency(amount) {
-//   return new Intl.NumberFormat("vi-VN", {
-//     style: "currency",
-//     currency: "VND",
-//   }).format(amount);
-// }
 
 function tableproduct() {
   var xhr = new XMLHttpRequest();
@@ -447,6 +384,7 @@ function handleitemproduct(id) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4 && xhr.status == 200) {
       var response = JSON.parse(xhr.responseText);
+      console.log(JSON.parse(response));
       filterdataproduct(JSON.parse(response));
     }
   };
@@ -456,57 +394,76 @@ function handleitemproduct(id) {
 function filterdataproduct(data) {
   const entry_table = document.getElementsByClassName("for_add_item")[0];
   entry_table.style.display = "block";
-  console.log(data);
-  document.getElementById("ma_giay").value = data.MaGiay;
-  document.getElementById("ten_giay").value = data.Tengia;
-  document.getElementById("chat_lieu").value = data.ChatLieu;
-  document.getElementById("so_luong").value = data.SoLuong;
-  document.getElementById("gia_nhap").value = data.DonGia;
+  document.getElementById("ma_giay").value = data.giay.MaGiay;
+  document.getElementById("ten_giay").value = data.giay.Tengia;
+  document.getElementById("chat_lieu").value = data.giay.ChatLieu;
+  document.getElementById("so_luong").value = data.giay.SoLuong;
+  document.getElementById("gia_nhap").value = data.giay.DonGia;
+
   var loai = document.getElementById("loai");
   var selectElement = document.getElementById("thuong_hieu");
   var size = document.getElementById("size");
   var mausac = document.getElementById("mausac");
   for (var i = 0; i < selectElement.options.length; i++) {
-    if (selectElement.options[i].text === data.ThuongHieu.TenThuongHieu) {
+    if (selectElement.options[i].text === data.giay.ThuongHieu.TenThuongHieu) {
       selectElement.options[i].selected = true;
       break;
     }
   }
   for (var i = 0; i < loai.options.length; i++) {
-    if (loai.options[i].text === data.Loai.TenLoai) {
+    if (loai.options[i].text === data.giay.Loai.TenLoai) {
       loai.options[i].selected = true;
       break;
     }
   }
   for (var i = 0; i < size.options.length; i++) {
-    if (size.options[i].text === data.Size.KichThuoc) {
+    if (size.options[i].text === data.giay.Size.KichThuoc) {
       size.options[i].selected = true;
       break;
     }
   }
   for (var i = 0; i < mausac.options.length; i++) {
-    if (mausac.options[i].text === data.MauSac.TenMau) {
+    if (mausac.options[i].text === data.giay.MauSac.TenMau) {
       mausac.options[i].selected = true;
       break;
     }
   }
+  let mapn = document.getElementById("ma_pn");
+
+  if (mapn.value === "") {
+    mapn.disabled = true;
+  } else {
+    mapn.value = data.chitiet.MaPN;
+  }
+
   lockInputs();
 }
+
 function lockInputs() {
   const inputsAndSelects = document.querySelectorAll(
-    "#loai , #thuong_hieu, #mausac,#ma_giay,#size,#chat_lieu,#ten_giay"
+    "#loai , #thuong_hieu, #mausac,#ma_giay,#size,#chat_lieu,#ten_giay,#ma_pn"
   );
   inputsAndSelects.forEach((element) => {
     element.disabled = true;
   });
 }
+
 function handlesavepn() {
   const inputsAndSelects = document.querySelectorAll(
-    "#loai , #thuong_hieu, #mausac,#ma_giay,#size,#chat_lieu,#ten_giay,#so_luong,#gia_nhap"
+    "#loai , #thuong_hieu, #mausac, #ma_giay, #size, #chat_lieu, #ten_giay, #so_luong, #gia_nhap, #ma_pn"
   );
-  let datainput = {};
+  const datainput = {};
   inputsAndSelects.forEach((element) => {
     datainput[element.id] = element.value;
   });
-  console.log(datainput);
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "../../mvc/API/index.php?type=themsanphamoi", true);
+  xhr.setRequestHeader("Content-type", "application/json");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      var response = JSON.parse(xhr.responseText);
+      console.log(JSON.parse(JSON.parse(response)));
+    }
+  };
+  xhr.send(JSON.stringify(datainput));
 }

@@ -13,12 +13,13 @@ require_once '../controller/Productcontroller.php';
 require_once '../controller/Reciept.php';
 require_once '../controller/Promotioncontroller.php';
 require_once '../controller/Entry_slipcontroller.php';
+require_once '../controller/Manage_permissionsController.php';
 $type = isset($_GET['type']) ? $_GET['type'] : '';
-
 $giayController = new GiayController($conn);
 $hoadonController  = new DonHangController($conn);
 $khuyenmaiController = new KhuyenMaiModel($conn);
 $phieunhapcontroller = new Entry_slipcontroller($conn);
+$phanquyencontroller = new Manage_permissionsController($conn);
 switch ($type) {
     case 'giay':
         echo $giayController->layDanhSachGiay();
@@ -51,6 +52,44 @@ switch ($type) {
     case 'dschitiethd':
         $id = isset($_GET['id']) ? $_GET['id'] : null;
         echo json_encode($phieunhapcontroller->ChiTietPhieuNhap($id));
+        break;
+    case 'themsanphamoi':
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $data = json_decode(file_get_contents("php://input"), true);
+            $response = $phieunhapcontroller->themmoisanpham($data);
+            echo json_encode($response);
+        } else {
+            echo json_encode("Lỗi: Không nhận được dữ liệu từ client.");
+        }
+        break;
+    case 'dsnhomquyen':
+        echo $phanquyencontroller->laydanhsachNhomQuyen();
+        break;
+    case 'dsaddquyen':
+        echo $phanquyencontroller->addquyen();
+        break;
+    case 'dseditnhomquyen':
+        $id = isset($_GET['id']) ? $_GET['id'] : null;
+        echo json_encode($phanquyencontroller->editnhomquyen($id));
+        break;
+    case 'luuquyen':
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $data = json_decode(file_get_contents("php://input"), true);
+            $response = $phanquyencontroller->luuquyen($data);
+            echo json_encode($response);
+        } else {
+            echo json_encode("Lỗi: Không nhận được dữ liệu từ client.");
+        }
+        break;
+    case 'updatequyen':
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $data = json_decode(file_get_contents("php://input"), true);
+            $response = $phanquyencontroller->updatequyen($data);
+            echo json_encode($response);
+        } else {
+            echo json_encode("Lỗi: Không nhận được dữ liệu từ client.");
+        }
         break;
     default:
         echo json_encode(array('error' => 'Yêu cầu không hợp lệ'));

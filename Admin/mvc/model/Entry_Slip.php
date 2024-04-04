@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 
 class Entry_SlipModel
 {
@@ -45,14 +46,14 @@ class Entry_SlipModel
     public function GiaTriSanPham($id)
     {
         $sql = " SELECT *
-     FROM giay
-     INNER JOIN loai ON giay.MaLoai = loai.MaLoai
-     INNER JOIN mausac ON giay.MaMau = mausac.MaMau
-     INNER JOIN xuatxu ON giay.MaXX = xuatxu.MaXX
-     INNER JOIN size ON giay.MaSize = size.MaSize
-     INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu WHERE MaGiay = '$id'";
-
+         FROM giay
+         INNER JOIN loai ON giay.MaLoai = loai.MaLoai
+         INNER JOIN mausac ON giay.MaMau = mausac.MaMau
+         INNER JOIN xuatxu ON giay.MaXX = xuatxu.MaXX
+         INNER JOIN size ON giay.MaSize = size.MaSize
+         INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu WHERE giay.MaGiay = '$id'";
         $result = $this->conn->query($sql);
+
         $data = array();
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -76,6 +77,7 @@ class Entry_SlipModel
                     'MaMau' => $row['MaMau'],
                     'TenMau' => $row['TenMau'],
                 );
+
                 $giay = array(
                     'MaGiay' => $row['MaGiay'],
                     'Tengia' => $row['Tengia'],
@@ -88,11 +90,26 @@ class Entry_SlipModel
                     'ThuongHieu' => $thuonghieu,
                     'Loai' => $loai,
                     'Size' => $size,
-                    'MauSac' => $mausac
+                    'MauSac' => $mausac,
+
                 );
 
-                $data = $giay;
+                $data['giay'] = $giay;
             }
+        }
+        $sql1 = "SELECT chitietphieunhap.MaPN, chitietphieunhap.SoLuong
+        FROM chitietphieunhap
+        INNER JOIN giay ON chitietphieunhap.MaGiay = giay.MaGiay
+        WHERE chitietphieunhap.MaGiay = '$id'";
+        $result1 = $this->conn->query($sql1);
+        if ($result1->num_rows > 0) {
+            while ($row = $result1->fetch_assoc()) {
+                $chitiet = array(
+                    'MaPN' => $row['MaPN'],
+                    'SoLuong' => $row['SoLuong'],
+                );
+            }
+            $data['chitiet'] = $chitiet;
         }
         return $data;
     }
@@ -183,5 +200,86 @@ class Entry_SlipModel
             }
         }
         return $data;
+    }
+    public function themmoisanpham($data)
+    {
+        try {
+            $MaGiay = $data['ma_giay'];
+            $Tengia = $data['ten_giay'];
+            $GiaNhap = isset($data['gia_nhap']) ? $data['gia_nhap'] : null;
+            $SoLuong = $data['so_luong'];
+            $MaLoai = $data['loai'];
+            $MaThuongHieu = $data['thuong_hieu'];
+            $MaMau = $data['mausac'];
+            $MaSize = $data['size'];
+            $ChatLieu = $data['chat_lieu'];
+
+
+            $this->conn->begin_transaction();
+
+
+            $sql_check_giay = "SELECT * FROM giay WHERE MaGiay = '$MaGiay'";
+            $result_check_giay = $this->conn->query($sql_check_giay);
+
+            if ($result_check_giay->num_rows > 0) {
+
+                $row = $result_check_giay->fetch_assoc();
+                $SoLuongCu = $row['SoLuong'];
+                $SoLuongMoi = $SoLuongCu + $SoLuong;
+                $GiaNhapCu = isset($row['GiaNhap']) ? $row['GiaNhap'] : 0;
+                $GiaNhapMoi = ($GiaNhapCu + $GiaNhap) / 2;
+
+                $sql_check_chitiet = "SELECT * FROM chitietphieunhap WHERE MaGiay = '$MaGiay'";
+                $result_check_chitiet = $this->conn->query($sql_check_chitiet);
+
+                if ($result_check_chitiet->num_rows > 0) {
+
+                    $row_chitiet = $result_check_chitiet->fetch_assoc();
+                    $MaPN = $row_chitiet['MaPN'];
+                } else {
+
+                    $sql_them_phieunhap = "INSERT INTO phieunhap (NgayNhap) VALUES (NOW())";
+                    $this->conn->query($sql_them_phieunhap);
+                    $MaPN = $this->conn->insert_id;
+                    $sql_them_chitietphieunhap = "INSERT INTO chitietphieunhap (MaPN, MaGiay, SoLuong) VALUES ('$MaPN', '$MaGiay', '$SoLuong')";
+                    $this->conn->query($sql_them_chitietphieunhap);
+                }
+                $sql_update_giay = "UPDATE giay SET SoLuong = '$SoLuongMoi', DonGia = '$GiaNhapMoi' WHERE MaGiay = '$MaGiay'";
+                $this->conn->query($sql_update_giay);
+            } else {
+                $sql_them_sanpham = "INSERT INTO giay (MaGiay, Tengia, DonGia, SoLuong, MaLoai, MaThuongHieu, MaMau, MaSize, ChatLieu) VALUES ('$MaGiay', '$Tengia', '$GiaNhap', '$SoLuong', '$MaLoai', '$MaThuongHieu', '$MaMau', '$MaSize', '$ChatLieu')";
+                $this->conn->query($sql_them_sanpham);
+                $sql_them_phieunhap = "INSERT INTO phieunhap (NgayNhap) VALUES (NOW())";
+                $this->conn->query($sql_them_phieunhap);
+                $MaPN = $this->conn->insert_id;
+
+                $sql_them_chitietphieunhap = "INSERT INTO chitietphieunhap (MaPN, MaGiay, SoLuong) VALUES ('$MaPN', '$MaGiay', '$SoLuong')";
+                $this->conn->query($sql_them_chitietphieunhap);
+            }
+            $sql_tong_gia_nhap = "SELECT SUM(GiaNhap * SoLuong) AS TongTien FROM chitietphieunhap WHERE MaPN = '$MaPN'";
+            $result_tong_gia_nhap = $this->conn->query($sql_tong_gia_nhap);
+            $row_tong_gia_nhap = $result_tong_gia_nhap->fetch_assoc();
+            $tong_tien = $row_tong_gia_nhap['TongTien'];
+            $sql_cap_nhat_tong_tien = "UPDATE phieunhap SET TongTien = '$tong_tien' WHERE MaPN = '$MaPN'";
+            $this->conn->query($sql_cap_nhat_tong_tien);
+
+            $this->conn->commit();
+
+            $response = array(
+                'EM' => "Thêm mới sản phẩm và chi tiết phiếu nhập thành công",
+                'EC' => "0",
+                'DT' => ""
+            );
+            return json_encode($response);
+        } catch (\Exception $e) {
+            $this->conn->rollback();
+
+            $response = array(
+                'EM' => "Lỗi từ máy chủ: " . $e->getMessage(),
+                'EC' => "-1",
+                'DT' => ""
+            );
+            return json_encode($response);
+        }
     }
 }
