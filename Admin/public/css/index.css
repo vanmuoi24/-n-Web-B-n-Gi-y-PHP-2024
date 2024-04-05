@@ -4,6 +4,11 @@
 
   box-sizing: 0;
 }
+.side_item:active {
+  background-color: #f0f0f0; /* Màu nền sáng khi active */
+  color: #333; /* Màu chữ tương phản khi active */
+}
+
 .container {
   width: 100%;
   height: auto;
@@ -70,6 +75,7 @@
   text-align: center;
   width: 80%;
   margin: auto;
+  height: auto;
 }
 
 .content_side .side_item {
@@ -78,6 +84,9 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
+  width: 100%;
+  height: 100%;
+  border-right: 1px solid white;
 }
 
 /* ///// */
@@ -99,7 +108,7 @@
 }
 /* //////// */
 .table_product {
-  width: 80%;
+  width: 100%;
   margin: auto;
   margin-top: 30px;
 }
@@ -756,7 +765,7 @@ button:hover {
 }
 
 .Manage_permissions table {
-  width: 80%;
+  width: 100%;
   margin-top: 30px;
 }
 .Manage_permissions input {
@@ -776,7 +785,7 @@ button:hover {
 }
 
 .container_add_posi {
-  width: 80%;
+  width: 78.2%;
   border: 1px solid #ccc;
   padding: 0px 10px 0px 10px;
   position: absolute;
@@ -886,6 +895,97 @@ button:hover {
   width: 10px;
 }
 .update_quyen .container_add_posi {
-  width: 60%;
-  margin-top: 100px;
+  width: 78.2%;
+  margin-top: 70px;
+}
+/* thong ke */
+
+.thong-ke ul {
+  list-style: none;
+  padding: 0;
+}
+
+.thong-ke ul li {
+  font-size: 1.2rem;
+
+  color: white;
+  padding: 30px 30px 30px 30px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.thong-ke ul li span {
+  font-weight: bold;
+}
+
+.loc {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.loc div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.loc div {
+  height: 40px;
+}
+
+.loc input {
+  height: 40px;
+}
+
+#seacrch {
+  outline: none;
+  width: 150%;
+  margin-bottom: 5px;
+}
+
+.loc button {
+  width: 100%;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+}
+
+.bang-thong-ke table {
+  width: 100%;
+}
+
+.bang-thong-ke table th {
+  background-color: #007bff;
+  color: white;
+}
+
+.bang-thong-ke button {
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+}
+.bang-thong-ke {
+  max-height: 300px; /* Độ cao tối đa của bảng */
+  overflow-y: auto;
+  margin-top: 30px;
+  /* Tạo thanh cuộn dọc khi cần thiết */
+}
+.bang-thong-ke table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.bang-thong-ke th,
+.bang-thong-ke td {
+  border: 1px solid #dddddd;
+  padding: 8px;
+  text-align: left;
 }

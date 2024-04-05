@@ -14,12 +14,14 @@ require_once '../controller/Reciept.php';
 require_once '../controller/Promotioncontroller.php';
 require_once '../controller/Entry_slipcontroller.php';
 require_once '../controller/Manage_permissionsController.php';
+require_once '../controller/Stastiical.php';
 $type = isset($_GET['type']) ? $_GET['type'] : '';
 $giayController = new GiayController($conn);
 $hoadonController  = new DonHangController($conn);
 $khuyenmaiController = new KhuyenMaiModel($conn);
 $phieunhapcontroller = new Entry_slipcontroller($conn);
 $phanquyencontroller = new Manage_permissionsController($conn);
+$thongke = new ThongKeController($conn);
 switch ($type) {
     case 'giay':
         echo $giayController->layDanhSachGiay();
@@ -90,6 +92,14 @@ switch ($type) {
         } else {
             echo json_encode("Lỗi: Không nhận được dữ liệu từ client.");
         }
+        break;
+    case 'dsthongke':
+        echo $thongke->DsThongKe();
+        break;
+
+    case 'dschitietHD':
+        $id = isset($_GET['id']) ? $_GET['id'] : null;
+        echo json_encode($thongke->chitietHD($id));
         break;
     default:
         echo json_encode(array('error' => 'Yêu cầu không hợp lệ'));

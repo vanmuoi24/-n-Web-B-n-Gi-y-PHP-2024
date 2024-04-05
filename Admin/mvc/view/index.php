@@ -14,78 +14,63 @@
 </head>
 <style>
 /* Reset CSS */
-
-
-
-.thong-ke ul {
-    list-style: none;
-    padding: 0;
-}
-
-.thong-ke ul li {
-    font-size: 1.2rem;
-
-    color: white;
-    padding: 30px 30px 30px 30px;
-    border-radius: 5px;
-    display: inline-block;
-    margin-right: 20px;
+.wrapper_thongke {
+    width: 100%;
 
 }
 
-.thong-ke ul li span {
-    font-weight: bold;
+.cthd_table {
+    background-color: white;
+    width: 60%;
+    margin: auto;
+    background-color: azure;
+
+
+
 }
 
-.loc {
+.closs_title {
+    font-size: 1.4rem;
+    position: relative;
+    justify-content: center;
+}
+
+.closs_title i {
+    cursor: pointer;
+    top: 10%;
+    position: absolute;
+    right: 0;
+}
+
+.item_cthd {
+    background-color: white;
+    border: 1px solid black;
+    width: 40%;
+    z-index: 100;
+    position: absolute;
+    top: 50%;
+
+
+}
+
+.cthd_table p {
+    text-align: center;
+}
+
+.cthd_table table {
+    width: 100%;
+    margin: auto;
+    border-collapse: collapse;
+}
+
+.cthd_table th,
+.cthd_table td {
     border: 1px solid #ddd;
-    padding: 10px;
+    padding: 8px;
 }
 
-.loc div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.loc {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.loc div {
-    height: 40px;
-}
-
-.loc input {
-    height: 40px;
-}
-
-#seacrch {
-    outline: none;
-    width: 150%;
-    margin-bottom: 5px;
-
-}
-
-.loc button {
-    width: 100%;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-}
-
-.bang-thong-ke table {
-    width: 100%;
-    margin-top: 10px;
-}
-
-.bang-thong-ke table th {
-    background-color: #007bff;
-    color: white;
+.cthd_table th {
+    text-align: center;
 }
 </style>
 
@@ -168,68 +153,10 @@
             <div class="admin_home">
                 <h4>Chào Mừng Đến Với Admin</h4>
             </div>
-            <div>
-                <h1>THỐNG KÊ CỬA HÀNG GIÀY</h1>
+            <div style="width: 100%">
+                <img src="../../src/img/Cover.png" alt="" style="width: 100%">
             </div>
-            <div>
-                <div class="thong-ke">
 
-                    <ul>
-                        <li style="background-color: #007bff;">
-                            <span>Số lượng đơn hàng:</span>
-                            <span id="so-luong-don-hang">36</span>
-                        </li>
-                        <li style="background-color: red;">
-                            <span>Số lượng bán ra:</span>
-                            <span id="so-luong-ban-ra">15</span>
-                        </li>
-                        <li style="background-color: #1BCD32">
-                            <span>Doanh thu:</span>
-                            <span id="doanh-thu">10.850.000 ₫</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="loc">
-                    <div>
-                        <label for="tu-ngay">Từ ngày : </label>
-                        <input type="date" id="tu-ngay" name="tu-ngay">
-                    </div>
-                    <div><label for="den-ngay">Đến ngày : </label>
-                        <input type="date" id="den-ngay" name="den-ngay">
-                    </div>
-                    <div style="width: 40%;">
-                        <input type="text" name="" id="seacrch" placeholder="Tìm kiếm sản phẩm">
-                    </div>
-                    <div style="width: 10%;"> <button><i class="fa-solid fa-magnifying-glass"></i></button></div>
-
-                </div>
-                <div class="bang-thong-ke">
-
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>ẢNH SẢN PHẨM</th>
-                                <th>TÊN SẢN PHẨM</th>
-                                <th>SỐ LƯỢNG BÁN RA</th>
-                                <th>DOANH THU</th>
-                                <th>ACTION</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td><img src="images/ao-khoac-nam-hoodie-ni-bong.jpg" alt="Áo khoác nam hoodie nỉ bóng">
-                                </td>
-                                <td>Áo khoác nam hoodie nỉ bóng</td>
-                                <td>6</td>
-                                <td>2.130.000 ₫</td>
-                                <td><a href="#">Xem chi tiết</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -240,7 +167,8 @@
     <script src="../../public/js/Receipt.js"></script>
     <script src="../../public/js/Entry.js"></script>
     <script src="../../public/js/Manage_permissions.js"></script>
-    <script src="../../public/js/handleStastical.js"></script>
+    <script src="../../public/js/Statistical.js"></script>
+    <script src="../../public/js/Home.js"></script>
 </body>
 
 </html>

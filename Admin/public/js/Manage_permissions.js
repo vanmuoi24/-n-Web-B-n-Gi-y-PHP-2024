@@ -12,7 +12,7 @@ function Manage_permissions() {
                         </div>
                         <div style="display:flex" class="group_btn">
                             <input type="text" name="" id="">
-                            <Button onclick="handleadd_posi()">Thêm Mới</Button>
+                            <Button onclick="handleadd_posi()">Thêm Mới <i class="fa-solid fa-plus"></i> </Button>
                         </div>
                         <div class="quyen">
                             <table>
@@ -70,7 +70,7 @@ function Manage_permissions() {
 }
 
 function Notify(text, callback, close_callback, style) {
-  var time = 50000;
+  var time = 3000;
   var $container = $("#notifications");
   var icon = '<i class="fa fa-info-circle "></i>';
   var backgroundColor;
@@ -249,7 +249,7 @@ function displayQuyen(quyenData) {
  
       <div class="form-group">
           <label for="ten-nhom-quyen">Tên nhóm quyền:</label>
-          <input type="text" id="ten-nhom-quyen" name="ten-nhom-quyen" value ="${quyenData.tenquyen.tennhomquyen}">
+          <input type="text" id="ten-nhom-quyen" name="ten-nhom-quyen" value ="${quyenData.tenquyen}">
       </div>
       <table class="table table-bordered">
           <thead>
@@ -436,14 +436,34 @@ function handleupodata(id) {
     const [maChucNang, hanhDong] = checkbox.value.split("_");
     selectedQuyen.selecquyen.push({ maChucNang, hanhDong });
   });
-
-  console.log(selectedQuyen);
   const xhr = new XMLHttpRequest();
   xhr.open("POST", "../../mvc/API/index.php?type=updatequyen", true);
   xhr.setRequestHeader("Content-type", "application/json");
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4 && xhr.status == 200) {
+      var response = JSON.parse(xhr.responseText);
+      let res = JSON.parse(JSON.parse(response));
     }
   };
-  xhr.send(JSON.stringify(selectedQuyen));
+  console.log(selectedQuyen);
+  if (validateForm() == true) {
+    const container_add_posi =
+      document.getElementsByClassName("container_add_posi")[0];
+    const update_quyen = document.getElementsByClassName("update_quyen")[0];
+    update_quyen.innerHTML = "";
+    container_add_posi.style.display = "none";
+    Notify(
+      "Cập Nhật Dữ Liệu Thành Công",
+      function () {
+        console.log("Người dùng đã nhấp vào thông báo thành công!");
+      },
+      function () {
+        console.log("Người dùng đã đóng thông báo!");
+      },
+      "success"
+    );
+    listManage_posiion();
+    cityopmove();
+    xhr.send(JSON.stringify(selectedQuyen));
+  }
 }

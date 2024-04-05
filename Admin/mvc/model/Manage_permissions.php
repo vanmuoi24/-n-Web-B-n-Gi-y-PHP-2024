@@ -61,7 +61,7 @@ class PhanQuyenModel
 
     public function luuquyen($data)
     {
-        $tennhomquyen = $data['tenquyen'];
+        $tennhomquyen = $data['tennhomquyen'];
         $selecquyen = $data['selecquyen'];
         $sql_insert_nhomquyen = "INSERT INTO nhomquyen (tennhomquyen) VALUES (?)";
         $stmt = $this->conn->prepare($sql_insert_nhomquyen);
@@ -77,60 +77,41 @@ class PhanQuyenModel
             $stmt->execute();
         }
     }
-
     public function updatequyen($data)
     {
-        // Lấy dữ liệu từ biến $data
         $id = $data['id'];
+        $tenNhomQuyen = $data['tennhomquyen'];
         $selecquyen = $data['selecquyen'];
 
-        // Duyệt qua từng cặp maChucNang và hanhDong
+
+        $sql_update_nhom_quyen = "UPDATE nhomquyen SET tennhomquyen = ? WHERE manhomquyen = ?";
+        $stmt_update_nhom_quyen = $this->conn->prepare($sql_update_nhom_quyen);
+        $stmt_update_nhom_quyen->bind_param('si', $tenNhomQuyen, $id);
+        $stmt_update_nhom_quyen->execute();
+        $stmt_update_nhom_quyen->close();
+
+        $sql_delete_old = "DELETE FROM ctquyen WHERE ma_nhom_quyen = ?";
+        $stmt_delete_old = $this->conn->prepare($sql_delete_old);
+        $stmt_delete_old->bind_param('i', $id);
+        $stmt_delete_old->execute();
+        $stmt_delete_old->close();
+
+
         foreach ($selecquyen as $quyen) {
             $maChucNang = $quyen['maChucNang'];
             $hanhDong = $quyen['hanhDong'];
-
-            // Kiểm tra xem có tồn tại bản ghi trong bảng ctquyen hay không
-            $sql_check_existence = "SELECT COUNT(*) AS count FROM ctquyen WHERE ma_nhom_quyen = ? AND ma_chuc_nang = ?";
-            $stmt = $this->conn->prepare($sql_check_existence);
-            $stmt->bind_param('ii', $id, $maChucNang);
-            $stmt->execute();
-            $result = $stmt->get_result()->fetch_assoc();
-            $count = $result['count'];
-            $stmt->close();
-
-            if ($count == 0) {
-                // Nếu không tồn tại, thêm bản ghi mới vào bảng ctquyen
-                $sql_insert_quyen = "INSERT INTO ctquyen (ma_nhom_quyen, ma_chuc_nang, hanh_dong) VALUES (?, ?, ?)";
-                $stmt = $this->conn->prepare($sql_insert_quyen);
-                $stmt->bind_param('iis', $id, $maChucNang, $hanhDong);
-                $stmt->execute();
-                $stmt->close();
-            } else {
-                // Nếu tồn tại, kiểm tra trạng thái của hanhDong
-                $sql_check_hanhDong = "SELECT COUNT(*) AS count FROM ctquyen WHERE ma_nhom_quyen = ? AND ma_chuc_nang = ? AND hanh_dong = ?";
-                $stmt = $this->conn->prepare($sql_check_hanhDong);
-                $stmt->bind_param('iis', $id, $maChucNang, $hanhDong);
-                $stmt->execute();
-                $result = $stmt->get_result()->fetch_assoc();
-                $count = $result['count'];
-                $stmt->close();
-
-                if ($count == 0) {
-                    // Nếu hanhDong không tồn tại, xóa bản ghi cũ
-                    $sql_delete_quyen = "DELETE FROM ctquyen WHERE ma_nhom_quyen = ? AND ma_chuc_nang = ?";
-                    $stmt = $this->conn->prepare($sql_delete_quyen);
-                    $stmt->bind_param('ii', $id, $maChucNang);
-                    $stmt->execute();
-                    $stmt->close();
-
-                    // Thêm bản ghi mới với hanhDong mới
-                    $sql_insert_quyen = "INSERT INTO ctquyen (ma_nhom_quyen, ma_chuc_nang, hanh_dong) VALUES (?, ?, ?)";
-                    $stmt = $this->conn->prepare($sql_insert_quyen);
-                    $stmt->bind_param('iis', $id, $maChucNang, $hanhDong);
-                    $stmt->execute();
-                    $stmt->close();
-                }
-            }
+            $sql_insert_quyen = "INSERT INTO ctquyen (ma_nhom_quyen, ma_chuc_nang, hanh_dong) VALUES (?, ?, ?)";
+            $stmt_insert_quyen = $this->conn->prepare($sql_insert_quyen);
+            $stmt_insert_quyen->bind_param('iis', $id, $maChucNang, $hanhDong);
+            $stmt_insert_quyen->execute();
+            $stmt_insert_quyen->close();
         }
+
+        $response = array(
+            'EM' => "Cập Nhật Dữ Liệu Thành Công",
+            'EC' => "0",
+            'DT' => ""
+        );
+        return json_encode($response);
     }
 }

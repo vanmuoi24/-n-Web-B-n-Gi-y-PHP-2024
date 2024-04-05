@@ -88,7 +88,7 @@ function getlistproduct() {
           let idindex = index;
           tableitem += `
           <tr>
-          <td>${dem}</td>
+          <td>${dem++}</td>
           <td>${item.Tengia}</td>
           <td></td>
           <td>${item.SoLuong}</td>
