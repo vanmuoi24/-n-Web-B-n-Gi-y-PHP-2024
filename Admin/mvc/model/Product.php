@@ -74,4 +74,61 @@ class GiayModel
             }
         }
     }
+
+    public function layDanhSachGiayPhanTrang($limit, $offset)
+    {
+        $sqlCount = "SELECT COUNT(*) as total FROM giay"; // Query để đếm tổng số sản phẩm
+        $resultCount = $this->conn->query($sqlCount);
+        $totalRows = $resultCount->fetch_assoc()['total'];
+
+        $totalPages = ceil($totalRows / $limit); // Tính tổng số trang
+
+        $sql = "SELECT *
+            FROM giay
+            INNER JOIN loai ON giay.MaLoai = loai.MaLoai
+            INNER JOIN mausac ON giay.MaMau = mausac.MaMau
+            INNER JOIN xuatxu ON giay.MaXX = xuatxu.MaXX
+            INNER JOIN size ON giay.MaSize = size.MaSize
+            INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu
+            LIMIT $offset, $limit";
+
+        $result = $this->conn->query($sql);
+        $data = array();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $xuatxu = array(
+                    'MaXX' => $row['MaXX'],
+                    'TenNuoc' => $row['TenNuoc'],
+                );
+                $size = array(
+                    'MaSize' => $row['MaSize'],
+                    'KichThuoc' => $row['KichThuoc'],
+                );
+                $thuonghieu = array(
+                    'MaThuongHieu' => $row['MaThuongHieu'],
+                    'TenThuongHieu' => $row['TenThuongHieu'],
+                );
+                $loai = array(
+                    'MaLoai' => $row['MaLoai'],
+                    'TenLoai' => $row['TenLoai'],
+                );
+                $giay = array(
+                    'MaGiay' => $row['MaGiay'],
+                    'Tengia' => $row['Tengia'],
+                    'SoLuong' => $row['SoLuong'],
+                    'DonGia' => $row['DonGia'],
+                    'DoiTuongSuDung' => $row['DoiTuongSuDung'],
+                    'ChatLieu' => $row['ChatLieu'],
+                    'HinhAnh' => $row['HinhAnh'],
+                    'XuatXu' => $xuatxu,
+                    'ThuongHieu' => $thuonghieu,
+                    'Loai' => $loai,
+                    'Size' => $size,
+                );
+                $data[] = $giay; // Thêm vào mảng $data
+            }
+        }
+
+        return array('data' => $data, 'totalPages' => $totalPages); // Trả về cả dữ liệu và tổng số trang
+    }
 }

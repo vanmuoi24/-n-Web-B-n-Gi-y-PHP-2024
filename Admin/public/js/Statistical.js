@@ -131,7 +131,9 @@ function listThongKe() {
         tbody += `
             <tr>
                 <td>${dem++}</td>
-                <td>${chitiet.MaGiay}
+                <td><img src="${
+                  chitiet.HinhAnh
+                }" alt="" style="width: 50px" /></td>
                 </td>
                 <td>${chitiet.Tengia}</td>
                 <td>${chitiet.SoLuong}</td>

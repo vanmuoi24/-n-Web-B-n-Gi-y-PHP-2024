@@ -422,7 +422,7 @@ select {
   border: 1px solid black;
   margin: auto;
   position: absolute;
-  top: 20%;
+  top: 10%;
   left: 25%;
   background-color: #f9f9f9;
 }
@@ -435,6 +435,7 @@ select {
 
 /* chi tiet phieu nhap */
 .table_cthd {
+  position: absolute;
   width: 80%;
   margin: 50px auto;
 }
@@ -988,4 +989,88 @@ button:hover {
   border: 1px solid #dddddd;
   padding: 8px;
   text-align: left;
+}
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: #4caf50;
+  color: white;
+  border-radius: 5px;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+  border-radius: 5px;
+}
+.pagination a.active {
+  background-color: #0078ff;
+  outline: none;
+  border: 1px solid #0078ff;
+}
+.group_posi h3 {
+  margin-top: 30px;
+}
+.voucher_table table {
+  margin-top: 30px;
+}
+
+.wrapper_thongke {
+  width: 100%;
+}
+
+.cthd_table {
+  background-color: white;
+  width: 60%;
+  margin: auto;
+  background-color: azure;
+}
+
+.closs_title {
+  font-size: 1.4rem;
+  position: relative;
+  justify-content: center;
+}
+
+.closs_title i {
+  cursor: pointer;
+  top: 10%;
+  position: absolute;
+  right: 0;
+}
+.item_cthd {
+  background-color: white;
+  border: 1px solid black;
+  width: 40%;
+  z-index: 100;
+  position: absolute;
+  top: 50%;
+}
+
+.cthd_table p {
+  text-align: center;
+}
+
+.cthd_table table {
+  width: 100%;
+  margin: auto;
+  border-collapse: collapse;
+}
+
+.cthd_table th,
+.cthd_table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.cthd_table th {
+  text-align: center;
 }

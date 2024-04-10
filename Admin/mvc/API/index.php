@@ -15,6 +15,8 @@ require_once '../controller/Promotioncontroller.php';
 require_once '../controller/Entry_slipcontroller.php';
 require_once '../controller/Manage_permissionsController.php';
 require_once '../controller/Stastiical.php';
+require_once '../controller/Client.php';
+
 $type = isset($_GET['type']) ? $_GET['type'] : '';
 $giayController = new GiayController($conn);
 $hoadonController  = new DonHangController($conn);
@@ -22,6 +24,7 @@ $khuyenmaiController = new KhuyenMaiModel($conn);
 $phieunhapcontroller = new Entry_slipcontroller($conn);
 $phanquyencontroller = new Manage_permissionsController($conn);
 $thongke = new ThongKeController($conn);
+$khachhang = new KhachHangController($conn);
 switch ($type) {
     case 'giay':
         echo $giayController->layDanhSachGiay();
@@ -100,6 +103,15 @@ switch ($type) {
     case 'dschitietHD':
         $id = isset($_GET['id']) ? $_GET['id'] : null;
         echo json_encode($thongke->chitietHD($id));
+        break;
+    case 'dsphantrang':
+        $limit = isset($_POST['limit']) ? $_POST['limit'] : 10;
+        $offset = isset($_POST['offset']) ? $_POST['offset'] : 0;
+
+        echo $giayController->layDanhSachGiayPhanTrang($limit, $offset);
+        break;
+    case 'dsKhachHang':
+        echo $khachhang->dsKhachHang();
         break;
     default:
         echo json_encode(array('error' => 'Yêu cầu không hợp lệ'));

@@ -3,7 +3,6 @@ function handleReceipt() {
   const entry = `
 
   <div class="admin_home">
- 
 </div>
 <div>
   <div class="Mange_item">
@@ -38,7 +37,7 @@ function handleReceipt() {
 
                   </div>         
               </div>
-              <div class="add_item_content0">
+              <div class="add_item_content0" id="lablepn" style = "display:none;">
                   <label>Mã PN : </label>
                   <div>
                       <input type="text" name="ma_pn" id="ma_pn" />
@@ -103,7 +102,7 @@ function handleReceipt() {
           <div class="input_add_item">
             <div class="add_item_content1">
                 <label>Nhà Cung Cấp : </label>
-                <select name="loai" id="loai">
+                <select name="nhacungcap" id="nhacungcap"  style="width: 50%;height: 40px;  ">
                 </select>
             </div>
           <div></div>
@@ -120,7 +119,7 @@ function handleReceipt() {
       </div>
       
   </div>
-    <div class="table_product">
+  <div class="table_product" style="display: block; position: absolute; width: 80%; max-height: 500px; overflow: auto; margin-top: 30px;">
     <table id="table_product">
     </table>
 </div>
@@ -145,6 +144,7 @@ function handleReceipt() {
   handlegetList();
 }
 function hanldeAddEntry() {
+  localStorage.setItem("MaNV", "NV001");
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "../../mvc/API/index.php?type=ds4table", true);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -156,7 +156,7 @@ function hanldeAddEntry() {
       let size = document.getElementById("size");
       let thuong_hieu = document.getElementById("thuong_hieu");
       let mausac = document.getElementById("mausac");
-      let xuatxu = document.getElementById("xuatxu");
+      let nhacungcap = document.getElementById("nhacungcap");
       let option1 = "";
       let option2 = "";
       let option3 = "";
@@ -182,43 +182,47 @@ function hanldeAddEntry() {
         <option value="${item.MaMau}">${item.TenMau}</option>
          `;
       });
-      // data.xuatxu.map((item, index) => {
-      //   option5 += `
-      //   <option value="${item.MaXX}">${item.TenNuoc}</option>
-      //    `;
-      // });
+      data.nhacungcap.map((item, index) => {
+        option5 += `
+        <option value="${item.MaNCC}">${item.TenNCC}</option>
+         `;
+      });
       loaiop.innerHTML = option1;
       size.innerHTML = option2;
-      // xuatxu.innerHTML = option5;
+      nhacungcap.innerHTML = option5;
       thuong_hieu.innerHTML = option3;
       mausac.innerHTML = option4;
     }
   };
   xhr.send();
+
   const for_add_item = document.getElementsByClassName("for_add_item")[0];
   for_add_item.style.display = "block";
+  let table = document.querySelectorAll(".voucher_table table")[0];
+  table.style.opacity = "0.1";
+  table.style.pointerEvents = "none";
   cityop();
 }
 
 function hanldeexit() {
   const entry_table = document.getElementsByClassName("for_add_item")[0];
   entry_table.style.display = "none";
+  let table = document.querySelectorAll(".voucher_table table")[0];
+  table.style.opacity = "1";
+  table.style.pointerEvents = "auto";
   cityopmove();
 }
 
 function cityop() {
-  let poss = document.querySelectorAll(
-    ".header ,.header_content,.voucher_table,.Mange_item"
-  );
+  let poss = document.querySelectorAll(".header ,.header_content,.Mange_item");
   poss.forEach((poss) => {
-    poss.style.opacity = "0.2";
+    poss.style.opacity = "0.1";
     poss.style.pointerEvents = "none";
   });
 }
+
 function cityopmove() {
-  let poss = document.querySelectorAll(
-    ".header ,.header_content,.voucher_table,.Mange_item"
-  );
+  let poss = document.querySelectorAll(".header ,.header_content,.Mange_item");
   poss.forEach((poss) => {
     poss.style.opacity = "1";
     poss.style.pointerEvents = "auto";
@@ -226,11 +230,9 @@ function cityopmove() {
 }
 
 function handlsaveid() {
-  let poss = document.querySelectorAll(
-    ".header ,.header_content,.voucher_table,.Mange_item"
-  );
+  let poss = document.querySelectorAll(".header ,.header_content,.Mange_item");
   poss.forEach((poss) => {
-    poss.style.opacity = "0.5";
+    poss.style.opacity = "0.1";
     poss.style.pointerEvents = "none";
   });
   const entry_table = document.getElementsByClassName("for_add_item")[0];
@@ -243,11 +245,17 @@ function handlsaveid() {
 function handleshowinput() {
   const table_product = document.getElementsByClassName("table_product")[0];
   table_product.style.display = "none";
+  let table = document.querySelectorAll(".voucher_table table")[0];
+  table.style.opacity = "1";
+  table.style.pointerEvents = "auto";
   cityopmove();
 }
 function handleclosscthd() {
   const table_cthd = document.getElementsByClassName("table_cthd")[0];
   table_cthd.style.display = "none";
+  let table = document.querySelectorAll(".voucher_table table")[0];
+  table.style.opacity = "1";
+  table.style.pointerEvents = "auto";
   cityopmove();
 }
 function handlegetList() {
@@ -299,7 +307,6 @@ function handleviewctph(id) {
   console.log(id);
   const table_cthd = document.getElementsByClassName("table_cthd")[0];
   table_cthd.style.display = "block";
-
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "../../mvc/API/index.php?type=dschitiethd&id=" + id, true);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -321,6 +328,9 @@ function handleviewctph(id) {
       table_cthd_body.innerHTML = table_ct;
     }
   };
+  let table = document.querySelectorAll(".voucher_table table")[0];
+  table.style.opacity = "0.1";
+  table.style.pointerEvents = "none";
   xhr.send();
   cityop();
 }
@@ -345,18 +355,17 @@ function tableproduct() {
         <th style="display: flex; align-items: center;">Hành Động <i class="fas fa-times-circle" onclick="handleshowinput()"></i></th>
     </tr>
  `;
-        let dem = 0;
+
         data.forEach((item, index) => {
           index++;
-          let idindex = index;
           tableitem += `
           <tr>
-          <td>${dem}</td>
+          <td>${index++}</td>
           <td>${item.Tengia}</td>
-          <td></td>
+          <td>${item.ThuongHieu.TenThuongHieu}</td>
           <td>${item.SoLuong}</td>
           <td>
-          <img src="../src/img/giay.jpg" alt="" style="width: 50px" />
+          <img src="${item.HinhAnh}" alt="" style="width: 50px" />
           </td>
           <td>${formatCurrency(item.DonGia)}</td>
           <td>
@@ -392,6 +401,7 @@ function handleitemproduct(id) {
 }
 
 function filterdataproduct(data) {
+  console.log(data, "check");
   const entry_table = document.getElementsByClassName("for_add_item")[0];
   entry_table.style.display = "block";
   document.getElementById("ma_giay").value = data.giay.MaGiay;
@@ -399,11 +409,12 @@ function filterdataproduct(data) {
   document.getElementById("chat_lieu").value = data.giay.ChatLieu;
   document.getElementById("so_luong").value = data.giay.SoLuong;
   document.getElementById("gia_nhap").value = data.giay.DonGia;
-
   var loai = document.getElementById("loai");
   var selectElement = document.getElementById("thuong_hieu");
   var size = document.getElementById("size");
   var mausac = document.getElementById("mausac");
+  var nhacungcap = document.getElementById("nhacungcap");
+
   for (var i = 0; i < selectElement.options.length; i++) {
     if (selectElement.options[i].text === data.giay.ThuongHieu.TenThuongHieu) {
       selectElement.options[i].selected = true;
@@ -428,20 +439,32 @@ function filterdataproduct(data) {
       break;
     }
   }
-  let mapn = document.getElementById("ma_pn");
-
-  if (mapn.value === "") {
-    mapn.disabled = true;
-  } else {
-    mapn.value = data.chitiet.MaPN;
+  for (var i = 0; i < nhacungcap.options.length; i++) {
+    if (nhacungcap.options[i].text === data.nhacungcap.TenNCC) {
+      nhacungcap.options[i].selected = true;
+      break;
+    }
   }
-
   lockInputs();
+  let lablepn = document.getElementById("lablepn");
+
+  if (!data.chitiet) {
+    let mapn = document.getElementById("ma_pn");
+
+    lablepn.style.display = "none";
+    mapn.value = "";
+  } else if (data.chitiet) {
+    let mapn = document.getElementById("ma_pn");
+
+    lablepn.style.display = "block";
+    mapn.value = data.chitiet.MaPN;
+    mapn.disabled = true;
+  }
 }
 
 function lockInputs() {
   const inputsAndSelects = document.querySelectorAll(
-    "#loai , #thuong_hieu, #mausac,#ma_giay,#size,#chat_lieu,#ten_giay,#ma_pn"
+    "#loai , #thuong_hieu, #mausac,#ma_giay,#size,#chat_lieu,#ten_giay,#nhacungcap"
   );
   inputsAndSelects.forEach((element) => {
     element.disabled = true;
@@ -450,9 +473,18 @@ function lockInputs() {
 
 function handlesavepn() {
   const inputsAndSelects = document.querySelectorAll(
-    "#loai , #thuong_hieu, #mausac, #ma_giay, #size, #chat_lieu, #ten_giay, #so_luong, #gia_nhap, #ma_pn"
+    "#loai , #thuong_hieu, #mausac, #ma_giay, #size, #chat_lieu, #ten_giay, #ma_pn,#nhacungcap"
   );
-  const datainput = {};
+
+  let so_luong = document.getElementById("so_luong");
+  let gia_nhap = document.getElementById("gia_nhap");
+
+  let dataMNV = localStorage.getItem("MaNV");
+  const datainput = {
+    Manv: dataMNV,
+    so_luong: parseFloat(so_luong.value),
+    gia_nhap: parseFloat(gia_nhap.value),
+  };
   inputsAndSelects.forEach((element) => {
     datainput[element.id] = element.value;
   });

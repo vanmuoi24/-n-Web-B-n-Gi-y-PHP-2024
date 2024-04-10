@@ -4,7 +4,7 @@ function handleOrder() {
 
   <div>
   <div class="Mange_item">
-      <h3>Quản lý Phiếu Nhập</h3>
+      <h3>Quản lý Đơn Hàng</h3>
    
   </div>
 </div>

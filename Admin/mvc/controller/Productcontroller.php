@@ -20,4 +20,9 @@ class GiayController
         $result = $this->giayModel->delete();
         return json_encode($result);
     }
+    public function layDanhSachGiayPhanTrang($limit, $offset)
+    {
+        $dsphantrang = $this->giayModel->layDanhSachGiayPhanTrang($limit, $offset);
+        return json_encode($dsphantrang);
+    }
 }

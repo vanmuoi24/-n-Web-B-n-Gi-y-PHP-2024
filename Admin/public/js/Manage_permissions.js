@@ -7,7 +7,7 @@ function Manage_permissions() {
                         <div class="Manage_permissions">
                         <div class="group_posi">
                             <div>
-                                <h2>Quản lí nhóm quyền</h2>
+                                <h3>Quản lí nhóm quyền</h2>
                             </div>
                         </div>
                         <div style="display:flex" class="group_btn">

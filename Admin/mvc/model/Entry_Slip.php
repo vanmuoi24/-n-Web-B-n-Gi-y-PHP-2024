@@ -8,18 +8,21 @@ class Entry_SlipModel
     {
         $this->conn = $conn;
     }
-
     public function LayDanhSachPhieuNhap()
     {
-        $sql = "SELECT * FROM phieunhap 
-        INNER JOIN nhanvien ON phieunhap.MaNV = nhanvien.MaNV
-        INNER JOIN nhacungcap ON phieunhap.MaNCC = nhacungcap.MaNCC";
+        $sql = "SELECT phieunhap.MaPN, phieunhap.NgayNhap, nhacungcap.TenNCC, nhacungcap.DiaChi AS DCNCC, nhacungcap.DienThoai AS DTNCC, nhanvien.Ho, nhanvien.Ten, nhanvien.GioiTinh, nhanvien.DiaChi AS DCNV, nhanvien.Email, nhanvien.Luong, 
+                SUM(chitietphieunhap.GiaNhap * chitietphieunhap.SoLuong) AS TongTien
+                FROM phieunhap 
+                INNER JOIN nhanvien ON phieunhap.MaNV = nhanvien.MaNV
+                INNER JOIN nhacungcap ON phieunhap.MaNCC = nhacungcap.MaNCC
+                INNER JOIN chitietphieunhap ON phieunhap.MaPN = chitietphieunhap.MaPN
+                GROUP BY phieunhap.MaPN, phieunhap.NgayNhap, nhacungcap.TenNCC, nhacungcap.DiaChi, nhacungcap.DienThoai, nhanvien.Ho, nhanvien.Ten, nhanvien.GioiTinh, nhanvien.DiaChi, nhanvien.Email, nhanvien.Luong";
+
         $result = $this->conn->query($sql);
         $data = array();
 
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-
                 $phieunhap = array(
                     'MaPN' => $row['MaPN'],
                     'NgayNhap' => $row['NgayNhap'],
@@ -28,14 +31,14 @@ class Entry_SlipModel
                         'Ho' => $row['Ho'],
                         'Ten' => $row['Ten'],
                         'GioiTinh' => $row['GioiTinh'],
-                        'DiaChi' => $row['DiaChi'],
+                        'DiaChi' => $row['DCNV'],
                         'Email' => $row['Email'],
                         'Luong' => $row['Luong']
                     ),
                     'MaNCC' => array(
                         'TenNCC' => $row['TenNCC'],
-                        'DiaChi' => $row['DiaChi'],
-                        'DienThoai' => $row['DienThoai']
+                        'DiaChi' => $row['DCNCC'],
+                        'DienThoai' => $row['DTNCC']
                     )
                 );
                 $data[] = $phieunhap;
@@ -43,6 +46,7 @@ class Entry_SlipModel
         }
         return $data;
     }
+
     public function GiaTriSanPham($id)
     {
         $sql = " SELECT *
@@ -52,7 +56,10 @@ class Entry_SlipModel
          INNER JOIN xuatxu ON giay.MaXX = xuatxu.MaXX
          INNER JOIN size ON giay.MaSize = size.MaSize
          INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu WHERE giay.MaGiay = '$id'";
+        $sql5 = "SELECT *FROM nhacungcap";
         $result = $this->conn->query($sql);
+
+        $result5 = $this->conn->query($sql5);
 
         $data = array();
         if ($result->num_rows > 0) {
@@ -78,6 +85,7 @@ class Entry_SlipModel
                     'TenMau' => $row['TenMau'],
                 );
 
+
                 $giay = array(
                     'MaGiay' => $row['MaGiay'],
                     'Tengia' => $row['Tengia'],
@@ -91,6 +99,7 @@ class Entry_SlipModel
                     'Loai' => $loai,
                     'Size' => $size,
                     'MauSac' => $mausac,
+
 
                 );
 
@@ -111,6 +120,12 @@ class Entry_SlipModel
             }
             $data['chitiet'] = $chitiet;
         }
+        if ($result5->num_rows > 0) {
+            while ($row = $result5->fetch_assoc()) {
+                $item5[] = $row;
+                $data['nhacungcap'] = $item5;
+            }
+        }
         return $data;
     }
 
@@ -123,11 +138,13 @@ class Entry_SlipModel
         $sql2 = "SELECT * FROM size";
         $sql3 = "SELECT * FROM thuonghieu";
         $sql4 = "SELECT * FROM mausac";
+        $sql5 = "SELECT *FROM nhacungcap";
         $result = $this->conn->query($sql);
         $result1 = $this->conn->query($sql1);
         $result2 = $this->conn->query($sql2);
         $result3 = $this->conn->query($sql3);
         $result4 = $this->conn->query($sql4);
+        $result5 = $this->conn->query($sql5);
         $data = array();
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -176,7 +193,12 @@ class Entry_SlipModel
                 $data['mausac'] = $item4;
             }
         }
-
+        if ($result5->num_rows > 0) {
+            while ($row = $result5->fetch_assoc()) {
+                $item5[] = $row;
+                $data['nhacungcap'] = $item5;
+            }
+        }
         return $data;
     }
 
@@ -204,58 +226,61 @@ class Entry_SlipModel
     public function themmoisanpham($data)
     {
         try {
+            // Lấy dữ liệu từ $data
             $MaGiay = $data['ma_giay'];
             $Tengia = $data['ten_giay'];
-            $GiaNhap = isset($data['gia_nhap']) ? $data['gia_nhap'] : null;
+            $GiaNhap = $data['gia_nhap'];
             $SoLuong = $data['so_luong'];
             $MaLoai = $data['loai'];
             $MaThuongHieu = $data['thuong_hieu'];
             $MaMau = $data['mausac'];
             $MaSize = $data['size'];
             $ChatLieu = $data['chat_lieu'];
+            $NaNCC = $data['nhacungcap'];
+            $MaNV = $data['Manv'];
+            $MaPN = isset($data['ma_pn']) ? $data['ma_pn'] : null;
 
-
+            // Bắt đầu giao dịch
             $this->conn->begin_transaction();
 
-
+            // Kiểm tra xem sản phẩm đã tồn tại trong bảng giay chưa
             $sql_check_giay = "SELECT * FROM giay WHERE MaGiay = '$MaGiay'";
             $result_check_giay = $this->conn->query($sql_check_giay);
 
             if ($result_check_giay->num_rows > 0) {
-
+                // Sản phẩm đã tồn tại, cập nhật thông tin và số lượng
                 $row = $result_check_giay->fetch_assoc();
                 $SoLuongCu = $row['SoLuong'];
                 $SoLuongMoi = $SoLuongCu + $SoLuong;
-                $GiaNhapCu = isset($row['GiaNhap']) ? $row['GiaNhap'] : 0;
-                $GiaNhapMoi = ($GiaNhapCu + $GiaNhap) / 2;
+                $GiaNhapCu = isset($row['DonGia']) ? $row['DonGia'] : 0;
+                $GiaNhapMoi = $GiaNhap;
 
-                $sql_check_chitiet = "SELECT * FROM chitietphieunhap WHERE MaGiay = '$MaGiay'";
-                $result_check_chitiet = $this->conn->query($sql_check_chitiet);
-
-                if ($result_check_chitiet->num_rows > 0) {
-
-                    $row_chitiet = $result_check_chitiet->fetch_assoc();
-                    $MaPN = $row_chitiet['MaPN'];
-                } else {
-
-                    $sql_them_phieunhap = "INSERT INTO phieunhap (NgayNhap) VALUES (NOW())";
-                    $this->conn->query($sql_them_phieunhap);
-                    $MaPN = $this->conn->insert_id;
-                    $sql_them_chitietphieunhap = "INSERT INTO chitietphieunhap (MaPN, MaGiay, SoLuong) VALUES ('$MaPN', '$MaGiay', '$SoLuong')";
-                    $this->conn->query($sql_them_chitietphieunhap);
-                }
+                // Cập nhật thông tin sản phẩm
                 $sql_update_giay = "UPDATE giay SET SoLuong = '$SoLuongMoi', DonGia = '$GiaNhapMoi' WHERE MaGiay = '$MaGiay'";
                 $this->conn->query($sql_update_giay);
             } else {
+                // Sản phẩm chưa tồn tại, thêm mới vào bảng giay
                 $sql_them_sanpham = "INSERT INTO giay (MaGiay, Tengia, DonGia, SoLuong, MaLoai, MaThuongHieu, MaMau, MaSize, ChatLieu) VALUES ('$MaGiay', '$Tengia', '$GiaNhap', '$SoLuong', '$MaLoai', '$MaThuongHieu', '$MaMau', '$MaSize', '$ChatLieu')";
                 $this->conn->query($sql_them_sanpham);
-                $sql_them_phieunhap = "INSERT INTO phieunhap (NgayNhap) VALUES (NOW())";
+            }
+
+            // Kiểm tra xem có MaPN được cung cấp không
+            if ($MaPN) {
+                // Thêm chi tiết phiếu nhập vào phiếu nhập có sẵn
+                $sql_them_chitietphieunhap = "INSERT INTO chitietphieunhap (MaPN, MaGiay, SoLuong,GiaNhap) VALUES ('$MaPN', '$MaGiay', '$SoLuong','$GiaNhap')";
+                $this->conn->query($sql_them_chitietphieunhap);
+            } else {
+                // Tạo phiếu nhập mới
+                $sql_them_phieunhap = "INSERT INTO phieunhap (NgayNhap, MaNCC, MaNV) VALUES (NOW(), '$NaNCC', '$MaNV')";
                 $this->conn->query($sql_them_phieunhap);
                 $MaPN = $this->conn->insert_id;
 
-                $sql_them_chitietphieunhap = "INSERT INTO chitietphieunhap (MaPN, MaGiay, SoLuong) VALUES ('$MaPN', '$MaGiay', '$SoLuong')";
+                // Thêm chi tiết phiếu nhập vào phiếu nhập mới
+                $sql_them_chitietphieunhap = "INSERT INTO chitietphieunhap (MaPN, MaGiay, SoLuong,GiaNhap) VALUES ('$MaPN', '$MaGiay', '$SoLuong','$GiaNhap')";
                 $this->conn->query($sql_them_chitietphieunhap);
             }
+
+            // Tính tổng tiền của phiếu nhập và cập nhật
             $sql_tong_gia_nhap = "SELECT SUM(GiaNhap * SoLuong) AS TongTien FROM chitietphieunhap WHERE MaPN = '$MaPN'";
             $result_tong_gia_nhap = $this->conn->query($sql_tong_gia_nhap);
             $row_tong_gia_nhap = $result_tong_gia_nhap->fetch_assoc();
@@ -263,8 +288,10 @@ class Entry_SlipModel
             $sql_cap_nhat_tong_tien = "UPDATE phieunhap SET TongTien = '$tong_tien' WHERE MaPN = '$MaPN'";
             $this->conn->query($sql_cap_nhat_tong_tien);
 
+            // Kết thúc giao dịch
             $this->conn->commit();
 
+            // Trả về kết quả thành công
             $response = array(
                 'EM' => "Thêm mới sản phẩm và chi tiết phiếu nhập thành công",
                 'EC' => "0",
@@ -272,8 +299,10 @@ class Entry_SlipModel
             );
             return json_encode($response);
         } catch (\Exception $e) {
+            // Rollback giao dịch nếu có lỗi
             $this->conn->rollback();
 
+            // Trả về thông báo lỗi
             $response = array(
                 'EM' => "Lỗi từ máy chủ: " . $e->getMessage(),
                 'EC' => "-1",

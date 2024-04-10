@@ -34,7 +34,8 @@ class ThongKeModel
                     'SoLuong' => $row['SoLuong'],
                     'GiaBan' => $row['GiaBan'],
                     'Tengia' => $row['Tengia'],
-                    'MaHD' => $row['MaHD']
+                    'MaHD' => $row['MaHD'],
+                    'HinhAnh' => $row['HinhAnh']
                 );
                 $data['chitiet'] = $item1;
             }
