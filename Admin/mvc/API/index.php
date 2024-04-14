@@ -107,12 +107,33 @@ switch ($type) {
     case 'dsphantrang':
         $limit = isset($_POST['limit']) ? $_POST['limit'] : 10;
         $offset = isset($_POST['offset']) ? $_POST['offset'] : 0;
+        $sortOrder = isset($_POST['sortOrder']) ? $_POST['sortOrder'] : 'asc';
 
-        echo $giayController->layDanhSachGiayPhanTrang($limit, $offset);
+        echo $giayController->layDanhSachGiayPhanTrang($limit, $offset, $sortOrder);
         break;
+
     case 'dsKhachHang':
         echo $khachhang->dsKhachHang();
         break;
+    case 'searchday':
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $data = json_decode(file_get_contents("php://input"), true);
+            $response = $hoadonController->searchday($data);
+            echo json_encode($response);
+        } else {
+            echo json_encode("Lỗi: Không nhận được dữ liệu từ client.");
+        }
+        break;
+    case 'searchdayTke':
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $data = json_decode(file_get_contents("php://input"), true);
+            $response = $thongke->seacrchday($data);
+            echo json_encode($response);
+        } else {
+            echo json_encode("Lỗi: Không nhận được dữ liệu từ client.");
+        }
+        break;
+
     default:
         echo json_encode(array('error' => 'Yêu cầu không hợp lệ'));
 }

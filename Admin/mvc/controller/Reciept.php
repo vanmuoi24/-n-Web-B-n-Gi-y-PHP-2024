@@ -20,4 +20,9 @@ class DonHangController
         $chiTietHoaDon = $this->DonHangModel->chitiethoadon($id);
         return json_encode($chiTietHoaDon);
     }
+    public function searchday($data)
+    {
+        $searchday = $this->DonHangModel->searchday($data);
+        return json_encode($searchday);
+    }
 }

@@ -60,37 +60,43 @@ class GiayModel
     {
         if (isset($_POST['item_id'])) {
             $itemId = $this->conn->real_escape_string($_POST['item_id']);
-            $sqlUpdateChiTietHoaDon = "UPDATE chitiethoadon SET MaGiay = NULL WHERE MaGiay = '$itemId'";
-            $sqlUpdateChiTietPhieuNhap = "UPDATE chitietphieunhap SET MaGiay = NULL WHERE MaGiay = '$itemId'";
-            if ($this->conn->query($sqlUpdateChiTietHoaDon) === TRUE && $this->conn->query($sqlUpdateChiTietPhieuNhap) === TRUE) {
-                $sqlDeleteGiay = "DELETE FROM giay WHERE MaGiay = '$itemId'";
-                if ($this->conn->query($sqlDeleteGiay) === TRUE) {
-                    return array("success" => true);
-                } else {
-                    return array("success" => false, "error" => "Lỗi khi xóa sản phẩm từ bảng giay: " . $this->conn->error);
-                }
+            $sqlCheckChiTietHoaDon = "SELECT * FROM chitiethoadon WHERE MaGiay = '$itemId'";
+            $resultChiTietHoaDon = $this->conn->query($sqlCheckChiTietHoaDon);
+            $sqlCheckChiTietPhieuNhap = "SELECT * FROM chitietphieunhap WHERE MaGiay = '$itemId'";
+            $resultChiTietPhieuNhap = $this->conn->query($sqlCheckChiTietPhieuNhap);
+
+            if ($resultChiTietHoaDon->num_rows > 0 || $resultChiTietPhieuNhap->num_rows > 0) {
+
+                return array("success" => false, "error" => "Không thể xóa sản phẩm vì sản phẩm đang được sử dụng trong các phiếu nhập hoặc hóa đơn.");
+            }
+
+            $sqlDeleteGiay = "DELETE FROM giay WHERE MaGiay = '$itemId'";
+            if ($this->conn->query($sqlDeleteGiay) === TRUE) {
+                return array("success" => true);
             } else {
-                return array("success" => false, "error" => "Lỗi khi cập nhật khóa ngoại: " . $this->conn->error);
+                return array("success" => false, "error" => "Lỗi khi xóa sản phẩm từ bảng giay: " . $this->conn->error);
             }
         }
     }
 
-    public function layDanhSachGiayPhanTrang($limit, $offset)
+    public function layDanhSachGiayPhanTrang($limit, $offset, $sortOrder)
     {
-        $sqlCount = "SELECT COUNT(*) as total FROM giay"; // Query để đếm tổng số sản phẩm
+        $sqlCount = "SELECT COUNT(*) as total FROM giay";
         $resultCount = $this->conn->query($sqlCount);
         $totalRows = $resultCount->fetch_assoc()['total'];
 
-        $totalPages = ceil($totalRows / $limit); // Tính tổng số trang
+        $totalPages = ceil($totalRows / $limit);
 
         $sql = "SELECT *
-            FROM giay
-            INNER JOIN loai ON giay.MaLoai = loai.MaLoai
-            INNER JOIN mausac ON giay.MaMau = mausac.MaMau
-            INNER JOIN xuatxu ON giay.MaXX = xuatxu.MaXX
-            INNER JOIN size ON giay.MaSize = size.MaSize
-            INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu
-            LIMIT $offset, $limit";
+        FROM giay
+        INNER JOIN loai ON giay.MaLoai = loai.MaLoai
+        INNER JOIN mausac ON giay.MaMau = mausac.MaMau
+        INNER JOIN xuatxu ON giay.MaXX = xuatxu.MaXX
+        INNER JOIN size ON giay.MaSize = size.MaSize
+        INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu
+        ORDER BY Tengia $sortOrder
+        LIMIT $offset, $limit";
+
 
         $result = $this->conn->query($sql);
         $data = array();

@@ -59,7 +59,7 @@ function Manage_permissions() {
                             </table>
                             <div class="form-group">
                                 <button class="btn btn-primary" onclick="handlesavequyen()">Lưu</button>
-                                <button  class="btn btn-secondary">Huỷ</button>
+                                <button  class="btn btn-secondary" onclick="handlecloss()" >Huỷ</button>
                             </div>
                      
                     </div>
@@ -154,6 +154,7 @@ function handlecloss() {
     document.getElementsByClassName("container_add_posi")[0];
   const update_quyen = document.getElementsByClassName("update_quyen")[0];
   update_quyen.innerHTML = "";
+  console.log(container_add_posi);
   container_add_posi.style.display = "none";
 
   cityopmove();
@@ -466,4 +467,76 @@ function handleupodata(id) {
     cityopmove();
     xhr.send(JSON.stringify(selectedQuyen));
   }
+}
+function validateForm() {
+  var ma_giay = document.getElementById("ma_giay").value.trim();
+  var ten_giay = document.getElementById("ten_giay").value.trim();
+  var chat_lieu = document.getElementById("chat_lieu").value.trim();
+  var so_luong = document.getElementById("so_luong").value.trim();
+  var gia_nhap = document.getElementById("gia_nhap").value.trim();
+  var loai = document.getElementById("loai").value;
+  var thuong_hieu = document.getElementById("thuong_hieu").value;
+  var size = document.getElementById("size").value;
+  var mausac = document.getElementById("mausac").value;
+  var nhacungcap = document.getElementById("nhacungcap").value;
+
+  if (ma_giay === "") {
+    alert("Vui lòng nhập Mã Giày");
+    return false;
+  }
+
+  if (ten_giay === "") {
+    alert("Vui lòng nhập Tên Giày");
+    return false;
+  }
+
+  if (chat_lieu === "") {
+    alert("Vui lòng nhập Chất Liệu");
+    return false;
+  }
+
+  if (so_luong === "") {
+    alert("Vui lòng nhập Số Lượng");
+    return false;
+  }
+  if (isNaN(so_luong)) {
+    alert("Số Lượng phải là một số");
+    return false;
+  }
+
+  if (gia_nhap === "") {
+    alert("Vui lòng nhập Giá Nhập");
+    return false;
+  }
+  if (isNaN(gia_nhap)) {
+    alert("Giá Nhập phải là một số");
+    return false;
+  }
+
+  if (loai === "") {
+    alert("Vui lòng chọn Loại");
+    return false;
+  }
+
+  if (thuong_hieu === "") {
+    alert("Vui lòng chọn Thương Hiệu");
+    return false;
+  }
+
+  if (size === "") {
+    alert("Vui lòng chọn Size");
+    return false;
+  }
+
+  if (mausac === "") {
+    alert("Vui lòng chọn Màu Sắc");
+    return false;
+  }
+
+  if (nhacungcap === "") {
+    alert("Vui lòng chọn Nhà Cung Cấp");
+    return false;
+  }
+
+  return true;
 }

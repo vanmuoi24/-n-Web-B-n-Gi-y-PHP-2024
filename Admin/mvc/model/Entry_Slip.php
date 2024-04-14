@@ -46,7 +46,6 @@ class Entry_SlipModel
         }
         return $data;
     }
-
     public function GiaTriSanPham($id)
     {
         $sql = " SELECT *
@@ -238,6 +237,7 @@ class Entry_SlipModel
             $ChatLieu = $data['chat_lieu'];
             $NaNCC = $data['nhacungcap'];
             $MaNV = $data['Manv'];
+            $HinhAnh = $data['hinh_anh'];
             $MaPN = isset($data['ma_pn']) ? $data['ma_pn'] : null;
 
             // Bắt đầu giao dịch
@@ -260,7 +260,7 @@ class Entry_SlipModel
                 $this->conn->query($sql_update_giay);
             } else {
                 // Sản phẩm chưa tồn tại, thêm mới vào bảng giay
-                $sql_them_sanpham = "INSERT INTO giay (MaGiay, Tengia, DonGia, SoLuong, MaLoai, MaThuongHieu, MaMau, MaSize, ChatLieu) VALUES ('$MaGiay', '$Tengia', '$GiaNhap', '$SoLuong', '$MaLoai', '$MaThuongHieu', '$MaMau', '$MaSize', '$ChatLieu')";
+                $sql_them_sanpham = "INSERT INTO giay (MaGiay, Tengia, DonGia, SoLuong, MaLoai, MaThuongHieu, MaMau, MaSize, ChatLieu,HinhAnh) VALUES ('$MaGiay', '$Tengia', '$GiaNhap', '$SoLuong', '$MaLoai', '$MaThuongHieu', '$MaMau', '$MaSize', '$ChatLieu','$HinhAnh')";
                 $this->conn->query($sql_them_sanpham);
             }
 

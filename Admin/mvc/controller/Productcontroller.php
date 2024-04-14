@@ -20,9 +20,9 @@ class GiayController
         $result = $this->giayModel->delete();
         return json_encode($result);
     }
-    public function layDanhSachGiayPhanTrang($limit, $offset)
+    public function layDanhSachGiayPhanTrang($limit, $offset, $sortOrder)
     {
-        $dsphantrang = $this->giayModel->layDanhSachGiayPhanTrang($limit, $offset);
+        $dsphantrang = $this->giayModel->layDanhSachGiayPhanTrang($limit, $offset, $sortOrder);
         return json_encode($dsphantrang);
     }
 }

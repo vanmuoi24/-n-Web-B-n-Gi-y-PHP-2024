@@ -1,5 +1,6 @@
-let currentPage = 1; // Trang hiện tại
-let totalPages = 1; // Tổng số trang
+let currentPage = 1;
+let totalPages = 1;
+let sortOrder = "asc";
 
 function handleProduct() {
   const Mange_client = document.getElementsByClassName("Mange_client")[0];
@@ -24,13 +25,12 @@ function handleProduct() {
   `;
   Mange_client.innerHTML = ProductOut;
 
-  phantrang(6, 0); // Chỉ số offset bắt đầu từ 0
+  phantrang(6, 0, sortOrder);
 }
 
 function handledeleteitem(itemId) {
-  console.log(itemId);
-  let confirmed = confirm("Bạn có chắc chắn muốn xóa sản phẩm không?");
-  if (confirmed) {
+  // Hiển thị thông báo xác nhận trước khi xóa
+  if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?")) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "../../mvc/API/index.php?type=xoa", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -38,19 +38,21 @@ function handledeleteitem(itemId) {
       if (xhr.readyState == 4 && xhr.status == 200) {
         var response = JSON.parse(xhr.responseText);
         if (response.success) {
-          phantrang(6, (currentPage - 1) * 6); // Cập nhật trang hiện tại sau khi xóa
+          // Thông báo xóa thành công và cập nhật lại danh sách sản phẩm
+          alert("Xóa sản phẩm thành công!");
+          phantrang(6, (currentPage - 1) * 6, sortOrder);
         } else {
+          // Thông báo lỗi khi xóa
           alert("Lỗi khi xóa: " + response.error);
         }
       }
     };
     xhr.send("item_id=" + itemId);
-  } else {
-    return;
   }
 }
 
-function phantrang(limit, offset) {
+function phantrang(limit, offset, sortOrder) {
+  // Sửa đổi ở đây
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "../../mvc/API/index.php?type=dsphantrang", true);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -58,53 +60,61 @@ function phantrang(limit, offset) {
     if (xhr.readyState == 4 && xhr.status == 200) {
       var response = JSON.parse(xhr.responseText);
       var data = response.data;
-      totalPages = response.totalPages;
-      updatePageContent(data);
-      updatePageNumbers(currentPage, totalPages);
+
+      if (data.length > 0) {
+        totalPages = response.totalPages;
+        updatePageContent(data);
+        updatePageNumbers(currentPage, totalPages);
+      } else {
+        console.log("Không có dữ liệu để hiển thị.");
+      }
     }
   };
-  xhr.send("limit=" + limit + "&offset=" + offset);
+  xhr.send("limit=" + limit + "&offset=" + offset + "&sortOrder=" + sortOrder);
 }
 
 function updatePageNumbers() {
   let pageNumbers = document.getElementById("pageNumbers");
   pageNumbers.innerHTML = "";
 
-  for (let i = 1; i <= totalPages; i++) {
-    let pageLink = document.createElement("a");
-    pageLink.textContent = i;
-    pageLink.onclick = function () {
-      currentPage = i;
-      phantrang(6, (currentPage - 1) * 6);
-      updatePageNumbers();
-    };
+  if (totalPages > 0) {
+    for (let i = 1; i <= totalPages; i++) {
+      let pageLink = document.createElement("a");
+      pageLink.textContent = i;
+      pageLink.onclick = function () {
+        currentPage = i;
+        phantrang(6, (currentPage - 1) * 6, sortOrder);
+        updatePageNumbers();
+      };
 
-    if (i === currentPage) {
-      pageLink.classList.add("active");
+      if (i === currentPage) {
+        pageLink.classList.add("active");
+      }
+
+      pageNumbers.appendChild(pageLink);
     }
-
-    pageNumbers.appendChild(pageLink);
   }
 }
+
 function prevPage() {
   if (currentPage > 1) {
     currentPage--;
-    phantrang(6, (currentPage - 1) * 6);
+    phantrang(6, (currentPage - 1) * 6, sortOrder);
   }
 }
 
 function nextPage() {
   if (currentPage < totalPages) {
     currentPage++;
-    phantrang(6, (currentPage - 1) * 6);
+    phantrang(6, (currentPage - 1) * 6, sortOrder);
   }
 }
 
 function updatePageContent(data) {
   let tablevoucher = document.getElementById("table_product");
   let tableitem = `<tr>
-                        <th>Mã Sản Phẩm</th>
-                        <th>Tên Sản Phẩm</th>
+                        <th>Mã Sản Phẩm  </th>
+                        <th>Tên Sản Phẩm  <i class="fa-solid fa-arrow-down" onclick="handledowdata()"></i> <i class="fa-solid fa-arrow-up" onclick="handleupdata()"></i></th>
                         <th>Thương Hiệu</th>
                         <th>Số Lượng</th>
                         <th>Hình Ảnh</th>
@@ -126,9 +136,9 @@ function updatePageContent(data) {
                 <td>${formatCurrency(item.DonGia)}</td>
                 <td>
                     <i class="fa-solid fa-pen-to-square" style="color: #04b64b"></i>
-                    <i class="fa-solid fa-trash-can" style="color: #ff4a4a" onclick="handledeleteitem(${
+                    <i class="fa-solid fa-trash-can" style="color: #ff4a4a" onclick="handledeleteitem('${
                       item.MaGiay
-                    })"></i>
+                    }')"></i>
                 </td>
             </tr>`;
   });
@@ -140,4 +150,14 @@ function formatCurrency(amount) {
     style: "currency",
     currency: "VND",
   }).format(amount);
+}
+
+function handledowdata() {
+  sortOrder = "asc";
+  phantrang(6, (currentPage - 1) * 6, sortOrder); // Sửa đổi ở đây
+}
+
+function handleupdata() {
+  sortOrder = "desc";
+  phantrang(6, (currentPage - 1) * 6, sortOrder); // Sửa đổi ở đây
 }

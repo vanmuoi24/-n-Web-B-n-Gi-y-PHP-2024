@@ -4,11 +4,12 @@
 
   box-sizing: 0;
 }
-.side_item:active {
-  background-color: #f0f0f0; /* Màu nền sáng khi active */
-  color: #333; /* Màu chữ tương phản khi active */
-}
 
+.active {
+  height: 100%;
+  background-color: #f0f0f0;
+  color: #333;
+}
 .container {
   width: 100%;
   height: auto;
@@ -63,6 +64,7 @@
   align-items: center;
   width: 100%;
   height: 70px;
+
   margin-top: 20px;
   background-color: #0078ff;
 }
@@ -74,12 +76,14 @@
   align-items: center;
   text-align: center;
   width: 80%;
+
   margin: auto;
-  height: auto;
+  height: 100%;
 }
 
 .content_side .side_item {
   display: flex;
+
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -88,7 +92,11 @@
   height: 100%;
   border-right: 1px solid white;
 }
-
+.content_side .side_item:hover {
+  height: 100%;
+  background-color: #f0f0f0;
+  color: #333;
+}
 /* ///// */
 .Mange_client {
   width: 80%;
@@ -221,6 +229,7 @@ button {
 .btn-online {
   border-radius: 4px;
   color: white;
+  width: 100px;
   background-color: #44ad50;
 }
 .voucher_table table {
@@ -331,58 +340,72 @@ select {
   margin-left: 20px;
 }
 /* ///////// */
-
+/* Style cho phần chung */
 .client_status {
+  width: 100%;
   display: flex;
-  padding: 50px 0 50px;
-  justify-content: center;
   align-items: center;
+  padding: 10px;
+  gap: 20px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  margin-top: 30px;
 }
 .status_demo {
-  width: 15%;
-}
-.status_demo select option {
-  cursor: pointer;
-  height: 40px;
+  width: 20%;
 }
 .status_demo select {
   height: 40px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 .serch_client {
-  width: 40%;
+  width: 30%;
+  display: flex;
+  position: relative;
 }
-.serch_client input {
-  width: 80%;
+.serch_client button {
+  right: 0;
+  position: absolute;
+}
+.serch_client input[type="text"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   height: 40px;
-  outline: none;
 }
 .serch_date {
-  width: 25%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  gap: 10px;
 }
 .serch_date div {
+  height: 40px;
+  outline: none;
   display: flex;
-  justify-content: center;
-  justify-content: center;
   align-items: center;
-  align-items: center;
-}
-.serch_date div input {
-  height: 30px;
-  margin-right: 10px;
-}
-.add_client {
-  width: 20%;
-}
-.add_client button {
-  margin-left: 20px;
-  background-color: #0078ff;
-  color: white;
-  height: 30px;
+  margin-top: 5px;
 }
 
+.serch_date label {
+  margin-right: 5px;
+}
+
+.serch_date input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.client_status button {
+  margin-top: 5px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  margin-left: 50px;
+}
+.searchinput {
+  margin-left: 20px;
+}
 /* Phieu Nhap */
 
 .entry_btn {
@@ -422,7 +445,7 @@ select {
   border: 1px solid black;
   margin: auto;
   position: absolute;
-  top: 10%;
+  top: 9;
   left: 25%;
   background-color: #f9f9f9;
 }
@@ -521,6 +544,7 @@ select {
   border-radius: 4px;
   box-sizing: border-box;
   margin-top: 5px;
+  outline: none;
 }
 #loai {
   height: auto;
@@ -1073,4 +1097,12 @@ button:hover {
 
 .cthd_table th {
   text-align: center;
+}
+.error-border {
+  border: 1px solid red;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.8em;
 }

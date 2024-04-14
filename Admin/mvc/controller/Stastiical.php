@@ -19,4 +19,9 @@ class ThongKeController
         $dschitietHD = $this->ThongKeModel->chitietHD($id);
         return json_encode($dschitietHD);
     }
+    public function  seacrchday($data)
+    {
+        $dssearchday = $this->ThongKeModel->seacrchday($data);
+        return json_encode($dssearchday);
+    }
 }

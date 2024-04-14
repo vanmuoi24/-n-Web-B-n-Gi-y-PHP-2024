@@ -6,70 +6,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../../public/css/index.css" />
     <title>Document</title>
 </head>
 <style>
-    /* Reset CSS */
-    .wrapper_thongke {
-        width: 100%;
-
-    }
-
-    .cthd_table {
-        background-color: white;
-        width: 60%;
-        margin: auto;
-        background-color: azure;
-
-
-
-    }
-
-    .closs_title {
-        font-size: 1.4rem;
-        position: relative;
-        justify-content: center;
-    }
-
-    .closs_title i {
-        cursor: pointer;
-        top: 10%;
-        position: absolute;
-        right: 0;
-    }
-
-    phát .item_cthd {
-        background-color: white;
-        border: 1px solid black;
-        width: 40%;
-        z-index: 100;
-        position: absolute;
-        top: 50%;
-
-
-    }
-
-    .cthd_table p {
-        text-align: center;
-    }
-
-    .cthd_table table {
-        width: 100%;
-        margin: auto;
-        border-collapse: collapse;
-    }
-
-    .cthd_table th,
-    .cthd_table td {
-        border: 1px solid #ddd;
-        padding: 8px;
-    }
-
-    .cthd_table th {
-        text-align: center;
-    }
+/* Reset CSS */
 </style>
 
 <body>
@@ -105,7 +49,7 @@
         </div>
         <div class="header_content">
             <div class="content_side">
-                <div class="side_item" onclick="handleHome()">
+                <div class="side_item" onclick="handleHome(this)">
                     <div><i class="fa-solid fa-user"></i></div>
                     <div><span>Trang Chủ</span></div>
                 </div>
@@ -139,7 +83,7 @@
                         <p>Khuyến Mãi</p>
                     </div>
                 </div>
-                <div class="side_item" onclick="handleStastical()">
+                <div class="side_item" onclick=" handleStastical()">
                     <div><i class="fa-solid fa-chart-simple"></i></div>
                     <div>
                         <p>Thống Kê</p>
@@ -156,6 +100,7 @@
             </div>
 
         </div>
+
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../../"></script>

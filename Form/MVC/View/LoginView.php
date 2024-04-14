@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,10 +16,9 @@
     <!-- <script type="text/javascript" src="../Controller/Validation/Validation.js"></script> -->
     <title>Login</title>
 </head>
+
 <body>
-        <?php
-        session_start();
-        if(!isset($_SESSION['current_user'])) { ?>
+
     <div class="main">
         <div class="wrapper">
             <div class="left">
@@ -32,7 +31,7 @@
             </div>
             <div class="right">
                 <div class="sign-wrapper">
-                        <h1 class="sign__heading">Xin chào!</h1>
+                    <h1 class="sign__heading">Xin chào!</h1>
                     <div class="sign">
                         <div class="sign__form">
                             <form action="LoginView.php" method="POST" autocomplete="off" class="sign__form-content" name="loginform" id="loginform">
@@ -52,12 +51,7 @@
             </div>
         </div>
     </div>
-    <?php
-        } else {
-    $currentUser = $_SESSION['current_user'];
-    ?>
-        <p>Xin chao <?php echo $currentUser['username'] ?></p>
-        <a href="LogoutView.php">Đăng xuất</a>
-    <?php } ?>
+
 </body>
+
 </html>
