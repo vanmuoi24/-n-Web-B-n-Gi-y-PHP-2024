@@ -118,7 +118,7 @@ a{
 .sign-input{
     display: block;
     border-radius: 4px;
-    margin-bottom: 12px;
+    margin-bottom: 70px;
     min-width: 345px;
 }
 .sign-submit{
@@ -185,4 +185,13 @@ label.error {
     color: red;
     font-size: 13px;
 }
+.error--message{
+    margin-top: -70px;
+    display: block;
+    color: red;
+    font-size: 14px;
+    padding-bottom: 4px;
+    min-height: 25px;
+}
+
 

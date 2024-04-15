@@ -1,16 +1,16 @@
 <?php   
 require_once '../Modal/LoginModal.php';
 
-    class DangNhapController
+    class LoginController
     {
-        private $DangNhapModal;
+        private $LoginModal;
         public function __construct($conn)
         {
-            $this->DangNhapModal = new LoginModal($conn);
+            $this->LoginModal = new LoginModal($conn);
         }
-        public function DangNhap()
+        public function Login($data)
         {
-            $login = $this->DangNhapModal->Login();
+            $login = $this->LoginModal->Login($data);
             return json_encode($login);
         }
     }
