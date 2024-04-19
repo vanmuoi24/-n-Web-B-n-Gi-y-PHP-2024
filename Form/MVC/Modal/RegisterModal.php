@@ -1,4 +1,5 @@
 <?php
+
 class RegisterModal
 {
     private $conn;
@@ -14,17 +15,12 @@ class RegisterModal
         $email = $data["emailValue"];
         $diachi = $data["addressValue"];
         $tendn = $data["usernameValue"];
-        $matkhau = $data["passwordValue"];
         $xacnhanmk = $data["confirmPasswordValue"];
-
-        if($xacnhanmk !== $matkhau)
-            return "Sai mật khẩu";
-        $hoten = explode(" ",$hoten);
+        $hoten = explode(" ", $hoten);
         $ho = $hoten[0];
         $ten = "";
-        for($i = 1; $i < count($hoten); $i++)
-            $ten.= $hoten[$i] . " ";
-        
+        for ($i = 1; $i < count($hoten); $i++)
+            $ten .= $hoten[$i] . " ";
         $sql_khachhang = "INSERT INTO khachhang (MaKH,Ho,Ten,DiaChi,Email) VALUES (?,?,?,?,?)  ";
         $stmt = $this->conn->prepare($sql_khachhang);
         $stmt->bind_param('sssss', $tendn, $ho, $ten, $diachi, $email);
@@ -68,4 +64,3 @@ class RegisterModal
         }
     }
 }
-?>
