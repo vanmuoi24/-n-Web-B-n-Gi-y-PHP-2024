@@ -151,7 +151,7 @@ function displaylist(data) {
   let donhang = data.hoadon.length;
   let soluong = 0;
   let doanhthu = 0;
-  console.log(data);
+
   data.chitiet.forEach((chitiet) => {
     soluong += parseFloat(chitiet.SoLuong);
     doanhthu += parseInt(chitiet.SoLuong) * parseInt(chitiet.GiaBan);

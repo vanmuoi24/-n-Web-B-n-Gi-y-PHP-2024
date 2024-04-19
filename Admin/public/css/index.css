@@ -654,8 +654,14 @@ select {
 .box1 {
   background-color: white;
   border-radius: 5px;
-
+  display: flex;
+  justify-content: space-between;
   border: 1px solid #f3f3f7;
+}
+.box1 select {
+  width: 60%;
+  padding: 5px 5px 5px 5px;
+  margin-top: 5px;
 }
 .box2 {
   border-radius: 5px;
@@ -984,7 +990,7 @@ button:hover {
   color: white;
 }
 
-.bang-thong-ke table {
+.table_product table {
   width: 100%;
 }
 
@@ -998,18 +1004,18 @@ button:hover {
   background-color: #007bff;
   color: white;
 }
-.bang-thong-ke {
+.wrapper_thongke .table_product {
   max-height: 300px; /* Độ cao tối đa của bảng */
   overflow-y: auto;
   margin-top: 30px;
   /* Tạo thanh cuộn dọc khi cần thiết */
 }
-.bang-thong-ke table {
+.wrapper_thongke .table_product table {
   width: 100%;
   border-collapse: collapse;
 }
-.bang-thong-ke th,
-.bang-thong-ke td {
+.table_product th,
+.table_product td {
   border: 1px solid #dddddd;
   padding: 8px;
   text-align: left;

@@ -39,7 +39,8 @@ function handleOrder() {
       <div class="oder_title">Chi Tiết Đơn Hàng</div>
       <div class="item_order">
         <div class="order_box">
-          <div class="box1"></div>
+          <div class="box1">
+          </div>
           <div class="box2">
             <div class="box_item1"></div>
             <div class="box_item2">
@@ -59,28 +60,11 @@ function handleOrder() {
         <div class="order_box1">
           <div class="Pay-ment"></div>
           <div class="pay_tbody">
-            <div class="number_pay">
-              <p>Tạm Tính</p>
-              <span>100000</span>
-            </div>
-            <div class="number_pay">
-              <p>Phí Vận Chuyển</p>
-              <span>100000</span>
-            </div>
-            <div class="number_pay">
-              <p>Khuyến Mãi</p>
-              <span>100000</span>
-            </div>
-            <hr>
-            <div class="number_pay">
-              <p style="color: black; font-weight: 700; font-size: 1rem">Cần Thanh Toán</p>
-              <span style="color: red; font-weight: 700; font-size: 1.2rem">100.000.000</span>
-            </div>
+
           </div>
           <div class="btn-handle">
-            <button>Ghi Chú</button>
-            <button>Sửa Đơn</button>
-            <button>Hủy Đơn</button>
+         
+            
           </div>
           <div class="btn_out">
             <button onclick="handleout()">Đóng</button>
@@ -182,7 +166,6 @@ function getdatareciep() {
 }
 
 function handleviewcthd(id) {
-  console.log(id);
   const Order_Details = document.getElementsByClassName("Order_Details")[0];
   const voucher_table = document.getElementsByClassName("voucher_table")[0];
   voucher_table.style.display = "none";
@@ -239,10 +222,16 @@ function handleviewcthd(id) {
         `;
 
       let orderId = `
-        <p>Mã Đơn Hàng : ${dataall.mahd.MaHD}</p>
-        <p>Ngày Đặt : ${dataall.mahd.NgayBan}
-            |
-</p>
+       <div  style="width:50%"> <p>Mã Đơn Hàng : ${dataall.mahd.MaHD}</p>
+       <p>Ngày Đặt : ${dataall.mahd.NgayBan}
+           |
+       </p></div>
+       <div style="width:50%"><span>Trạng Thái : </span>
+       <select>
+       <option>Đã Liên Lạc</option>
+       <option>Đã Giao</option>
+
+       </select></div>
         `;
 
       let pay_total = `
@@ -260,10 +249,46 @@ function handleviewcthd(id) {
             </div>
         
         `;
+
+      let total = `
+        <div class="number_pay">
+        <p>Tạm Tính</p>
+        <span>${formatCurrency(tongtien)}</span>
+      </div>
+      <div class="number_pay">
+        <p>Khuyến Mãi</p>
+        <span>100000</span>
+      </div>
+      <hr>
+      <div class="number_pay">
+        <p style="color: black; font-weight: 700; font-size: 1rem">Cần Thanh Toán</p>
+        <span style="color: red; font-weight: 700; font-size: 1.2rem">${formatCurrency(
+          tongtien
+        )}</span>
+      </div>
+      
+        `;
+
+      document.getElementsByClassName("pay_tbody")[0].innerHTML = total;
       Pay_ment.innerHTML = pay_total;
       box1.innerHTML = orderId;
 
       box_item1.innerHTML = databox;
+      let btn_online = document.getElementsByClassName("btn-online");
+      for (let i = 0; i < btn_online.length; i++) {
+        let btn_text = btn_online[i].textContent.trim();
+
+        if (btn_text === "Chưa Xử Lí") {
+          btn_online[i].style.backgroundColor = "red";
+          btn_online[i].style.color = "white";
+        }
+        if (btn_text === "Đã Xử Lí") {
+          btn_online[i].style.backgroundColor = "green";
+          btn_online[i].style.color = "white";
+        }
+
+        console.log(btn_text);
+      }
     }
   };
 
