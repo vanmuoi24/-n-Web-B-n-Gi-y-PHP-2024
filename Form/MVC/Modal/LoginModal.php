@@ -15,11 +15,12 @@
             if ($result->num_rows > 0) {
                 echo json_encode(array(
                     "status"=> true,
+                    "message" => "Đăng nhập thành công",
                 ));
             } else {
                     echo json_encode(array(
                     "status"=> false,
-                    "error" => "Sai thông tin đăng nhập",
+                    "message" => "Sai thông tin đăng nhập",
                     ));
                 }
         }

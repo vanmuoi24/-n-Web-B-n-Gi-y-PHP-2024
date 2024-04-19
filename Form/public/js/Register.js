@@ -37,7 +37,7 @@ document.getElementById("signup").addEventListener("click", () => {
 
 
 function Validate_Register(){
-    pattern_email = /^[^\s][^0-9-_!@#$%^&*\(\)][^\s]$/i;
+    pattern_email = /^[a-z]+[a-z-_\.0-9]{2,}@[a-z]+[a-z-_\.0-9]{2,}\.[a-z]{2,}$/i;
     pattern_password = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_-])[0-9a-zA-Z!@#$%^&*()_-].{8,16}$/i;
     pattern_phone = /^0[1-9]{1}\d{8}$/i;
     pattern_username = /^[KH]+\d{5}$/i;

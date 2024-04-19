@@ -176,6 +176,9 @@ a{
 .sign__bottom{
     width: 100%;
 }
+.sign-confirmpassword{
+    margin-top: 10px;
+}
 
 /* VALIDATION */
 label.error {
