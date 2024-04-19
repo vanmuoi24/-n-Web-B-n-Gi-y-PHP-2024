@@ -1,5 +1,6 @@
 document.getElementById("signup").addEventListener("click", () => {
-  if (!Validate_Register()) return;
+  // if (!Validate_Register())
+  //   return;
   var fullnameValue = document.getElementById("fullname").value;
   var emailValue = document.getElementById("email").value;
   var phoneValue = document.getElementById("phone").value;
@@ -55,13 +56,13 @@ function Validate_Register(){
     fullname_error.textContent = "Vui lòng nhập họ tên";
     isValid = false;
   }
-  if(email === "") {
-      email_error.textContent = "Vui lòng nhập email";
-      isValid = false;
-  } else if(!(email.match(pattern_email))) {
-      email_error.textContent = "Email không hợp lệ";
-      isValid = false;
-  }
+  // if(email === "") {
+  //     email_error.textContent = "Vui lòng nhập email";
+  //     isValid = false;
+  // } else if(!email.match(pattern_email)) {
+  //     email_error.textContent = "Email không hợp lệ";
+  //     isValid = false;
+  // }
   if (phone === "") {
     phone_error.textContent = "Vui lòng nhập số điện thoại";
     isValid = false;

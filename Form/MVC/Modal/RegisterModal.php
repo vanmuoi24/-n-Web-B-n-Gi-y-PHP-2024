@@ -1,5 +1,4 @@
 <?php
-
 class RegisterModal
 {
     private $conn;
@@ -21,9 +20,9 @@ class RegisterModal
         $ten = "";
         for ($i = 1; $i < count($hoten); $i++)
             $ten .= $hoten[$i] . " ";
-        $sql_khachhang = "INSERT INTO khachhang (MaKH,Ho,Ten,DiaChi,Email) VALUES (?,?,?,?,?)  ";
+        $sql_khachhang = "INSERT INTO khachhang (MaKH,Ho,Ten,DiaChi,Email,SDT) VALUES (?,?,?,?,?,?)  ";
         $stmt = $this->conn->prepare($sql_khachhang);
-        $stmt->bind_param('sssss', $tendn, $ho, $ten, $diachi, $email);
+        $stmt->bind_param('ssssss', $tendn, $ho, $ten, $diachi, $email,$sdt);
         $sql_check_tendn = "SELECT COUNT(*) AS total FROM taikhoan WHERE TenDN = ?";
         $stmt_check_tendn = $this->conn->prepare($sql_check_tendn);
         $stmt_check_tendn->bind_param('s', $tendn);
@@ -40,9 +39,9 @@ class RegisterModal
             return json_encode($response);
         }
 
-        $sql_khachhang = "INSERT INTO khachhang (MaKH, Ho, Ten, DiaChi, Email) VALUES (?, ?, ?, ?, ?)";
+        $sql_khachhang = "INSERT INTO khachhang (MaKH, Ho, Ten, DiaChi, Email, SDT) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt_khachhang = $this->conn->prepare($sql_khachhang);
-        $stmt_khachhang->bind_param('sssss', $tendn, $ho, $ten, $diachi, $email);
+        $stmt_khachhang->bind_param('ssssss', $tendn, $ho, $ten, $diachi, $email, $sdt);
         $stmt_khachhang->execute();
 
         if ($stmt_khachhang->error) {
@@ -64,3 +63,4 @@ class RegisterModal
         }
     }
 }
+?>

@@ -10,9 +10,10 @@
         {
             $tendn = $data["usernameValue"];
             $matkhau = $data["passwordValue"];
-            $sql_khachhang = "SELECT TenDN,MatKhau FROM taikhoan WHERE TenDN = '".$tendn."' AND MatKhau = '".$matkhau."'  ";
-            $result = $this->conn->query($sql_khachhang);
-            if ($result->num_rows > 0) {
+
+            $sql = "SELECT TenDN,MatKhau FROM taikhoan WHERE TenDN = '$tendn' AND MatKhau = '$matkhau' ";
+            $result = $this->conn->query($sql);
+            if ($result) {
                 echo json_encode(array(
                     "status"=> true,
                     "message" => "Đăng nhập thành công",
