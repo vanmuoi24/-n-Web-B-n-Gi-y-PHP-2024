@@ -43,6 +43,7 @@
                 $data = json_decode(file_get_contents("php://input"), true);
                 $response = $registerController->Register($data);
                 echo json_encode($response);
+                header("location: ../View/LoginView.php");
             } else {
                 echo json_encode("Lỗi: Không nhận được dữ liệu từ client.");
             }
@@ -52,6 +53,7 @@
                 $data = json_decode(file_get_contents("php://input"), true);
                 $response = $repasswordController->Repassword($data);
                 echo json_encode($response);
+                header("location: ../View/LoginView.php");
             } else {
                 echo json_encode("Lỗi: Không nhận được dữ liệu từ client.");
             }

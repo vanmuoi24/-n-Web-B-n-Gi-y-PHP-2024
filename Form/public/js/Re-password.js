@@ -104,9 +104,10 @@ document.getElementById("otpconfirm").addEventListener("click", () =>{
     var reconfirmPasswordTo = document.getElementById('reconfirmpassword').value;
     var emailTo = document.getElementById('email').value;
 
-    let data = {
+    let data_otp = {
         otpTo: Math.floor(Math.random() * (999999 - 100000 + 1) + 100000),
         emailTo: emailTo,
+        phoneTo: phoneTo,
     };
     var xhr = new XMLHttpRequest();
     xhr.open(
@@ -125,7 +126,7 @@ document.getElementById("otpconfirm").addEventListener("click", () =>{
                 alert("Gửi thất bại");
         }
     }
-    xhr.send(JSON.stringify(data));
+    xhr.send(JSON.stringify(data_otp));
 })
 function Validate_OTP(){
     pattern_phone = /^0[1-9]{1}\d{8}$/i;
