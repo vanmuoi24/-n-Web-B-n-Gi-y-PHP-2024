@@ -555,6 +555,8 @@ function handlesavepn() {
   let table = document.querySelectorAll(".voucher_table table")[0];
   table.style.opacity = "1";
   table.style.pointerEvents = "auto";
+  handlegetList();
+
   cityopmove();
 }
 

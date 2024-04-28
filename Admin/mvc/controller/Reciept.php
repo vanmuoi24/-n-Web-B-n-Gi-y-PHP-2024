@@ -25,4 +25,9 @@ class DonHangController
         $searchday = $this->DonHangModel->searchday($data);
         return json_encode($searchday);
     }
+    public function capNhatTrangThaiDonHang($data)
+    {
+        $data = $this->DonHangModel->capNhatTrangThaiDonHang($data);
+        return json_encode($data);
+    }
 }

@@ -133,7 +133,15 @@ switch ($type) {
             echo json_encode("Lỗi: Không nhận được dữ liệu từ client.");
         }
         break;
-
+    case 'capnhattrangthai':
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $data = json_decode(file_get_contents("php://input"), true);
+            $response = $hoadonController->capNhatTrangThaiDonHang($data);
+            echo json_encode($response);
+        } else {
+            echo json_encode("Lỗi: Không nhận được dữ liệu từ client.");
+        }
+        break;
     default:
         echo json_encode(array('error' => 'Yêu cầu không hợp lệ'));
 }

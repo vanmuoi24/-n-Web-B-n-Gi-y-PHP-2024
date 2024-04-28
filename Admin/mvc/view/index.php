@@ -20,7 +20,7 @@
     <div class="container">
         <div class="header">
             <div class="img">
-                <img src="../src/img/logoadmin.jpg" alt="logo" />
+                <img src="../../src/img/logoadmin.jpg" alt="logo" />
                 <span>Admin</span>
             </div>
             <div class="search">
@@ -38,7 +38,7 @@
               align-items: center;
               gap: 10px;
             ">
-                    <img src="../src/img/Ellipse 4.png" alt="" /> <span>muoi</span>
+                    <img src="../src/img/Ellipse 4.png" alt="" /> <span>Admin</span>
                     <div>
                         <i class="fa-solid fa-angle-down"></i>
                     </div>
@@ -101,18 +101,16 @@
 
         </div>
 
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="../../"></script>
-
-    <script src="../../public/js/Product.js"></script>
-    <script src="../../public/js/Promotion.js"></script>
-    <script src="../../public/js/Receipt.js"></script>
-    <script src="../../public/js/Entry.js"></script>
-    <script src="../../public/js/Manage_permissions.js"></script>
-    <script src="../../public/js/Statistical.js"></script>
-    <script src="../../public/js/Home.js"></script>
-    <script src="../../public/js/Client.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="../../"></script>
+        <script src="../../public/js/Product.js"></script>
+        <script src="../../public/js/Promotion.js"></script>
+        <script src="../../public/js/Receipt.js"></script>
+        <script src="../../public/js/Entry.js"></script>
+        <script src="../../public/js/Manage_permissions.js"></script>
+        <script src="../../public/js/Statistical.js"></script>
+        <script src="../../public/js/Home.js"></script>
+        <script src="../../public/js/Client.js"></script>
 
 
 </body>

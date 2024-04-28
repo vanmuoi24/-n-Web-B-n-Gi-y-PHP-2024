@@ -54,13 +54,12 @@ class RegisterModal
         $stmt_taikhoan->bind_param('ss', $tendn, $xacnhanmk);
         $stmt_taikhoan->execute();
 
-        if ($stmt_taikhoan->error) {
-            $response = array(
-                'EM' => "Tạo Tài Khoàn Thành Công",
-                'EC' => "1",
-                'DT' => $data
-            );
-            return json_encode($response);
-        }
+
+        $response = array(
+            'EM' => "Tạo Tài Khoàn Thành Công",
+            'EC' => "1",
+            'DT' => $data
+        );
+        return json_encode($response);
     }
 }

@@ -10,11 +10,11 @@ class ThongKeModel
 
     public function DsThongKe()
     {
-        $sql = "SELECT * FROM hoadon   WHERE trangthai='Đã Xử Lí' ";
+        $sql = "SELECT * FROM hoadon   WHERE trangthai='3' ";
         $sql1 = " SELECT * FROM chitiethoadon 
         INNER JOIN giay s ON chitiethoadon.MaGiay = s.MaGiay 
         INNER JOIN hoadon hd ON chitiethoadon.MaHD = hd.MaHD
-        where hd.trangthai='Đã Xử Lí'
+        where hd.trangthai='3'
         ";
         $result = $this->conn->query($sql);
         $result1 = $this->conn->query($sql1);

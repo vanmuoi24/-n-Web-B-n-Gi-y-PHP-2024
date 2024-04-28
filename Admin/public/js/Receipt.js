@@ -66,9 +66,7 @@ function handleOrder() {
          
             
           </div>
-          <div class="btn_out">
-            <button onclick="handleout()">Đóng</button>
-          </div>
+          
         </div>
       </div>
     </div>
@@ -104,15 +102,14 @@ function dispaylist(data) {
    ${item.TongTien}
       </td>
       <td>
-        <button class="btn-online">${item.trangthai}</button>
+        <button class="btn-online">${item.tentrangthai}</button>
       </td>
       <td
       >
       <i class="fa-solid fa-eye" style="color: 0078ff" onclick="handleviewcthd('${
         item.MaHD
       }')"></i>
-        <i class="fa-solid fa-pen" style="color: rgb(37, 186, 216)"></i>
-        <i class="fa-solid fa-trash-can" style="color: red"></i>
+       
       </td>
     </tr>
       `;
@@ -222,17 +219,22 @@ function handleviewcthd(id) {
         `;
 
       let orderId = `
-       <div  style="width:50%"> <p>Mã Đơn Hàng : ${dataall.mahd.MaHD}</p>
-       <p>Ngày Đặt : ${dataall.mahd.NgayBan}
-           |
-       </p></div>
-       <div style="width:50%"><span>Trạng Thái : </span>
-       <select>
-       <option>Đã Liên Lạc</option>
-       <option>Đã Giao</option>
+        <div style="width:50%">
+            <p >Mã Đơn Hàng: ${dataall.mahd.MaHD}</p>
+            <p>Ngày Đặt: ${dataall.mahd.NgayBan} | </p>
+        </div>
+        <div style="width:50%">
+            <span>Trạng Thái:</span>
+            <select id="trangThaiSelect">`;
 
-       </select></div>
-        `;
+      dataall.trangtahi.forEach((item, index) => {
+        orderId += `<option value="${item.id}">${item.tentrangthai}</option>`;
+      });
+
+      orderId += `
+            </select>
+        </div>
+    `;
 
       let pay_total = `
         <div class="pay_item">
@@ -266,7 +268,10 @@ function handleviewcthd(id) {
           tongtien
         )}</span>
       </div>
-      
+      <div class="btn_out">
+            <button onclick="handleSaveHD('${dataall.mahd.MaHD}')">Lưu</button>
+            <button onclick="handleout()">Đóng</button>
+          </div>
         `;
 
       document.getElementsByClassName("pay_tbody")[0].innerHTML = total;
@@ -365,7 +370,37 @@ function handlebtnxuli() {
       btn_online[i].style.backgroundColor = "green";
       btn_online[i].style.color = "white";
     }
-
-    console.log(btn_text);
   }
+}
+function handleSaveHD(id) {
+  let xhr = new XMLHttpRequest(); // Khởi tạo đối tượng XMLHttpRequest
+  let selectValue = document.getElementById("trangThaiSelect").value; // Lấy giá trị được chọn từ dropdown
+  let data = {
+    select: selectValue,
+    mahd: id,
+  };
+
+  xhr.open("POST", "../../mvc/API/index.php?type=capnhattrangthai", true);
+  xhr.setRequestHeader("Content-type", "application/json");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4) {
+      if (xhr.status == 200) {
+        var response = JSON.parse(xhr.responseText);
+      } else {
+        console.error("Lỗi khi gửi yêu cầu: " + xhr.status);
+      }
+    }
+  };
+
+  xhr.send(JSON.stringify(data));
+  const Order_Details = document.getElementsByClassName("Order_Details")[0];
+  const voucher_table = document.getElementsByClassName("voucher_table")[0];
+  console.log(Order_Details);
+  voucher_table.style.display = "block";
+  Order_Details.style.display = "none";
+  let a = document.getElementsByClassName("client_status")[0];
+  a.style.opacity = "1";
+  a.style.pointerEvents = "auto";
+  cityopmove();
+  getdatareciep();
 }

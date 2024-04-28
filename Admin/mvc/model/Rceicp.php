@@ -10,9 +10,11 @@ class HoadonModel
 
     public function layDanhSachHoaDon()
     {
-        $sql = "SELECT MaHD, MaNV, MaKM, h.MaKH, NgayBan, TongTien, k.* ,h.trangthai
+        $sql = "SELECT h.MaHD, h.MaNV, h.MaKM, h.MaKH, h.NgayBan, h.TongTien, k.*, t.tentrangthai 
                 FROM hoadon h 
-                INNER JOIN khachhang k ON h.MaKH = k.MaKH";
+                INNER JOIN khachhang k ON h.MaKH = k.MaKH 
+                INNER JOIN trangthaidonhang t ON h.trangthai = t.id";
+
         $result = $this->conn->query($sql);
 
         $data = array();
@@ -35,8 +37,8 @@ class HoadonModel
                     'MaKH' => $khachhang,
                     'NgayBan' => $row['NgayBan'],
                     'TongTien' => $row['TongTien'],
-                    'trangthai' => $row['trangthai']
 
+                    'tentrangthai' => $row['tentrangthai']
                 );
                 $data[] = $hoadon;
             }
@@ -55,7 +57,11 @@ class HoadonModel
     
         
         WHERE hoadon.MaHD = '$id'";
+
+
+        $sql1 = "SELECT * FROM trangthaidonhang";
         $result = $this->conn->query($sql);
+        $result1 = $this->conn->query($sql1);
         $data = array();
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -89,6 +95,16 @@ class HoadonModel
                 $data['chitiethoadon'] = $chitietHD;
                 $data['mahd'] = $mahd;
             }
+            if ($result1->num_rows > 0) {
+                while ($row = $result1->fetch_assoc()) {
+                    $itemtrangthai[] = array(
+                        'id' => $row['id'],
+                        'tentrangthai' => $row['tentrangthai']
+
+                    );
+                    $data["trangtahi"] = $itemtrangthai;
+                }
+            }
         }
         return $data;
     }
@@ -99,6 +115,7 @@ class HoadonModel
         $sql = "SELECT * , khachhang.*
         FROM hoadon 
         INNER JOIN khachhang ON hoadon.MaKH = khachhang.MaKH
+        INNER JOIN trangthaidonhang t ON hoadon.trangthai = t.id
         WHERE hoadon.NgayBan >= '$dayfrist' AND hoadon.NgayBan <= ' $daylast' ";
         $result = $this->conn->query($sql);
         $data = array();
@@ -120,7 +137,7 @@ class HoadonModel
                     ),
                     'NgayBan' => $row['NgayBan'],
                     'TongTien' => $row['TongTien'],
-                    'trangthai' => $row['trangthai']
+                    'tentrangthai' => $row['tentrangthai']
 
                 );
 
@@ -128,5 +145,18 @@ class HoadonModel
             }
         }
         return $data;
+    }
+    public function capNhatTrangThaiDonHang($data)
+    {
+        $trangThaiMoi = $data['select'];
+        $maHD = $data['mahd'];
+
+        $sql = "UPDATE hoadon SET trangthai = '$trangThaiMoi' WHERE MaHD = '$maHD'";
+
+        if ($this->conn->query($sql) === TRUE) {
+            return true; // Cập nhật thành công
+        } else {
+            return false; // Lỗi khi cập nhật
+        }
     }
 }
