@@ -16,18 +16,19 @@ document.getElementById("login").addEventListener("click", () => {
       var response = JSON.parse(xhr.responseText);
       let res = JSON.parse(JSON.parse(response));
       console.log(res);
-
       if (res.EC == "1") {
         sessionStorage.setItem("username", JSON.stringify(res.DT));
         if (res.DT.nhomquyen == "1") {
           location.href = "../../../Admin/mvc/view/index.php";
+        }
+        if (res.DT.nhomquyen == "24") {
+          location.href = "../../../Web_Giay_PHP/mvc/view/index.php";
         }
       } else {
       }
     }
   };
 
-  console.log(data);
   xhr.send(JSON.stringify(data));
 });
 

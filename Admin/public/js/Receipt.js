@@ -195,13 +195,13 @@ function handleviewcthd(id) {
             </tr>`;
       let tongtien = 0;
       dataall.chitiethoadon.map((item, index) => {
-        tongtien += item.so_soluong * item.gia_ban;
+        tongtien += item.SoLuong * item.gia_ban;
         tablebox += `
                 <tr>
                     <td>${item.TenGiay}</td>
-                    <td>${item.so_soluong}</td>
+                    <td>${item.SoLuong}</td>
                     <td>${formatCurrency(item.gia_ban)}</td>
-                    <td>${formatCurrency(item.so_soluong * item.gia_ban)}</td>
+                    <td>${formatCurrency(item.SoLuong * item.gia_ban)}</td>
                 </tr>
             `;
       });

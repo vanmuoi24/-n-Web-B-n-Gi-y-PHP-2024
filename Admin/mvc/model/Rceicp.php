@@ -49,7 +49,7 @@ class HoadonModel
     // Trong HoadonModel
     public function chitiethoadon($id)
     {
-        $sql = "SELECT chitiethoadon.SoLuong, chitiethoadon.GiaBan, hoadon.MaHD, hoadon.MaNV, hoadon.MaKM, hoadon.MaKH, hoadon.NgayBan, hoadon.TongTien, khachhang.* , giay.Tengia,hoadon.trangthai
+        $sql = "SELECT chitiethoadon.SoLuongBan, chitiethoadon.GiaBan, hoadon.MaHD, hoadon.MaNV, hoadon.MaKM, hoadon.MaKH, hoadon.NgayBan, hoadon.TongTien, khachhang.* , giay.Tengia,hoadon.trangthai
         FROM hoadon 
         INNER JOIN chitiethoadon ON hoadon.MaHD = chitiethoadon.MaHD
         INNER JOIN khachhang ON hoadon.MaKH = khachhang.MaKH
@@ -66,10 +66,9 @@ class HoadonModel
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $chitietHD[] = array(
-
-                    'so_soluong' => $row['SoLuong'],
                     'gia_ban' => $row['GiaBan'],
-                    'TenGiay' => $row['Tengia']
+                    'TenGiay' => $row['Tengia'],
+                    'SoLuong' => $row['SoLuongBan']
 
                 );
 

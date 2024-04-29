@@ -15,7 +15,6 @@ class GiayModel
                 INNER JOIN loai ON giay.MaLoai = loai.MaLoai
                 INNER JOIN mausac ON giay.MaMau = mausac.MaMau
                 INNER JOIN xuatxu ON giay.MaXX = xuatxu.MaXX
-                INNER JOIN size ON giay.MaSize = size.MaSize
                 INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu";
         $result = $this->conn->query($sql);
         $data = array();
@@ -25,10 +24,7 @@ class GiayModel
                     'MaXX' => $row['MaXX'],
                     'TenNuoc' => $row['TenNuoc'],
                 );
-                $size = array(
-                    'MaSize' => $row['MaSize'],
-                    'KichThuoc' => $row['KichThuoc'],
-                );
+
                 $thuonghieu = array(
                     'MaThuongHieu' => $row['MaThuongHieu'],
                     'TenThuongHieu' => $row['TenThuongHieu'],
@@ -40,7 +36,7 @@ class GiayModel
                 $giay[] = array(
                     'MaGiay' => $row['MaGiay'],
                     'Tengia' => $row['Tengia'],
-                    'SoLuong' => $row['SoLuong'],
+                    
                     'DonGia' => $row['DonGia'],
                     'DoiTuongSuDung' => $row['DonGia'],
                     'ChatLieu' => $row['DonGia'],
@@ -48,7 +44,7 @@ class GiayModel
                     'XuatXu' => $xuatxu,
                     'ThuongHieu' => $thuonghieu,
                     'Loai' => $loai,
-                    'Size' => $size,
+
                 );
                 $data = $giay;
             }
@@ -92,7 +88,7 @@ class GiayModel
         INNER JOIN loai ON giay.MaLoai = loai.MaLoai
         INNER JOIN mausac ON giay.MaMau = mausac.MaMau
         INNER JOIN xuatxu ON giay.MaXX = xuatxu.MaXX
-        INNER JOIN size ON giay.MaSize = size.MaSize
+
         INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu
         ORDER BY Tengia $sortOrder
         LIMIT $offset, $limit";
@@ -106,10 +102,7 @@ class GiayModel
                     'MaXX' => $row['MaXX'],
                     'TenNuoc' => $row['TenNuoc'],
                 );
-                $size = array(
-                    'MaSize' => $row['MaSize'],
-                    'KichThuoc' => $row['KichThuoc'],
-                );
+
                 $thuonghieu = array(
                     'MaThuongHieu' => $row['MaThuongHieu'],
                     'TenThuongHieu' => $row['TenThuongHieu'],
@@ -121,7 +114,7 @@ class GiayModel
                 $giay = array(
                     'MaGiay' => $row['MaGiay'],
                     'Tengia' => $row['Tengia'],
-                    'SoLuong' => $row['SoLuong'],
+                    
                     'DonGia' => $row['DonGia'],
                     'DoiTuongSuDung' => $row['DoiTuongSuDung'],
                     'ChatLieu' => $row['ChatLieu'],
@@ -129,7 +122,7 @@ class GiayModel
                     'XuatXu' => $xuatxu,
                     'ThuongHieu' => $thuonghieu,
                     'Loai' => $loai,
-                    'Size' => $size,
+
                 );
                 $data[] = $giay; // Thêm vào mảng $data
             }

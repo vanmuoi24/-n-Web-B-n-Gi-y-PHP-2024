@@ -1,5 +1,5 @@
 <?php
-<<<<<<< HEAD
+
 class LoginModal
 {
     private $conn;
@@ -10,21 +10,27 @@ class LoginModal
 
     public function Login($data)
     {
-
-
         $tendn = $data["usernameValue"];
         $matkhau = $data["passwordValue"];
         $hashedPassword = password_hash($matkhau, PASSWORD_DEFAULT);
-        $sql_khachhang = "SELECT TenDN,MatKhau,nhomquyen FROM taikhoan WHERE TenDN = '" . $tendn . "' AND MatKhau = '" . $matkhau . "'  ";
+        $sql_khachhang = "SELECT * FROM taikhoan 
+        INNER JOIN khachhang ON khachhang.MaKH = taikhoan.TenDN
+        WHERE TenDN = '" . $tendn . "' AND MatKhau = '" . $matkhau . "'  ";
+
         $result = $this->conn->query($sql_khachhang);
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $nhomquyen = $row['nhomquyen'];
+            $ho = $row['Ho'];
+            $ten = $row['Ten'];
             $response = array(
                 'EM' => "Đăng Nhập Thành Công",
                 'EC' => "1",
                 'DT' => array(
+
                     "tendn" => $tendn,
+                    "tenkh" => $ten,
+                    'hokh' => $ho,
                     "MatKhau" =>   $hashedPassword,
                     'nhomquyen' => $nhomquyen
 
@@ -38,33 +44,6 @@ class LoginModal
                 'DT' => ""
             );
             return json_encode($response);
-=======
-    class LoginModal{
-        private $conn;
-        public function __construct($conn)
-        {
-            $this->conn = $conn;
-        }
-    
-        public function Login($data)
-        {
-            $tendn = $data["usernameValue"];
-            $matkhau = $data["passwordValue"];
-
-            $sql = "SELECT TenDN,MatKhau FROM taikhoan WHERE TenDN = '$tendn' AND MatKhau = '$matkhau' ";
-            $result = $this->conn->query($sql);
-            if ($result) {
-                echo json_encode(array(
-                    "status"=> true,
-                    "message" => "Đăng nhập thành công",
-                ));
-            } else {
-                    echo json_encode(array(
-                    "status"=> false,
-                    "message" => "Sai thông tin đăng nhập",
-                    ));
-                }
->>>>>>> 648b9d0cfd462d477692e7223b5c3870f4263cd3
         }
     }
 }

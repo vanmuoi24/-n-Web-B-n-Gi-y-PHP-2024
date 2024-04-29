@@ -53,11 +53,9 @@ class Entry_SlipModel
          INNER JOIN loai ON giay.MaLoai = loai.MaLoai
          INNER JOIN mausac ON giay.MaMau = mausac.MaMau
          INNER JOIN xuatxu ON giay.MaXX = xuatxu.MaXX
-         INNER JOIN size ON giay.MaSize = size.MaSize
          INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu WHERE giay.MaGiay = '$id'";
         $sql5 = "SELECT *FROM nhacungcap";
         $result = $this->conn->query($sql);
-
         $result5 = $this->conn->query($sql5);
 
         $data = array();
@@ -67,10 +65,7 @@ class Entry_SlipModel
                     'MaXX' => $row['MaXX'],
                     'TenNuoc' => $row['TenNuoc'],
                 );
-                $size = array(
-                    'MaSize' => $row['MaSize'],
-                    'KichThuoc' => $row['KichThuoc'],
-                );
+
                 $thuonghieu = array(
                     'MaThuongHieu' => $row['MaThuongHieu'],
                     'TenThuongHieu' => $row['TenThuongHieu'],
@@ -88,7 +83,6 @@ class Entry_SlipModel
                 $giay = array(
                     'MaGiay' => $row['MaGiay'],
                     'Tengia' => $row['Tengia'],
-                    'SoLuong' => $row['SoLuong'],
                     'DonGia' => $row['DonGia'],
                     'DoiTuongSuDung' => $row['DoiTuongSuDung'],
                     'ChatLieu' => $row['ChatLieu'],
@@ -96,7 +90,6 @@ class Entry_SlipModel
                     'XuatXu' => $xuatxu,
                     'ThuongHieu' => $thuonghieu,
                     'Loai' => $loai,
-                    'Size' => $size,
                     'MauSac' => $mausac,
 
 
@@ -114,7 +107,7 @@ class Entry_SlipModel
             while ($row = $result1->fetch_assoc()) {
                 $chitiet = array(
                     'MaPN' => $row['MaPN'],
-                    'SoLuong' => $row['SoLuong'],
+                    'SoLuong' => $row['SoLuongBan'],
                 );
             }
             $data['chitiet'] = $chitiet;
@@ -214,7 +207,7 @@ class Entry_SlipModel
                 $dataitem = array(
                     'MaGiay' => $row['MaGiay'],
                     'MaPN' => $row['MaPN'],
-                    'SoLuong' => $row['SoLuong'],
+                    'SoLuong' => $row['SoLuongBan'],
                     'GiaNhap' => $row['GiaNhap']
                 );
                 $data[] = $dataitem;
@@ -288,10 +281,8 @@ class Entry_SlipModel
             $sql_cap_nhat_tong_tien = "UPDATE phieunhap SET TongTien = '$tong_tien' WHERE MaPN = '$MaPN'";
             $this->conn->query($sql_cap_nhat_tong_tien);
 
-            // Kết thúc giao dịch
-            $this->conn->commit();
 
-            // Trả về kết quả thành công
+            $this->conn->commit();
             $response = array(
                 'EM' => "Thêm mới sản phẩm và chi tiết phiếu nhập thành công",
                 'EC' => "0",
