@@ -150,6 +150,7 @@ function handleReceipt() {
                 <tr>
                     <th>Mã Giày</th>
                     <th>Mã Phiếu Nhập</th>
+                    <th>Size</th>
                     <th>Số Lượng</th>
                     <th>Giá Nhập</th>
                     <th>
@@ -198,7 +199,7 @@ function hanldeAddEntry() {
       var data = JSON.parse(xhr.responseText);
       console.log("check", data);
       let loaiop = document.getElementById("loai");
-      let size = document.getElementById("size");
+      let size1 = document.getElementById("size");
       let thuong_hieu = document.getElementById("thuong_hieu");
       let mausac = document.getElementById("mausac");
       let nhacungcap = document.getElementById("nhacungcap");
@@ -233,7 +234,7 @@ function hanldeAddEntry() {
          `;
       });
       loaiop.innerHTML = option1;
-      size.innerHTML = option2;
+      size1.innerHTML = option2;
       nhacungcap.innerHTML = option5;
       thuong_hieu.innerHTML = option3;
       mausac.innerHTML = option4;
@@ -358,6 +359,7 @@ function handleviewctph(id) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4 && xhr.status == 200) {
       var data = JSON.parse(xhr.responseText);
+      console.log(JSON.parse(data));
       const table_cthd_body = document.querySelector(".table_cthd table tbody");
       let table_ct = "";
       JSON.parse(data).forEach((item) => {
@@ -365,6 +367,7 @@ function handleviewctph(id) {
           <tr>
             <td>${item.MaGiay}</td>
             <td>${item.MaPN}</td>
+            <td>${item.Sizes.KichThuoc}</td>
             <td>${item.SoLuong}</td>
             <td>${formatCurrency(item.GiaNhap)}</td>
           </tr>
@@ -452,7 +455,6 @@ function filterdataproduct(data) {
   document.getElementById("ma_giay").value = data.giay.MaGiay;
   document.getElementById("ten_giay").value = data.giay.Tengia;
   document.getElementById("chat_lieu").value = data.giay.ChatLieu;
-  document.getElementById("so_luong").value = data.giay.SoLuong;
   document.getElementById("gia_nhap").value = data.giay.DonGia;
   document.getElementById("preview").src = data.giay.HinhAnh;
   var loai = document.getElementById("loai");
@@ -460,6 +462,7 @@ function filterdataproduct(data) {
   var size = document.getElementById("size");
   var mausac = document.getElementById("mausac");
   var nhacungcap = document.getElementById("nhacungcap");
+  let size1 = document.getElementById("size");
 
   for (var i = 0; i < selectElement.options.length; i++) {
     if (selectElement.options[i].text === data.giay.ThuongHieu.TenThuongHieu) {
@@ -473,12 +476,7 @@ function filterdataproduct(data) {
       break;
     }
   }
-  for (var i = 0; i < size.options.length; i++) {
-    if (size.options[i].text === data.giay.Size.KichThuoc) {
-      size.options[i].selected = true;
-      break;
-    }
-  }
+
   for (var i = 0; i < mausac.options.length; i++) {
     if (mausac.options[i].text === data.giay.MauSac.TenMau) {
       mausac.options[i].selected = true;
@@ -491,6 +489,25 @@ function filterdataproduct(data) {
       break;
     }
   }
+  let option2 = "";
+
+  data.size.map((item, index) => {
+    option2 += `
+    <option value="${item.MaSz + " " + item.SoLuong}">${item.KichThuoc}</option>
+     `;
+  });
+
+  size1.innerHTML = option2;
+  let value_quality = document.getElementById("so_luong");
+  document.getElementById("size").addEventListener("change", () => {
+    let selectedValue = size1.value;
+    let [value, quantity] = selectedValue.split(" ");
+    value_quality.value = quantity;
+
+    console.log("Giá trị đã chọn:", value);
+    console.log("Số lượng:", quantity);
+  });
+
   lockInputs();
   let lablepn = document.getElementById("lablepn");
 
@@ -510,31 +527,35 @@ function filterdataproduct(data) {
 
 function lockInputs() {
   const inputsAndSelects = document.querySelectorAll(
-    "#loai , #thuong_hieu, #mausac,#ma_giay,#size,#chat_lieu,#ten_giay,#nhacungcap ,#preview ,#chooseFile"
+    "#loai , #thuong_hieu, #mausac,#ma_giay,#chat_lieu,#ten_giay,#nhacungcap ,#preview ,#chooseFile"
   );
   inputsAndSelects.forEach((element) => {
     element.disabled = true;
   });
 }
+
 function handlesavepn() {
   if (!validateForm()) {
     return;
   }
 
   const inputsAndSelects = document.querySelectorAll(
-    "#loai , #thuong_hieu, #mausac, #ma_giay, #size, #chat_lieu, #ten_giay, #ma_pn,#nhacungcap"
+    "#loai , #thuong_hieu, #mausac, #ma_giay, #chat_lieu, #ten_giay, #ma_pn,#nhacungcap"
   );
 
   let so_luong = document.getElementById("so_luong");
   let gia_nhap = document.getElementById("gia_nhap");
   let hinh_anh = document.getElementById("preview");
-
+  let size = document.getElementById("size");
+  let selectedValue = size.value;
+  let [value, quantity] = selectedValue.split(" ");
   let dataMNV = localStorage.getItem("MaNV");
   const datainput = {
     Manv: dataMNV,
     so_luong: parseFloat(so_luong.value),
     gia_nhap: parseFloat(gia_nhap.value),
     hinh_anh: hinh_anh.src,
+    value: value,
   };
   inputsAndSelects.forEach((element) => {
     datainput[element.id] = element.value;
