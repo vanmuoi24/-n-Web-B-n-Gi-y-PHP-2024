@@ -1,8 +1,3 @@
-<?php
-session_start();
-
-$_SESSION['account'] = 'KH45678';
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -74,33 +69,13 @@ $_SESSION['account'] = 'KH45678';
                            </a>
                            <ul class="nbra__list">
                               <!-- check auth -->
-                              <?php if (isset($_SESSION['account']))
-                                 echo
-                                 '
 
-                                    <li class="nbra__item" onclick="loadInfo(' . "'" . $_SESSION["account"] . "'" . ')">
-                                       Thông tin
-                                    </li>
-                                    <li onclick="loadOrderedPage()" class="nbra__item">
-                                       Đơn hàng
-                                    </li>
-                                    <li class="nbra__item">
-                                       Đăng xuất
-                                    </li>                                 
-                                 ';
-                              else echo
-                              '
-                                    <li class="nbra__item">
-                                       Đăng nhập
-                                    </li>
-                                    <li class="nbra__item">
-                                       Đăng kí
-                                    </li> 
-                                 '
-                              ?>
+
+
+
                            </ul>
                         </div>
-
+                        <span id="usernameLogin" style="color:white ; margin-top:10px ; font-size:1.2rem"></span>
 
                         <div class="nbr__cart" onclick="showMyCart()">
                            <div class="nbr__cart-link">
@@ -148,29 +123,7 @@ $_SESSION['account'] = 'KH45678';
                            </a>
                            <ul class="nbra__list">
                               <!-- check auth -->
-                              <?php if (isset($_SESSION['account']))
-                                 echo
-                                 '
-                                    <li class="nbra__item" onclick="loadInfo(' . "'" . $_SESSION["account"] . "'" . ')">
-                                       Thông tin
-                                    </li>
-                                    <li onclick="loadOrderedPage()" class="nbra__item">
-                                       Đơn hàng
-                                    </li>
-                                    <li class="nbra__item">
-                                       Đăng xuất
-                                    </li>                                 
-                                 ';
-                              else echo
-                              '
-                                    <li class="nbra__item">
-                                       Đăng nhập
-                                    </li>
-                                    <li class="nbra__item">
-                                       Đăng kí
-                                    </li> 
-                                 '
-                              ?>
+
                            </ul>
                         </div>
                         <div class="nbr__cart" onclick="showMyCart()">

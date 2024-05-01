@@ -45,6 +45,11 @@
                                 <a href="Re-passwordView.php">Quên mật khẩu?</a>
                                 <p>Bạn chưa có tài khoản? <a href="RegisterView.php">Đăng kí</a></p>
                             </div>
+
+                            <div>
+                                <button type="submit" class="btn btn--primary sign-submit" id="backpage"> Quay Lại Trang
+                                    Chủ</button>
+                            </div>
                         </div>
                     </div>
                 </div>

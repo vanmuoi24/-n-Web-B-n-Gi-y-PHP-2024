@@ -1,31 +1,31 @@
 function loadInfo(id) {
-	handleInfo(id, renderAccount);
+  handleInfo(id, renderAccount);
 }
 
 ///
 ///
 ////
 function handleInfo(id, render) {
-	let xhr = new XMLHttpRequest();
-	xhr.open(
-		'GET',
-		// `../../mvc/API/index.php?type=account&filter=${filter}&input=${input}`,
-		`../../mvc/API/index.php?type=getAccount&id=${id}`,
-		true
-	);
-	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-	xhr.onreadystatechange = function () {
-		if (xhr.readyState == 4 && xhr.status == 200) {
-			let data = JSON.parse(xhr.responseText);
-			console.log('Account: ', data);
-			render(data);
-		}
-	};
-	xhr.send();
+  let xhr = new XMLHttpRequest();
+  xhr.open(
+    "GET",
+    // `../../mvc/API/index.php?type=account&filter=${filter}&input=${input}`,
+    `../../mvc/API/index.php?type=getAccount&id=${id}`,
+    true
+  );
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      let data = JSON.parse(xhr.responseText);
+      console.log("Account: ", data);
+      render(data);
+    }
+  };
+  xhr.send();
 }
 
 function renderAccount(account) {
-	let htmls = `
+  let htmls = `
       <div class="account">
          <div class="container-second">
             <div class="account-content">
@@ -70,13 +70,13 @@ function renderAccount(account) {
          </div>
       </div>
    `;
-	document.querySelector('#page-body').innerHTML = htmls;
-	document.querySelector(
-		'#page-heading'
-	).innerHTML = `<h1>THÔNG TIN TÀI KHOẢN</h1>`;
+  document.querySelector("#page-body").innerHTML = htmls;
+  document.querySelector(
+    "#page-heading"
+  ).innerHTML = `<h1>THÔNG TIN TÀI KHOẢN</h1>`;
 }
 function formInfoHtml(info) {
-	return `
+  return `
 		<form id="account-info__form" autocomplete="off">
 			<div class="aif-group">
 				<label for="code" class="aif-label">Mã khách hàng</label>
@@ -116,142 +116,140 @@ function formInfoHtml(info) {
 }
 //
 function editInfo() {
-	const inpEles = document.querySelectorAll('.aif-inp.--is-edit');
-	inpEles.forEach((item) => {
-		item.removeAttribute('disabled');
-	});
-	//check form
-	valid(document.getElementById('account-info__form'), confirmEdit);
-	//
-	const id = document.querySelector('#code').value;
-	const fullname = document.querySelector('#fullname').value;
-	const phone = document.querySelector('#phone').value;
-	const address = document.querySelector('#address').value;
-	const mail = document.querySelector('#email').value;
-	const dataAccount = {
-		id,
-		fullname,
-		phone,
-		address,
-		mail,
-	};
-	// mượn localstorage để lưu tạm thông tin
-	localStorage.setItem('infoAccountTemp', JSON.stringify(dataAccount));
-	//
-	document.querySelector('#confirm-edit').classList.add('active');
-	document.querySelector('#cancel-edit').classList.add('active');
-	document.querySelector('#change-password').classList.add('unactive');
-	document.querySelector('#edit-info').classList.add('unactive');
-	document.querySelector(
-		'#page-heading'
-	).innerHTML = `<h1>CHỈNH SỬA THÔNG TIN</h1>`;
+  const inpEles = document.querySelectorAll(".aif-inp.--is-edit");
+  inpEles.forEach((item) => {
+    item.removeAttribute("disabled");
+  });
+  //check form
+  valid(document.getElementById("account-info__form"), confirmEdit);
+  //
+  const id = document.querySelector("#code").value;
+  const fullname = document.querySelector("#fullname").value;
+  const phone = document.querySelector("#phone").value;
+  const address = document.querySelector("#address").value;
+  const mail = document.querySelector("#email").value;
+  const dataAccount = {
+    id,
+    fullname,
+    phone,
+    address,
+    mail,
+  };
+  // mượn localstorage để lưu tạm thông tin
+  localStorage.setItem("infoAccountTemp", JSON.stringify(dataAccount));
+  //
+  document.querySelector("#confirm-edit").classList.add("active");
+  document.querySelector("#cancel-edit").classList.add("active");
+  document.querySelector("#change-password").classList.add("unactive");
+  document.querySelector("#edit-info").classList.add("unactive");
+  document.querySelector(
+    "#page-heading"
+  ).innerHTML = `<h1>CHỈNH SỬA THÔNG TIN</h1>`;
 }
 function confirmEdit() {
-	//get data
-	const id = document.querySelector('#code').value;
-	const fullname = document.querySelector('#fullname').value;
-	const phone = document.querySelector('#phone').value;
-	const address = document.querySelector('#address').value;
-	const mail = document.querySelector('#email').value;
+  //get data
+  const id = document.querySelector("#code").value;
+  const fullname = document.querySelector("#fullname").value;
+  const phone = document.querySelector("#phone").value;
+  const address = document.querySelector("#address").value;
+  const mail = document.querySelector("#email").value;
 
-	const dataInfo = {
-		id,
-		firstname: fullname.slice(0, fullname.indexOf(' ')),
-		lastname: fullname.slice(fullname.indexOf(' ') + 1),
-		phone,
-		address,
-		mail,
-	};
-	//
-	//handle ajax
-	var xhr = new XMLHttpRequest();
-	xhr.open('POST', `../../mvc/API/index.php?type=updateAccount`, true);
-	xhr.setRequestHeader('Content-type', 'application/json');
-	xhr.onreadystatechange = function () {
-		if (xhr.readyState == 4 && xhr.status == 200) {
-			var response = JSON.parse(xhr.responseText);
-			//cap nhat thanh cong
-			if (response.status == 1) {
-				let inpEles = document.querySelectorAll('.aif-inp');
-				inpEles.forEach((item) => {
-					item.setAttribute('disabled', true);
-				});
-				toast({
-					title: response.title,
-					message: response.msg,
-					type: 'success',
-					duration: 3000,
-				});
-				localStorage.removeItem('infoAccountTemp');
-				document.querySelector('#confirm-edit').classList.remove('active');
-				document
-					.querySelector('#change-password')
-					.classList.remove('unactive');
-				document.querySelector('#edit-info').classList.remove('unactive');
-				document.querySelector('#cancel-edit').classList.remove('active');
-				document.querySelector(
-					'#page-heading'
-				).innerHTML = `<h1>THÔNG TIN TÀI KHOẢN</h1>`;
-			}
-			//cap nhat that bai
-			else if (!response.status) {
-				toast({
-					title: response.title,
-					message: response.msg,
-					type: 'warning',
-					duration: 3000,
-				});
-			}
-			//trung thong tin ve mail or sdt
-			else {
-				toast({
-					title: response.title,
-					message: response.msg,
-					type: 'error',
-					duration: 3000,
-				});
-			}
-		}
-	};
-	xhr.send(JSON.stringify(dataInfo));
+  const dataInfo = {
+    id,
+    firstname: fullname.slice(0, fullname.indexOf(" ")),
+    lastname: fullname.slice(fullname.indexOf(" ") + 1),
+    phone,
+    address,
+    mail,
+  };
+  //
+  //handle ajax
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", `../../mvc/API/index.php?type=updateAccount`, true);
+  xhr.setRequestHeader("Content-type", "application/json");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      var response = JSON.parse(xhr.responseText);
+      //cap nhat thanh cong
+      if (response.status == 1) {
+        let inpEles = document.querySelectorAll(".aif-inp");
+        inpEles.forEach((item) => {
+          item.setAttribute("disabled", true);
+        });
+        toast({
+          title: response.title,
+          message: response.msg,
+          type: "success",
+          duration: 3000,
+        });
+        localStorage.removeItem("infoAccountTemp");
+        document.querySelector("#confirm-edit").classList.remove("active");
+        document.querySelector("#change-password").classList.remove("unactive");
+        document.querySelector("#edit-info").classList.remove("unactive");
+        document.querySelector("#cancel-edit").classList.remove("active");
+        document.querySelector(
+          "#page-heading"
+        ).innerHTML = `<h1>THÔNG TIN TÀI KHOẢN</h1>`;
+      }
+      //cap nhat that bai
+      else if (!response.status) {
+        toast({
+          title: response.title,
+          message: response.msg,
+          type: "warning",
+          duration: 3000,
+        });
+      }
+      //trung thong tin ve mail or sdt
+      else {
+        toast({
+          title: response.title,
+          message: response.msg,
+          type: "error",
+          duration: 3000,
+        });
+      }
+    }
+  };
+  xhr.send(JSON.stringify(dataInfo));
 }
 function cancelEdit() {
-	if (confirm('Bạn có chắc hủy bỏ thao tác')) {
-		const infoAccount = JSON.parse(localStorage.getItem('infoAccountTemp'));
-		document.querySelector('.account-info').innerHTML =
-			formInfoHtml(infoAccount);
-		document.querySelector('#confirm-edit').classList.remove('active');
-		document.querySelector('#change-password').classList.remove('unactive');
-		document.querySelector('#edit-info').classList.remove('unactive');
-		document.querySelector('#cancel-edit').classList.remove('active');
-		localStorage.removeItem('infoAccountTemp');
-		document.querySelector(
-			'#page-heading'
-		).innerHTML = `<h1>THÔNG TIN TÀI KHOẢN</h1>`;
-	}
+  if (confirm("Bạn có chắc hủy bỏ thao tác")) {
+    const infoAccount = JSON.parse(localStorage.getItem("infoAccountTemp"));
+    document.querySelector(".account-info").innerHTML =
+      formInfoHtml(infoAccount);
+    document.querySelector("#confirm-edit").classList.remove("active");
+    document.querySelector("#change-password").classList.remove("unactive");
+    document.querySelector("#edit-info").classList.remove("unactive");
+    document.querySelector("#cancel-edit").classList.remove("active");
+    localStorage.removeItem("infoAccountTemp");
+    document.querySelector(
+      "#page-heading"
+    ).innerHTML = `<h1>THÔNG TIN TÀI KHOẢN</h1>`;
+  }
 }
 
 function changePassword() {
-	//
-	const id = document.querySelector('#code').value;
-	const fullname = document.querySelector('#fullname').value;
-	const phone = document.querySelector('#phone').value;
-	const address = document.querySelector('#address').value;
-	const mail = document.querySelector('#email').value;
-	const dataAccount = {
-		id,
-		fullname,
-		phone,
-		address,
-		mail,
-	};
-	// mượn localstorage để lưu tạm thông tin
-	localStorage.setItem('infoAccountTemp', JSON.stringify(dataAccount));
-	//
+  //
+  const id = document.querySelector("#code").value;
+  const fullname = document.querySelector("#fullname").value;
+  const phone = document.querySelector("#phone").value;
+  const address = document.querySelector("#address").value;
+  const mail = document.querySelector("#email").value;
+  const dataAccount = {
+    id,
+    fullname,
+    phone,
+    address,
+    mail,
+  };
+  // mượn localstorage để lưu tạm thông tin
+  localStorage.setItem("infoAccountTemp", JSON.stringify(dataAccount));
+  //
 
-	//
-	const accountInfo = document.querySelector('.account-info');
-	const formChangePassword = `
+  //
+  const accountInfo = document.querySelector(".account-info");
+  const formChangePassword = `
       <form id="account-info__form" autocomplete="off">
 			<div class="aif-group">
 				<label for="code" class="aif-label">Mã khách hàng</label>
@@ -290,86 +288,131 @@ function changePassword() {
          </div>
       </form>
    `;
-	accountInfo.innerHTML = formChangePassword;
-	document.querySelector('#page-heading').innerHTML = `<h1>ĐỔI MẬT KHẨU</h1>`;
-	valid(document.getElementById('account-info__form'), confirmChangePassword);
-	//
+  accountInfo.innerHTML = formChangePassword;
+  document.querySelector("#page-heading").innerHTML = `<h1>ĐỔI MẬT KHẨU</h1>`;
+  valid(document.getElementById("account-info__form"), confirmChangePassword);
+  //
 }
 function confirmChangePassword() {
-	//get data
-	const id = document.querySelector('#code').value;
-	const passwordOld = document.querySelector('#passwordOld').value;
-	const passwordNew = document.querySelector('#passwordNew').value;
+  //get data
+  const id = document.querySelector("#code").value;
+  const passwordOld = document.querySelector("#passwordOld").value;
+  const passwordNew = document.querySelector("#passwordNew").value;
 
-	const dataInfo = {
-		id,
-		passwordNew,
-		passwordOld,
-	};
-	//
-	//handle ajax
-	var xhr = new XMLHttpRequest();
-	xhr.open('POST', `../../mvc/API/index.php?type=changePassword`, true);
-	xhr.setRequestHeader('Content-type', 'application/json');
-	xhr.onreadystatechange = function () {
-		if (xhr.readyState == 4 && xhr.status == 200) {
-			var response = JSON.parse(xhr.responseText);
-			if (response.status === 1) {
-				const infoAccount = JSON.parse(
-					localStorage.getItem('infoAccountTemp')
-				);
-				document.querySelector('.account-info').innerHTML =
-					formInfoHtml(infoAccount);
-				document.querySelector('#confirm-edit').classList.remove('active');
-				document
-					.querySelector('#change-password')
-					.classList.remove('unactive');
-				document.querySelector('#edit-info').classList.remove('unactive');
-				document.querySelector('#cancel-edit').classList.remove('active');
-				localStorage.removeItem('infoAccountTemp');
-				document.querySelector(
-					'#page-heading'
-				).innerHTML = `<h1>THÔNG TIN TÀI KHOẢN</h1>`;
-				toast({
-					title: response.title,
-					message: response.msg,
-					type: 'success',
-					duration: 3000,
-				});
-			}
-			//cap nhat that bai
-			else if (!response.status) {
-				toast({
-					title: response.title,
-					message: response.msg,
-					type: 'warning',
-					duration: 3000,
-				});
-			}
-			//trung thong tin ve mail or sdt
-			else {
-				toast({
-					title: response.title,
-					message: response.msg,
-					type: 'error',
-					duration: 3000,
-				});
-			}
-		}
-	};
-	xhr.send(JSON.stringify(dataInfo));
+  const dataInfo = {
+    id,
+    passwordNew,
+    passwordOld,
+  };
+  //
+  //handle ajax
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", `../../mvc/API/index.php?type=changePassword`, true);
+  xhr.setRequestHeader("Content-type", "application/json");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      var response = JSON.parse(xhr.responseText);
+      if (response.status === 1) {
+        const infoAccount = JSON.parse(localStorage.getItem("infoAccountTemp"));
+        document.querySelector(".account-info").innerHTML =
+          formInfoHtml(infoAccount);
+        document.querySelector("#confirm-edit").classList.remove("active");
+        document.querySelector("#change-password").classList.remove("unactive");
+        document.querySelector("#edit-info").classList.remove("unactive");
+        document.querySelector("#cancel-edit").classList.remove("active");
+        localStorage.removeItem("infoAccountTemp");
+        document.querySelector(
+          "#page-heading"
+        ).innerHTML = `<h1>THÔNG TIN TÀI KHOẢN</h1>`;
+        toast({
+          title: response.title,
+          message: response.msg,
+          type: "success",
+          duration: 3000,
+        });
+      }
+      //cap nhat that bai
+      else if (!response.status) {
+        toast({
+          title: response.title,
+          message: response.msg,
+          type: "warning",
+          duration: 3000,
+        });
+      }
+      //trung thong tin ve mail or sdt
+      else {
+        toast({
+          title: response.title,
+          message: response.msg,
+          type: "error",
+          duration: 3000,
+        });
+      }
+    }
+  };
+  xhr.send(JSON.stringify(dataInfo));
 }
 function showPass(ele) {
-	ele.offsetParent.querySelector('.aif-inp').setAttribute('type', 'text');
-	ele.offsetParent
-		.querySelector('.aif-icon.unactive')
-		.classList.remove('unactive');
-	ele.classList.add('unactive');
+  ele.offsetParent.querySelector(".aif-inp").setAttribute("type", "text");
+  ele.offsetParent
+    .querySelector(".aif-icon.unactive")
+    .classList.remove("unactive");
+  ele.classList.add("unactive");
 }
 function hidePass(ele) {
-	ele.offsetParent.querySelector('.aif-inp').setAttribute('type', 'password');
-	ele.offsetParent
-		.querySelector('.aif-icon.unactive')
-		.classList.remove('unactive');
-	ele.classList.add('unactive');
+  ele.offsetParent.querySelector(".aif-inp").setAttribute("type", "password");
+  ele.offsetParent
+    .querySelector(".aif-icon.unactive")
+    .classList.remove("unactive");
+  ele.classList.add("unactive");
 }
+
+function checkAuthor() {
+  let list = document.getElementsByClassName("nbra__list")[0];
+  let check = sessionStorage.getItem("username");
+  if (check) {
+    let user = JSON.parse(check); // Parse once to avoid multiple parsing
+    let list_li = `
+		<li class="nbra__item" onclick="loadInfo('${user.tendn}')">
+		  Thông tin
+		</li>
+		<li onclick="loadOrderedPage()" class="nbra__item">
+		  Đơn hàng
+		</li>
+		<li class="nbra__item" onclick="logout()">
+		  Đăng xuất
+		</li>
+	  `;
+    document.getElementById("usernameLogin").innerHTML =
+      user.hokh + " " + user.tenkh;
+    list.innerHTML = list_li;
+  } else {
+    let out_li = `
+		<li class="nbra__item" onclick="login()">
+		  Đăng nhập
+		</li>
+		<li class="nbra__item" onclick="register()">
+		  Đăng kí
+		</li>
+	  `;
+    list.innerHTML = out_li;
+    document.getElementById("usernameLogin").innerHTML = "";
+  }
+}
+
+function login() {
+  location.href = "../../../Form/MVC/View/LoginView.php";
+}
+
+function register() {
+  location.href = "../../../Form/MVC/View/RegisterView.php";
+}
+
+function logout() {
+  sessionStorage.removeItem("username");
+  checkAuthor();
+  location.href = "../../mvc/view/index.php";
+}
+
+checkAuthor();

@@ -1,27 +1,25 @@
 function loadProductInPay() {
-	const dataCart = localStorage.getItem('carts')
-		? JSON.parse(localStorage.getItem('carts'))
-		: [];
-	//
-	renderProductInPay(dataCart);
+  const dataCart = localStorage.getItem("carts")
+    ? JSON.parse(localStorage.getItem("carts"))
+    : [];
+  //
+  renderProductInPay(dataCart);
 }
 
 function renderProductInPay(data) {
-	if (data.length === 0) {
-		return;
-	}
-	let htmls = '';
-	let totalPrice = 0;
-	data.map((item, index) => {
-		let price = (
-			item.priceDiscountProduct
-				? item.priceDiscountProduct
-				: item.priceProduct
-		).replace(/[^0-9]/g, '');
-		price *= parseInt(item.quantity);
-		totalPrice += parseInt(price);
-		//
-		htmls += `
+  if (data.length === 0) {
+    return;
+  }
+  let htmls = "";
+  let totalPrice = 0;
+  data.map((item, index) => {
+    let price = (
+      item.priceDiscountProduct ? item.priceDiscountProduct : item.priceProduct
+    ).replace(/[^0-9]/g, "");
+    price *= parseInt(item.quantity);
+    totalPrice += parseInt(price);
+    //
+    htmls += `
       <tr>
       <td>
          <div class="pr-product">
@@ -38,10 +36,10 @@ function renderProductInPay(data) {
 				</span>
             <span class="pr-quantity"> - x${item.quantity}</span>
             <span class="pr-percent" ${
-					item.idDiscount ? `data-iddiscount="${item.idDiscount}"` : ''
-				}>${
-			item.percentDiscount ? ` - Giảm ${item.percentDiscount}%` : ''
-		}</span>
+              item.idDiscount ? `data-iddiscount="${item.idDiscount}"` : ""
+            }>${
+      item.percentDiscount ? ` - Giảm ${item.percentDiscount}%` : ""
+    }</span>
          </div>
       </td>
       <td>
@@ -50,107 +48,106 @@ function renderProductInPay(data) {
    </tr>               		
 
       `;
-	});
+  });
 
-	if (totalPrice >= 3999000) {
-		document.querySelectorAll('.pr-ship-value')[1].classList.add('unactive');
-		document
-			.querySelectorAll('.pr-ship-value')[0]
-			.classList.remove('unactive');
-		document.querySelector('.mcr-total-value').innerText =
-			formatCurrency(totalPrice);
-	} else
-		document.querySelector('.mcr-total-value').innerText = formatCurrency(
-			totalPrice + 35000
-		);
-	document.querySelector('.mcr-prev-total-value').innerText =
-		formatCurrency(totalPrice);
+  if (totalPrice >= 3999000) {
+    document.querySelectorAll(".pr-ship-value")[1].classList.add("unactive");
+    document.querySelectorAll(".pr-ship-value")[0].classList.remove("unactive");
+    document.querySelector(".mcr-total-value").innerText =
+      formatCurrency(totalPrice);
+  } else
+    document.querySelector(".mcr-total-value").innerText = formatCurrency(
+      totalPrice + 35000
+    );
+  document.querySelector(".mcr-prev-total-value").innerText =
+    formatCurrency(totalPrice);
 
-	document.querySelector('.pr-detail').innerHTML = htmls;
-	valid(document.getElementById('pay-info-form'), confirmPay);
+  document.querySelector(".pr-detail").innerHTML = htmls;
+  valid(document.getElementById("pay-info-form"), confirmPay);
 }
 
 function confirmPay() {
-	const condition = 3999000;
-	if (confirm('Bạn đã cung cấp thông tin chính xác')) {
-		const id = JSON.parse(localStorage.getItem('accountID'));
-		const firstname = document.getElementById('firstname').value;
-		const lastname = document.getElementById('lastname').value;
-		const phone = document.getElementById('phone').value;
-		const email = document.getElementById('email').value;
-		const address = document.getElementById('address').value;
-		const note = document.getElementById('note').value;
-		const carts = JSON.parse(localStorage.getItem('carts'));
-		const datePay = formatDate(new Date());
-		const freeship =
-			document
-				.querySelector('.mcr-prev-total-value')
-				.innerText.replace(/[^0-9]/g, '') >= condition
-				? 'KM002'
-				: '';
-		const total = document
-			.querySelector('.mcr-total-value')
-			.innerText.replace(/[^0-9]/g, '');
+  const condition = 3999000;
+  if (confirm("Bạn đã cung cấp thông tin chính xác")) {
+    const id = JSON.parse(localStorage.getItem("accountID"));
+    const firstname = document.getElementById("firstname").value;
+    const lastname = document.getElementById("lastname").value;
+    const phone = document.getElementById("phone").value;
+    const email = document.getElementById("email").value;
+    const address = document.getElementById("address").value;
+    const note = document.getElementById("note").value;
+    const carts = JSON.parse(localStorage.getItem("carts"));
+    const datePay = formatDate(new Date());
+    const freeship =
+      document
+        .querySelector(".mcr-prev-total-value")
+        .innerText.replace(/[^0-9]/g, "") >= condition
+        ? "KM002"
+        : "";
+    const total = document
+      .querySelector(".mcr-total-value")
+      .innerText.replace(/[^0-9]/g, "");
 
-		//
-		// replace(/[^0-9]/g, '')
-		const dataInfo = {
-			id,
-			firstname,
-			lastname,
-			phone,
-			email,
-			address,
-			note,
-			carts,
-			datePay,
-			freeship,
-			total,
-		};
-		console.log('data pay: ', dataInfo);
-		// handle ajax
-		var xhr = new XMLHttpRequest();
-		xhr.open('POST', `../../mvc/API/index.php?type=confirmPay`, true);
-		xhr.setRequestHeader('Content-type', 'application/json');
-		xhr.onreadystatechange = function () {
-			if (xhr.readyState == 4 && xhr.status == 200) {
-				var response = JSON.parse(xhr.responseText);
-				console.log('confirm pay: ', response);
-				if (response.status) {
-					loadCompleteOrder();
-					loadCartMini();
-					toast({
-						title: response.title,
-						message: response.msg,
-						type: 'success',
-						duration: 3000,
-					});
-				}
-			}
-		};
-		xhr.send(JSON.stringify(dataInfo));
+    //
+    // replace(/[^0-9]/g, '')
+    const dataInfo = {
+      id,
+      firstname,
+      lastname,
+      phone,
+      email,
+      address,
+      note,
+      carts,
+      datePay,
+      freeship,
+      total,
+    };
+    console.log("data pay: ", dataInfo);
+    // handle ajax
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", `../../mvc/API/index.php?type=confirmPay`, true);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        var response = JSON.parse(xhr.responseText);
+        console.log("confirm pay: ", response);
+        if (response.status) {
+          loadCompleteOrder();
+          loadCartMini();
+          toast({
+            title: response.title,
+            message: response.msg,
+            type: "success",
+            duration: 3000,
+          });
+        }
+      }
+    };
+    xhr.send(JSON.stringify(dataInfo));
 
-		localStorage.removeItem('carts');
-	}
+    localStorage.removeItem("carts");
+  }
 }
 
 function loadInfoInPay() {
-	const id = JSON.parse(localStorage.getItem('accountID'));
-	handleInfo(id, renderInfoInPay);
+  const id = JSON.parse(sessionStorage.getItem("username"));
+
+  handleInfo(id.tendn, renderInfoInPay);
 }
 function renderInfoInPay(data) {
-	let htmls = `
+  let htmls = `
 		<div class="pif-group-wrapper">
 				<div class="pif-group">
 					<label for="firstname" class="pif-label">Họ <span style="color: red">*</span></label>
 					<input value=${data.fullname.slice(
-						0,
-						data.fullname.indexOf(' ')
-					)} type="text" name="firstname" id="firstname" class="pif-inp">
+            0,
+            data.fullname.indexOf(" ")
+          )} type="text" name="firstname" id="firstname" class="pif-inp">
 				</div>
 				<div class="pif-group">
 					<label for="lastname" class="pif-label">Tên<span style="color: red">*</span></label>
-					<input value="${data.fullname.slice(data.fullname.indexOf(' ') + 1)}"
+					<input value="${data.fullname.slice(data.fullname.indexOf(" ") + 1)}"
 						type="text" name="lastname" id="lastname" class="pif-inp">
 				</div>
 			</div>
@@ -165,8 +162,8 @@ function renderInfoInPay(data) {
 			<div class="pif-group">
 				<label for="address" class="pif-label">Địa chỉ<span style="color: red">*</span></label>
 				<input value=${
-					data.address
-				} type="text" name="address" id="address" class="pif-inp">
+          data.address
+        } type="text" name="address" id="address" class="pif-inp">
 			</div>
 			<div class="pif-group">
 				<label for="note" class="pif-label">Ghi chú</label>
@@ -176,10 +173,12 @@ function renderInfoInPay(data) {
 			</div>
 		<button type="submit" class="btn btn--primary mcr-btn">XÁC NHẬN ĐẶT HÀNG</button>
 	`;
-	document.getElementById('pay-info-form').innerHTML = htmls;
+  document.getElementById("pay-info-form").innerHTML = htmls;
 }
 function loadPayPage() {
-	let htmls = `
+  let check = sessionStorage.getItem("username");
+  if (check) {
+    let htmls = `
 		<div class="mycart">
 			<div class="container-second">
 				<div class="mc-content">
@@ -248,16 +247,21 @@ function loadPayPage() {
 			</div>
 		</div>
 	`;
-	document.getElementById('page-body').innerHTML = htmls;
-	document.getElementById('page-heading').innerHTML = '<h1>THANH TOÁN</h1>';
-	loadInfoInPay();
-	loadProductInPay();
-	hideMyCart();
-	document.body.scrollTop = 0; // For Safari
-	document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    document.getElementById("page-body").innerHTML = htmls;
+    document.getElementById("page-heading").innerHTML = "<h1>THANH TOÁN</h1>";
+    loadInfoInPay();
+    loadProductInPay();
+    hideMyCart();
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0;
+  } else {
+    alert("Vui lòng đăng nhập tài khoản để mua hàng");
+    return;
+  }
+  // For Chrome, Firefox, IE and Opera
 }
 function loadCompleteOrder() {
-	let htmls = `
+  let htmls = `
 		<div class="mycart">
 			<div class="container-second">
 				<div class="mc-content">
@@ -293,9 +297,9 @@ function loadCompleteOrder() {
 			</div>
 		</div>
 	`;
-	document.getElementById('page-body').innerHTML = htmls;
-	document.getElementById('page-heading').innerHTML =
-		'<h1>HOÀN THÀNH ĐƠN HÀNG</h1>';
+  document.getElementById("page-body").innerHTML = htmls;
+  document.getElementById("page-heading").innerHTML =
+    "<h1>HOÀN THÀNH ĐƠN HÀNG</h1>";
 }
 //
 //<div class="complete-order">

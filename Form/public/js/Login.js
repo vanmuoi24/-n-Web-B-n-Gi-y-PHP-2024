@@ -22,7 +22,7 @@ document.getElementById("login").addEventListener("click", () => {
           location.href = "../../../Admin/mvc/view/index.php";
         }
         if (res.DT.nhomquyen == "24") {
-          location.href = "../../../Web_Giay_PHP/mvc/view/index.php";
+          location.href = "../../../HomePage/mvc/view/index.php";
         }
       } else {
       }
@@ -52,3 +52,6 @@ function Validate_Login() {
   }
   return isValid;
 }
+document.getElementById("backpage").addEventListener("click", () => {
+  location.href = "../../../HomePage/mvc/view/index.php";
+});
