@@ -6,14 +6,57 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../../public/css/index.css" />
     <title>Document</title>
 </head>
 <style>
-/* Reset CSS */
+    /* Reset CSS */
+
+
+    .table-container {
+        display: none;
+        width: 80%;
+        position: absolute;
+        overflow-x: auto;
+        background-color: white;
+    }
+
+    .table-wrapper {
+        margin: auto;
+        overflow-y: scroll;
+        /* Cuộn dọc */
+
+        max-height: 200px;
+
+        /* Điều chỉnh chiều cao tối đa của bảng */
+    }
+
+    .table-container table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 2px solid #ddd;
+        /* Border style */
+    }
+
+    .table-container th,
+    td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table-container th {
+        background-color: #f2f2f2;
+    }
+
+    .table-container tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    .table-container .active {
+        background-color: yellow;
+    }
 </style>
 
 <body>
@@ -99,7 +142,10 @@
                 <img src="../../src/img/Cover.png" alt="" style="width: 100%">
             </div>
 
+
         </div>
+
+
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="../../"></script>

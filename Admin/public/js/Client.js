@@ -5,9 +5,37 @@ function handleclient() {
   <div class="table_product">
   <div>
   <h3>Quản lí Khách Hàng</h3>
+  <div class="client_status">
+  <div class="status_demo">
+    <select id="selectHandle">
+      <option value="1">Trạng Thái Ban Đầu</option>
+      <option value="Chưa Xử Lí">Đang Chờ</option>
+      <option value="Đã Liên Lạc">Đã Liên Lạc</option>
+      <option value="Đã Giao">Đã Giao</option>
+      <option value="Hủy">Hủy</option>
+
+    </select>
+  </div>
+  <div class="serch_client">
+    <input type="text" placeholder="Nhập tên tìm kiếm tại đây" id="searchname" />
+    <button onclick="handlesearchname()" id="handlesearchname">Tìm Kiếm <i class="fa-solid fa-magnifying-glass"></i></button>
+  </div>
+  <div class="serch_date">
+    <div>
+      <label for="dayfrist">Từ:</label>
+      <input type="date" id="dayfrist" />
+    </div>
+    <div>
+      <label for="daylast">Đến:</label>
+      <input type="date" id="daylast" />
+    </div>
+  </div>
+  <div class="searchinput">
+    <div style="width: 100%" onclick="handlesearch()"><button>Tìm Kiếm <i class="fa-solid fa-magnifying-glass"></i></button></div>
+  </div>
+</div>
   </div>
     <table id="table_product">
-      
       
     </table>
   </div>
@@ -38,9 +66,8 @@ function handledata(data) {
         <th>STT</th>
         <th>Họ và Tên</th>
         <th>Địa Chỉ</th>
-        <th>Giới Tính</th>
+
         <th>Email</th>
-        <th>Hành Động</th>
       </tr>
   `;
   data.forEach((item, index) => {
@@ -49,12 +76,9 @@ function handledata(data) {
         <td>${index + 1}</td>
         <td>${item.Ho} ${item.Ten}</td>
         <td>${item.DiaChi}</td>
-        <td>${item.GioiTinh}</td>
+ 
         <td>${item.Email}</td>
-        <td>
-          <i class="fa-solid fa-pen-to-square" style="color: #04b64b"></i>
-          <i class="fa-solid fa-trash-can" style="color: #ff4a4a"></i>
-        </td>
+        
       </tr>
     `;
   });

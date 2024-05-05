@@ -22,32 +22,47 @@ function handleProduct() {
         <a onclick="nextPage()">&raquo;</a>
       </div>
     </div>
+    <div class="viewctProduct" style="width: 100% ;display:none">
+ 
+
+    <div class="" style="width: 50% ; margin: auto; border :1px solid;background:white">
+
+        <div style=" margin: auto;" class="viewproduct">
+        </div>
+    
+        <div>
+                   <table id="table_product1" style=" margin: auto;">
+              
+                <tr>
+                    
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
   `;
   Mange_client.innerHTML = ProductOut;
 
   phantrang(6, 0, sortOrder);
 }
 
-function handledeleteitem(itemId) {
-  // Hiển thị thông báo xác nhận trước khi xóa
+function handledeleteitem(id) {
   if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?")) {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "../../mvc/API/index.php?type=xoa", true);
+    xhr.open("POST", "../../mvc/API/index.php?type=xoa&id=" + id, true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4 && xhr.status == 200) {
         var response = JSON.parse(xhr.responseText);
         if (response.success) {
-          // Thông báo xóa thành công và cập nhật lại danh sách sản phẩm
           alert("Xóa sản phẩm thành công!");
           phantrang(6, (currentPage - 1) * 6, sortOrder);
         } else {
-          // Thông báo lỗi khi xóa
           alert("Lỗi khi xóa: " + response.error);
         }
       }
     };
-    xhr.send("item_id=" + itemId);
+    xhr.send();
   }
 }
 
@@ -116,7 +131,6 @@ function updatePageContent(data) {
                         <th>Mã Sản Phẩm  </th>
                         <th>Tên Sản Phẩm  <i class="fa-solid fa-arrow-down" onclick="handledowdata()"></i> <i class="fa-solid fa-arrow-up" onclick="handleupdata()"></i></th>
                         <th>Thương Hiệu</th>
-                        <th>Số Lượng</th>
                         <th>Hình Ảnh</th>
                         <th>Giá Tiền</th>
                         <th>Hành Động</th>
@@ -129,13 +143,15 @@ function updatePageContent(data) {
                 <td>${item.MaGiay}</td>
                 <td>${item.Tengia}</td>
                 <td>${item.ThuongHieu.TenThuongHieu}</td>
-                <td>${item.SoLuong}</td>
+           
                 <td><img src="${
                   item.HinhAnh
                 }" alt="" style="width: 50px" /></td>
                 <td>${formatCurrency(item.DonGia)}</td>
                 <td>
-                    <i class="fa-solid fa-pen-to-square" style="color: #04b64b"></i>
+                    <i class="fa-solid fa-eye" style="color: #04b64b" onclick=handleview('${
+                      item.MaGiay
+                    }')></i>
                     <i class="fa-solid fa-trash-can" style="color: #ff4a4a" onclick="handledeleteitem('${
                       item.MaGiay
                     }')"></i>
@@ -160,4 +176,82 @@ function handledowdata() {
 function handleupdata() {
   sortOrder = "desc";
   phantrang(6, (currentPage - 1) * 6, sortOrder); // Sửa đổi ở đây
+}
+
+function handleview(id) {
+  let table_product = document.getElementsByClassName("table_product")[0];
+  table_product.style.opacity = "0.1";
+  let viewctProduct = document.getElementsByClassName("viewctProduct")[0];
+  viewctProduct.style = "block";
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "../../mvc/API/index.php?type=viewctProduct&id=" + id, true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      var data = JSON.parse(xhr.responseText);
+      let viewproduct = document.querySelector(".viewproduct");
+      let table = document.querySelector("#table_product1");
+      let item = JSON.parse(data);
+      console.log(item);
+      let view = `
+  <div class="icon_view">    <h3>Thông Tin Chi Tiết Sản Phẩm</h3>
+  <i class="fa-regular fa-circle-xmark" onclick="handleclossitem()"></i></div>
+
+          <span> Mã Sản Phẩm : ${id} </span>
+          <span> Tên Sản Phẩm : ${item.giay.Tengia}</span>
+          <span> Thương Hiệu Sản Phẩm : ${item.giay.TenThuongHieu}</span>
+          <span style="padding:20px 0px 20px 0px"> Hình Ảnh : <img src="${
+            item.giay.HinhAnh
+          }" style="width: 50px ;top:30%" /> </span>
+          <span> Giá Tiền : ${formatCurrency(item.giay.DonGia)}</span>
+      `;
+
+      let tableview = `
+          <thead>
+              <th>Size</th>
+              <th>Số Lượng</th>
+          </thead>
+          <tbody>
+      `;
+      item.giaysize.forEach((item, index) => {
+        // Sử dụng forEach thay vì map vì không cần trả về mảng mới
+        tableview += `
+              <tr>
+                  <td>${item.Sizes.KichThuoc}</td>
+                  <td>${item.SoLuong}</td>
+              </tr>
+          `;
+      });
+      tableview += `</tbody>`;
+      table.innerHTML = tableview;
+      viewproduct.innerHTML = view;
+    }
+  };
+  xhr.send();
+  cityop();
+}
+function cityop() {
+  let poss = document.querySelectorAll(".header ,.table_product");
+
+  console.log(table_product);
+  poss.forEach((poss) => {
+    poss.style.opacity = "0.1";
+    poss.style.pointerEvents = "none";
+  });
+}
+
+function cityopmove() {
+  let poss = document.querySelectorAll(".header,.table_product");
+  poss.forEach((poss) => {
+    poss.style.opacity = "1";
+    poss.style.pointerEvents = "auto";
+  });
+}
+function handleclossitem() {
+  let viewctProduct = document.getElementsByClassName("viewctProduct")[0];
+  viewctProduct.style.display = "none";
+
+  let table_product = document.getElementsByClassName("table_product")[0];
+  table_product.style.opacity = "1";
+  cityopmove();
 }

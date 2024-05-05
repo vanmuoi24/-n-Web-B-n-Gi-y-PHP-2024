@@ -13,17 +13,16 @@ function handlePromotion() {
   <div class="admin_voucher">
       <div>
           <button class="CTKHM">Chương Trình Khuyến Mãi</button>
-          <button class="btn-voucher">Voucher</button>
           <button class="btn-new" onclick='handleaddvoucher()'>
-              Thêm Mới Voucher <i class="fa-solid fa-plus"></i>
+              Thêm Mới  <i class="fa-solid fa-plus"></i>
           </button>
       </div>
       <div class="voucher">
           <div style="width: 20%">
-              <select>
-                  <option value="">Điều Kiện Lọc</option>
-                  <option value=""></option>
-                  <option value=""></option>
+              <select id="selectPosi">
+                  <option value="">Loại chương trình</option>
+                  <option value="Giảm giá">Giảm giá</option>
+                  <option value="Quà tặng">Quà tặng</option>
               </select>
           </div>
           <div style="width: 60%">
@@ -42,7 +41,7 @@ function handlePromotion() {
           <div class="btn-addnew">
               <span>Quản lý Voucher : Thêm Mới</span>
               <div class="btn-out-save">
-                  <button style="background-color: #0078ff; color: white">
+                  <button style="background-color: #0078ff; color: white" onclick ="saveallPosi()">
                       <i class="fa-solid fa-floppy-disk"></i> Lưu Dữ Liệu
                   </button>
                   <button id='btn-out'>
@@ -51,6 +50,8 @@ function handlePromotion() {
               </div>
           </div>
           <hr />
+
+
           <div class="add_new_item">
               <div class="add_text">
                   <h5>Thông tin cơ bản</h5>
@@ -58,18 +59,21 @@ function handlePromotion() {
               </div>
               <div class="add_new_input">
                   <div class="input_add_one">
-                      <label for="">Tạo Mã : </label>
-                      <input type="text" />
+                      <label for=""> Mã Sản Phẩm Giảm Giá :  <i  class="fa-solid fa-circle-plus" onclick="handleBoxPosi()"></i> </label>
+                      <select id='allProduct'>
+                     
+                      
+                  </select>
+                     
                   </div>
                   <div class="input_add_one">
                       <label for="">Giá Trị Giảm Giá : </label>
-                      <input type="text" />
+                      <input type="text" id="sortPrice" />
                   </div>
                   <div class="input_add_one">
-                      <label for="">Trạng Thái : </label>
-                      <select name="" id="">
-                          <option value="">Hoat Dong</option>
-                      </select>
+                      <label for="">Điều Kiện Giảm Giá : </label>
+                      <textarea id="statusSort"></textarea>
+                     
                   </div>
               </div>
           </div>
@@ -80,7 +84,12 @@ function handlePromotion() {
               </div>
               <div class="add_new_input">
                   <div class="add_check">
-                      <input type="checkbox" /> Áp dụng với chương trình khuyến mãi
+                  <label>Loai Chương Trình : </label>
+                  <select id="selectPosiall">
+                  <option value="Giảm giá">Giảm giá</option>
+                  <option value="Quà tặng">Quà tặng</option>
+              </select>
+              <input type="text" placeholder="Tên Chương Trình"  id="nameevent" />
                   </div>
               </div>
           </div>
@@ -92,11 +101,11 @@ function handlePromotion() {
               <div class="add_new_input">
                   <div class="input_add_one">
                       <label for="">Ngày Bắt Đầu: </label>
-                      <input type="date" />
+                      <input type="date" id="firtday" />
                   </div>
                   <div class="input_add_one">
                       <label for="">Ngày Kết Thúc : </label>
-                      <input type="date" />
+                      <input type="date" id="lastday" />
                   </div>
               </div>
           </div>
@@ -104,6 +113,30 @@ function handlePromotion() {
       <hr />
   </div>
 </div>
+<div class="table-container">
+<div class="btn-out-save">
+<button style="background-color: #0078ff; color: white" onclick = "handlesavePosiProduct()">
+    <i class="fa-solid fa-floppy-disk"></i> Lưu Dữ Liệu
+</button>
+<button id='btn-out'>
+    <i class="fa-solid fa-right-from-bracket"></i> Thoát
+</button>
+</div>
+            <div class="table-wrapper">
+           
+                <table id="myTable">
+                    <thead>
+                        <tr>
+                            <th>Mã Sản Phẩm</th>
+                            <th>Giá Bán</th>
+                            <th>Chọn</th>
+                        </tr>
+                    </thead>
+                   <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
     `;
 
   Mange_client.innerHTML = Pomotion;
@@ -127,6 +160,23 @@ function handleaddvoucher() {
         posion.style.pointerEvents = "auto";
       });
     });
+  });
+
+  let selectPosi = document.getElementById("selectPosiall");
+  let inputAll = document.querySelector("#allProduct");
+  let nameevent = document.getElementById("nameevent");
+  nameevent.value = "Áp dụng cho từng sản phẩm";
+  selectPosi.addEventListener("change", () => {
+    if (selectPosi.value == "Giảm giá") {
+      inputAll.disabled = false;
+      nameevent.value = "Áp dụng cho từng sản phẩm";
+      nameevent.disabled = true;
+    }
+    if (selectPosi.value == "Quà tặng") {
+      inputAll.disabled = true;
+      nameevent.value = "Áp dụng cho hóa đơn";
+      nameevent.disabled = true;
+    }
   });
 }
 function getlistvocher() {
@@ -178,4 +228,115 @@ function getlistvocher() {
   };
 
   xhr.send();
+}
+function list_posiBoxProduct(data) {
+  let mttable = document.querySelectorAll(".table-wrapper tbody")[0];
+  let table = "";
+  console.log(mttable);
+  data.map((item, index) => {
+    table += ` 
+    <tr>
+        <td>${item.MaGiay}</td>
+        <td>${formatCurrency(item.DonGia)}</td>
+        <td><input type="checkbox" data-magiay="${item.MaGiay}"></td>
+    </tr>
+`;
+  });
+  mttable.innerHTML = table;
+}
+function handleBoxPosi() {
+  let selectPosi = document.getElementById("selectPosiall");
+  if (selectPosi.value == "Quà tặng") {
+    return;
+  }
+  let table_container = document.getElementsByClassName("table-container")[0];
+  table_container.style.display = "block";
+  let add_new_voucher = document.getElementsByClassName("add_new_voucher")[0];
+  add_new_voucher.classList.remove("add_cover");
+  let posi = document.querySelectorAll(
+    ".header, .header_content ,.Mange_item,.voucher_table "
+  );
+  posi.forEach((posion) => {
+    posion.style.opacity = "0.5";
+    posion.style.pointerEvents = "none";
+  });
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "../../mvc/API/index.php?type=giay", true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        var data = JSON.parse(xhr.responseText);
+        console.log(data);
+        list_posiBoxProduct(data);
+      }
+    }
+  };
+  xhr.send();
+}
+function handlesavePosiProduct() {
+  let tableContainer = document.querySelector(".table-container");
+  tableContainer.style.display = "none";
+
+  let addNewVoucher = document.querySelector(".add_new_voucher");
+  addNewVoucher.classList.add("add_cover");
+
+  let inputAll = document.querySelector("#allProduct");
+  let magiayDaChon = [];
+  const checkboxes = document.querySelectorAll(
+    '.table-wrapper input[type="checkbox"]:checked'
+  );
+
+  checkboxes.forEach((checkbox) => {
+    const magiay = checkbox.getAttribute("data-magiay");
+    magiayDaChon.push(magiay);
+  });
+
+  // Xây dựng chuỗi HTML của các option
+  let optionAll = "";
+  magiayDaChon.forEach((item, index) => {
+    optionAll += `<option value="${item}">${item}</option>`;
+  });
+
+  // Thay đổi nội dung của dropdown inputAll
+  inputAll.innerHTML = optionAll;
+}
+
+function saveallPosi() {
+  let inputAll = document.querySelector("#allProduct");
+  let sortPrice = document.getElementById("sortPrice").value;
+  let statusSort = document.getElementById("statusSort").value;
+  let firtday = document.getElementById("firtday").value;
+  let lastday = document.getElementById("lastday").value;
+  let allOptions = inputAll.options;
+  let selectPosi = document.getElementById("selectPosiall");
+  let nameevent = document.getElementById("nameevent").value;
+
+  let allValues = [];
+  for (let i = 0; i < allOptions.length; i++) {
+    allValues.push(allOptions[i].value);
+  }
+
+  let data = {
+    TiLeKM: parseFloat(sortPrice),
+    DieuKien: statusSort,
+    NgayBatDau: firtday,
+    NgayKetThuc: lastday,
+    MaGiay: allValues,
+    Loai: selectPosi.value,
+    TenChuongTrinh: nameevent,
+  };
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "../../mvc/API/index.php?type=themKhuyenMai", true);
+  xhr.setRequestHeader("Content-type", "application/json");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      var response = JSON.parse(xhr.responseText);
+      console.log(JSON.parse(JSON.parse(response)));
+    }
+  };
+
+  xhr.send(JSON.stringify(data));
 }

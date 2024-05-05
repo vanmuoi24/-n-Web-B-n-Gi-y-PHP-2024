@@ -33,7 +33,7 @@ class ThongKeModel
             while ($row = $result1->fetch_assoc()) {
                 $item1[] = array(
                     'MaGiay' => $row['MaGiay'],
-                    'SoLuong' => $row['SoLuong'],
+                    'SoLuong' => $row['SoLuongBan'],
                     'GiaBan' => $row['GiaBan'],
                     'Tengia' => $row['Tengia'],
                     'MaHD' => $row['MaHD'],
@@ -46,7 +46,7 @@ class ThongKeModel
     }
     public function chitietHD($id)
     {
-        $sql = "SELECT c.MaGiay, c.SoLuong, dh.MaHD,dh.NgayBan
+        $sql = "SELECT c.MaGiay, c.SoLuongBan, dh.MaHD,dh.NgayBan
         FROM chitiethoadon c
         JOIN hoadon dh ON c.MaHD = dh.MaHD
         

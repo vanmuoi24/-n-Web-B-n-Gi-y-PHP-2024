@@ -34,8 +34,10 @@ switch ($type) {
         echo $hoadonController->layDanhSachHoaDon();
         break;
     case 'xoa':
-        echo $giayController->delete();
+        $id = isset($_GET['id']) ? $_GET['id'] : null;
+        echo json_encode($giayController->delete($id));
         break;
+
     case 'cthoadon':
         $id = isset($_GET['id']) ? $_GET['id'] : null;
         echo json_encode($hoadonController->chitiethoadon($id));
@@ -137,6 +139,20 @@ switch ($type) {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $data = json_decode(file_get_contents("php://input"), true);
             $response = $hoadonController->capNhatTrangThaiDonHang($data);
+            echo json_encode($response);
+        } else {
+            echo json_encode("Lỗi: Không nhận được dữ liệu từ client.");
+        }
+        break;
+    case 'viewctProduct':
+        $id = isset($_GET['id']) ? $_GET['id'] : null;
+        echo json_encode($giayController->viewctProduct($id));
+        break;
+
+    case 'themKhuyenMai':
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $data = json_decode(file_get_contents("php://input"), true);
+            $response = $khuyenmaiController->themKhuyenMai($data);
             echo json_encode($response);
         } else {
             echo json_encode("Lỗi: Không nhận được dữ liệu từ client.");

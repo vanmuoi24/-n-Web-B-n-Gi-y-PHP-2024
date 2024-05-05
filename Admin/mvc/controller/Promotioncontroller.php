@@ -14,4 +14,9 @@ class Promotioncontroller
         $danhsach = $this->KhuyenMaiModel->laydanhsachKhuyenMai();
         return json_encode($danhsach);
     }
+    public function themKhuyenMai($data)
+    {
+        $themPosi = $this->KhuyenMaiModel->themKhuyenMai($data);
+        return json_encode($themPosi);
+    }
 }

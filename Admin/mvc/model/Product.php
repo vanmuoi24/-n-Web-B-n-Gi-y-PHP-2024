@@ -36,7 +36,7 @@ class GiayModel
                 $giay[] = array(
                     'MaGiay' => $row['MaGiay'],
                     'Tengia' => $row['Tengia'],
-                    
+
                     'DonGia' => $row['DonGia'],
                     'DoiTuongSuDung' => $row['DonGia'],
                     'ChatLieu' => $row['DonGia'],
@@ -52,28 +52,31 @@ class GiayModel
         return $data;
     }
 
-    public function delete()
+    public function delete($id)
     {
-        if (isset($_POST['item_id'])) {
-            $itemId = $this->conn->real_escape_string($_POST['item_id']);
-            $sqlCheckChiTietHoaDon = "SELECT * FROM chitiethoadon WHERE MaGiay = '$itemId'";
-            $resultChiTietHoaDon = $this->conn->query($sqlCheckChiTietHoaDon);
-            $sqlCheckChiTietPhieuNhap = "SELECT * FROM chitietphieunhap WHERE MaGiay = '$itemId'";
-            $resultChiTietPhieuNhap = $this->conn->query($sqlCheckChiTietPhieuNhap);
+        // Kiểm tra dữ liệu đầu vào
+        $id = $this->conn->real_escape_string($id);
 
-            if ($resultChiTietHoaDon->num_rows > 0 || $resultChiTietPhieuNhap->num_rows > 0) {
+        $sqlCheckChiTietHoaDon = "SELECT * FROM chitiethoadon WHERE MaGiay = '$id'";
+        $resultChiTietHoaDon = $this->conn->query($sqlCheckChiTietHoaDon);
 
-                return array("success" => false, "error" => "Không thể xóa sản phẩm vì sản phẩm đang được sử dụng trong các phiếu nhập hoặc hóa đơn.");
-            }
+        $sqlCheckChiTietPhieuNhap = "SELECT * FROM chitietphieunhap WHERE MaGiay = '$id'";
+        $resultChiTietPhieuNhap = $this->conn->query($sqlCheckChiTietPhieuNhap);
 
-            $sqlDeleteGiay = "DELETE FROM giay WHERE MaGiay = '$itemId'";
-            if ($this->conn->query($sqlDeleteGiay) === TRUE) {
-                return array("success" => true);
-            } else {
-                return array("success" => false, "error" => "Lỗi khi xóa sản phẩm từ bảng giay: " . $this->conn->error);
-            }
+        if ($resultChiTietHoaDon->num_rows > 0 || $resultChiTietPhieuNhap->num_rows > 0) {
+            // Sản phẩm đang được sử dụng, không thể xóa
+            return array("success" => false, "error" => "Không thể xóa sản phẩm vì sản phẩm đang được sử dụng trong các phiếu nhập hoặc hóa đơn.");
+        }
+
+        // Thực hiện xóa sản phẩm
+        $sqlDeleteGiay = "DELETE FROM giay WHERE MaGiay = '$id'";
+        if ($this->conn->query($sqlDeleteGiay) === TRUE) {
+            return array("success" => true);
+        } else {
+            return array("success" => false, "error" => "Lỗi khi xóa sản phẩm từ bảng giay: " . $this->conn->error);
         }
     }
+
 
     public function layDanhSachGiayPhanTrang($limit, $offset, $sortOrder)
     {
@@ -114,7 +117,7 @@ class GiayModel
                 $giay = array(
                     'MaGiay' => $row['MaGiay'],
                     'Tengia' => $row['Tengia'],
-                    
+
                     'DonGia' => $row['DonGia'],
                     'DoiTuongSuDung' => $row['DoiTuongSuDung'],
                     'ChatLieu' => $row['ChatLieu'],
@@ -124,10 +127,58 @@ class GiayModel
                     'Loai' => $loai,
 
                 );
-                $data[] = $giay; // Thêm vào mảng $data
+                $data[] = $giay;
             }
         }
 
-        return array('data' => $data, 'totalPages' => $totalPages); // Trả về cả dữ liệu và tổng số trang
+        return array('data' => $data, 'totalPages' => $totalPages);
+    }
+
+    public function viewctProduct($id)
+    {
+        $sql = "SELECT * FROM giay 
+              INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu WHERE MaGiay = '$id'";
+        $sql1 = "SELECT * FROM giay_size WHERE MaGiaySize = '$id' ";
+
+        $result = $this->conn->query($sql);
+        $result1 = $this->conn->query($sql1);
+
+        $data = array();
+        if ($result->num_rows > 0) {
+            // Dùng fetch_assoc() để lấy một hàng dữ liệu
+            $data["giay"] = $result->fetch_assoc();
+        }
+
+        if ($result1->num_rows > 0) {
+            $sizes = array();
+            while ($row = $result1->fetch_assoc()) {
+                $sizeItem = array(
+                    'SoLuong' => $row['SoLuong'],
+                    'MaSz' => $row['MaSz'],
+                );
+                $sizes[] = $sizeItem;
+            }
+            $data["giaysize"] = $sizes;
+        }
+
+        foreach ($data["giaysize"] as &$item) {
+            $maSz = $item['MaSz'];
+            $sql2 = "SELECT * FROM size WHERE MaSize = '$maSz'";
+            $result2 = $this->conn->query($sql2);
+            if ($result2->num_rows > 0) {
+                $sizes = array();
+                while ($row = $result2->fetch_assoc()) {
+                    $sizeItem = array(
+                        'MaSz' => $row['MaSize'],
+                        'KichThuoc' => $row['KichThuoc']
+                    );
+                    $sizes = $sizeItem;
+                }
+                $item['Sizes'] = $sizes;
+            }
+        }
+
+
+        return $data;
     }
 }

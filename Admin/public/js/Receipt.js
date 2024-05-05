@@ -10,8 +10,11 @@ function handleOrder() {
       <div class="status_demo">
         <select id="selectHandle">
           <option value="1">Trạng Thái Ban Đầu</option>
-          <option value="Chưa Xử Lí">Chưa Xử Lí</option>
-          <option value="Đã Xử Lí">Đã Xử Lí</option>
+          <option value="Chưa Xử Lí">Đang Chờ</option>
+          <option value="Đã Liên Lạc">Đã Liên Lạc</option>
+          <option value="Đã Giao">Đã Giao</option>
+          <option value="Hủy">Hủy</option>
+
         </select>
       </div>
       <div class="serch_client">
@@ -147,7 +150,7 @@ function getdatareciep() {
             } else {
               let mapData = [];
               data.forEach((item) => {
-                if (valueselect === item.trangthai) {
+                if (valueselect === item.tentrangthai) {
                   mapData.push(item);
                 }
               });

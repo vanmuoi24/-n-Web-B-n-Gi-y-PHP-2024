@@ -22,4 +22,28 @@ class KhuyenMaiModel
 
         return $data;
     }
+    public function themKhuyenMai($data)
+    {
+        $tiLeKM = $data['TiLeKM'];
+        $dieuKien = $data['DieuKien'];
+        $ngayBatDau = $data['NgayBatDau'];
+        $ngayKetThuc = $data['NgayKetThuc'];
+        $maGiayArray = $data['MaGiay'];
+        $loaiChuongTrinh = $data['Loai'];
+        $tenchuongtrinh = $data["TenChuongTrinh"];
+
+        $queryChuongTrinh = "INSERT INTO chuongtrinhkhuyenmai (LoaiChuongTrinh, DieuKien, NgayBatDau, NgayKetThuc,TenChuongTrinh) 
+                                VALUES ('$loaiChuongTrinh', '$dieuKien', '$ngayBatDau', '$ngayKetThuc','$tenchuongtrinh')";
+
+        $this->conn->query($queryChuongTrinh);
+
+
+        $maKM = $this->conn->insert_id;
+        foreach ($maGiayArray as $maGiay) {
+            $queryChiTiet = "INSERT INTO chitietkhuyenmai (MaKM, MaGiayKM, TiLeKMTheo) 
+                                VALUES ('$maKM', '$maGiay', '$tiLeKM')";
+            // Thực hiện truy vấn INSERT cho Chi tiết khuyến mãi
+            $this->conn->query($queryChiTiet);
+        }
+    }
 }

@@ -333,7 +333,7 @@ function handlegetList() {
             <td>${dem++}</td>
             <td>${item.MaPN}</td>
             <td>${item.NgayNhap}</td>
-            <td>${item.TongTien}</td>
+            <td>${formatCurrency(item.TongTien)}</td>
             <td>${item.MaNV.Ho}${item.MaNV.Ten}</td>
             <td>${item.MaNCC.TenNCC}</td>
             <td>

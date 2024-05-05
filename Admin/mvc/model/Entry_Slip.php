@@ -223,7 +223,7 @@ class Entry_SlipModel
                     'MaGiay' => $row['MaGiay'],
                     'MaPN' => $row['MaPN'],
                     'SoLuong' => $row['SoLuong'],
-                    'MaSz' => $row['Masize'], // Sử dụng Masize thay cho MaSz nếu cần
+                    'MaSz' => $row['Masize'],
                     'GiaNhap' => $row['GiaNhap']
                 );
                 $data[] = $dataitem;

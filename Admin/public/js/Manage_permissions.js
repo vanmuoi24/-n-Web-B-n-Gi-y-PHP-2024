@@ -64,6 +64,7 @@ function Manage_permissions() {
                      
                     </div>
                     <div id="notifications"></div>
+                    <div id="toast"></div>
                         `;
   Mange_client.innerHTML = Manage_permissions;
   listManage_posiion();
@@ -376,33 +377,32 @@ function handlesavequyen() {
     update_quyen.innerHTML = "";
     container_add_posi.style.display = "none";
 
-    Notify(
-      "Đã lưu dữ liệu thành công!",
-      function () {
-        console.log("Người dùng đã nhấp vào thông báo thành công!");
-      },
-      function () {
-        console.log("Người dùng đã đóng thông báo!");
-      },
-      "success"
-    );
-    console.log(selectedQuyen, "check");
+    toast({
+      title: "Thành Công",
+      message: "Thêm Thành Công",
+      type: "success",
+      duration: 3000,
+    });
+
+    xhr.send(JSON.stringify(selectedQuyen));
     listManage_posiion();
     cityopmove();
-    xhr.send(JSON.stringify(selectedQuyen));
   }
 }
 function validateForm() {
   const tenNhomQuyenInput = document.getElementById("ten-nhom-quyen");
+  console.log(tenNhomQuyenInput);
   const checkboxes = document.querySelectorAll('input[name="quyen[]"]');
   let quyenSelected = false;
 
   if (tenNhomQuyenInput.value === "") {
-    Notify(
-      "Vui lòng nhập tên nhóm quyền.",
-
-      "danger"
-    );
+    console.log("ok");
+    toast({
+      title: "Tên Quyền",
+      message: "Vui Lòng Nhập Tên Quyền",
+      type: "error",
+      duration: 3000,
+    });
     return false;
   }
 
@@ -413,11 +413,12 @@ function validateForm() {
   });
 
   if (!quyenSelected) {
-    Notify(
-      "Vui lòng chọn ít nhất một chức năng.",
-
-      "danger"
-    );
+    toast({
+      title: "Chức Năng",
+      message: "Vui Lòng Chọn Ít Nhất 1 Chức Năng",
+      type: "warning",
+      duration: 3000,
+    });
     return false;
   }
 
@@ -446,97 +447,63 @@ function handleupodata(id) {
       let res = JSON.parse(JSON.parse(response));
     }
   };
-  console.log(selectedQuyen);
   if (validateForm() == true) {
+    console.log(selectedQuyen);
+
     const container_add_posi =
       document.getElementsByClassName("container_add_posi")[0];
     const update_quyen = document.getElementsByClassName("update_quyen")[0];
     update_quyen.innerHTML = "";
     container_add_posi.style.display = "none";
-    Notify(
-      "Cập Nhật Dữ Liệu Thành Công",
-      function () {
-        console.log("Người dùng đã nhấp vào thông báo thành công!");
-      },
-      function () {
-        console.log("Người dùng đã đóng thông báo!");
-      },
-      "success"
-    );
+    toast({
+      title: "Thành Công",
+      message: "Cập Nhật Thành Công",
+      type: "success",
+      duration: 3000,
+    });
     listManage_posiion();
     cityopmove();
     xhr.send(JSON.stringify(selectedQuyen));
   }
 }
-function validateForm() {
-  var ma_giay = document.getElementById("ma_giay").value.trim();
-  var ten_giay = document.getElementById("ten_giay").value.trim();
-  var chat_lieu = document.getElementById("chat_lieu").value.trim();
-  var so_luong = document.getElementById("so_luong").value.trim();
-  var gia_nhap = document.getElementById("gia_nhap").value.trim();
-  var loai = document.getElementById("loai").value;
-  var thuong_hieu = document.getElementById("thuong_hieu").value;
-  var size = document.getElementById("size").value;
-  var mausac = document.getElementById("mausac").value;
-  var nhacungcap = document.getElementById("nhacungcap").value;
 
-  if (ma_giay === "") {
-    alert("Vui lòng nhập Mã Giày");
-    return false;
-  }
+function toast({ title = "", message = "", type = "info", duration = 3000 }) {
+  const main = document.querySelector("#toast");
+  if (main) {
+    const toast = document.createElement("div");
+    const autoRmId = setTimeout(() => {
+      main.removeChild(toast);
+    }, duration + 1000);
 
-  if (ten_giay === "") {
-    alert("Vui lòng nhập Tên Giày");
-    return false;
-  }
+    toast.onclick = (e) => {
+      if (e.target.closest(".toast__close")) {
+        main.removeChild(toast);
+        clearTimeout(autoRmId);
+      }
+    };
+    const icons = {
+      success: "fa fa-check-circle",
+      error: "fa fa-warning",
+      warning: "fa fa-exclamation-circle",
+      info: "fa fa-info-circle",
+    };
 
-  if (chat_lieu === "") {
-    alert("Vui lòng nhập Chất Liệu");
-    return false;
+    const icon = icons[type];
+    const delay = (duration / 1000).toFixed(2);
+    toast.classList.add("toast", `toast--${type}`);
+    toast.style.animation = ` slideInLeft linear 0.3s, fadeOut linear 1s ${delay}s forwards`;
+    toast.innerHTML = `
+            <div class="toast__icon">
+                <i class="${icon}"></i>
+            </div>
+            <div class="toast__body">
+                <h3 class="toast__title">${title}</h3>
+                <p class="toast__msg">${message}</p>
+            </div>
+            <div class="toast__close">
+                <i class="fas fa-times-circle"></i>
+            </div>
+        `;
+    main.appendChild(toast);
   }
-
-  if (so_luong === "") {
-    alert("Vui lòng nhập Số Lượng");
-    return false;
-  }
-  if (isNaN(so_luong)) {
-    alert("Số Lượng phải là một số");
-    return false;
-  }
-
-  if (gia_nhap === "") {
-    alert("Vui lòng nhập Giá Nhập");
-    return false;
-  }
-  if (isNaN(gia_nhap)) {
-    alert("Giá Nhập phải là một số");
-    return false;
-  }
-
-  if (loai === "") {
-    alert("Vui lòng chọn Loại");
-    return false;
-  }
-
-  if (thuong_hieu === "") {
-    alert("Vui lòng chọn Thương Hiệu");
-    return false;
-  }
-
-  if (size === "") {
-    alert("Vui lòng chọn Size");
-    return false;
-  }
-
-  if (mausac === "") {
-    alert("Vui lòng chọn Màu Sắc");
-    return false;
-  }
-
-  if (nhacungcap === "") {
-    alert("Vui lòng chọn Nhà Cung Cấp");
-    return false;
-  }
-
-  return true;
 }
