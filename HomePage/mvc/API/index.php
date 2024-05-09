@@ -59,6 +59,10 @@ switch ($type) {
       $id = isset($_GET['id']) ? $_GET['id'] : '';
       echo $OrderController->cancelOrder($id);
       break;
+   case 'checkPromotion':
+      $date = isset($_GET['date']) ? $_GET['date'] : '';
+      echo $OrderController->checkPromotion($date);
+      break;
    case 'checkQuantity':
       $size = isset($_GET['size']) ? $_GET['size'] : '';
       $id = isset($_GET['id']) ? $_GET['id'] : '';

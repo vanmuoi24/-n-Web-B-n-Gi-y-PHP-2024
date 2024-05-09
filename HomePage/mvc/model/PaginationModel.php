@@ -12,57 +12,28 @@ class PaginationModel
    {
       $this->conn = $conn;
    }
-   public function pagination($page)
-   {
-      $offset = ($page - 1) * $this->limit;
-      $sql = "SELECT * FROM giay
-         INNER JOIN loai ON giay.MaLoai = loai.MaLoai
-         INNER JOIN mausac ON giay.MaMau = mausac.MaMau
-         INNER JOIN xuatxu ON giay.MaXX = xuatxu.MaXX
-         INNER JOIN size ON giay.MaSize = size.MaSize
-         INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu
-         LIMIT $offset, $this->limit";
-      $result = $this->conn->query($sql);
-      $data = array();
-      if ($result->num_rows > 0) {
-         while ($row = $result->fetch_assoc()) {
-            $origin = array(
-               'idOrigin' => $row['MaXX'],
-               'nameOrigin' => $row['TenNuoc'],
-            );
-            $size = array(
-               'idSize' => $row['MaSize'],
-               'nameSize' => $row['KichThuoc'],
-            );
-            $brand = array(
-               'idBrand' => $row['MaThuongHieu'],
-               'nameBrand' => $row['TenThuongHieu'],
-            );
-            $type = array(
-               'idType' => $row['MaLoai'],
-               'nameType' => $row['TenLoai'],
-            );
-            $product[] = array(
-               'idProduct' => $row['MaGiay'],
-               'nameProduct' => $row['TenGiay'],
-               'quantityProduct' => $row['SoLuong'],
-               'priceProduct' => $row['DonGia'],
-               'collectionProduct' => $row['DoiTuongSuDung'],
-               'materialProduct' => $row['DonGia'],
-               'imgProduct' => $row['HinhAnh'],
-               'originProduct' => $origin,
-               'brandProduct' => $brand,
-               'typeProduct' => $type,
-               'sizeProduct' => $size,
-            );
-            $data = $product;
-         }
-      }
-      return $data;
-   }
 
    public function filter($filter, $input)
    {
+      date_default_timezone_set('Asia/Ho_Chi_Minh');
+      //check date khuyen mai
+      $flag = true; // mac dinh la het han
+      $id_km = 4; //ma khuyen mai co dinh
+      $sql_check = "SELECT * FROM chuongtrinhkhuyenmai WHERE MaKM = $id_km";
+      $result_check = $this->conn->query($sql_check);
+      $row_check = $result_check->fetch_assoc();
+      //
+      $nowDate =  date('Y-m-d');
+      $overDate = $row_check['NgayKetThuc'];
+
+
+
+      $sql_km = '';
+      if (strtotime($overDate) >= strtotime($nowDate)) {
+         $sql_km .= "LEFT JOIN chitietkhuyenmai ON giay.MaGiay = chitietkhuyenmai.MaGiayKM";
+         $flag = !$flag;
+      }
+
 
       if ($filter == 'price') {
          $input = explode('-', $input);
@@ -71,7 +42,7 @@ class PaginationModel
          $sql = "SELECT *
                FROM giay
                INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu
-               LEFT JOIN chitietchuongtrinhkhuyenmai ON giay.MaGiay = chitietchuongtrinhkhuyenmai.MaGiayKM
+               $sql_km
                WHERE giay.DonGia BETWEEN $from AND $to
             ";
          $result = mysqli_query($this->conn, $sql);
@@ -87,7 +58,7 @@ class PaginationModel
          $sql = "SELECT *
                FROM giay
                INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu
-               LEFT JOIN chitietchuongtrinhkhuyenmai ON giay.MaGiay = chitietchuongtrinhkhuyenmai.MaGiayKM 
+               $sql_km 
                WHERE thuonghieu.MaThuongHieu = '$input'    
             ";
          $result = mysqli_query($this->conn, $sql);
@@ -102,7 +73,7 @@ class PaginationModel
          $sql = "SELECT *
                FROM giay
                INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu
-               LEFT JOIN chitietchuongtrinhkhuyenmai ON giay.MaGiay = chitietchuongtrinhkhuyenmai.MaGiayKM 
+               $sql_km 
                WHERE giay.MaLoai = '$input'    
             ";
          $result = mysqli_query($this->conn, $sql);
@@ -117,7 +88,7 @@ class PaginationModel
          $sql = "SELECT *
                FROM giay
                INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu
-               LEFT JOIN chitietchuongtrinhkhuyenmai ON giay.MaGiay = chitietchuongtrinhkhuyenmai.MaGiayKM 
+               $sql_km 
                WHERE giay.ChatLieu = '$input'    
             ";
          $result = mysqli_query($this->conn, $sql);
@@ -133,7 +104,7 @@ class PaginationModel
                FROM giay
                INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu
                INNER JOIN giay_size ON giay.MaGiay = giay_size.MaGiaySize
-               LEFT JOIN chitietchuongtrinhkhuyenmai ON giay.MaGiay = chitietchuongtrinhkhuyenmai.MaGiayKM
+               $sql_km
                WHERE giay_size.MaSz = '$input'    
             ";
          $result = mysqli_query($this->conn, $sql);
@@ -148,7 +119,7 @@ class PaginationModel
          $sql = "SELECT *
                FROM giay
                INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu
-               LEFT JOIN chitietchuongtrinhkhuyenmai ON giay.MaGiay = chitietchuongtrinhkhuyenmai.MaGiayKM
+               $sql_km
                WHERE giay.MaMau = '$input'    
             ";
          $result = mysqli_query($this->conn, $sql);
@@ -165,7 +136,7 @@ class PaginationModel
                 INNER JOIN loai ON giay.MaLoai = loai.MaLoai
                 INNER JOIN mausac ON giay.MaMau = mausac.MaMau
                 INNER JOIN xuatxu ON giay.MaXX = xuatxu.MaXX
-                LEFT JOIN chitietchuongtrinhkhuyenmai ON giay.MaGiay = chitietchuongtrinhkhuyenmai.MaGiayKM 
+                $sql_km 
                 INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu
                 WHERE giay.Tengia LIKE N'%$input%' OR
                 thuonghieu.TenThuongHieu LIKE N'%$input%' OR            

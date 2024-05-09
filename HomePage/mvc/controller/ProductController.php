@@ -8,12 +8,7 @@ class ProductController
    {
       $this->ProductModel = new ProductModel($conn);
    }
-   public function getAll()
-   {
-      $products = $this->ProductModel->all();
 
-      return json_encode($products);
-   }
    public function getProductByFilter($filter, $input, $page)
    {
       $products = $this->ProductModel->filter($filter, $input, $page);

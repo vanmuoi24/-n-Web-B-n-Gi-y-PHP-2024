@@ -1,4 +1,5 @@
 $(document).ready(function () {
+	checkAuthor();
 	loadProductByFilter();
 	loadBrand();
 	loadSearch();
@@ -80,6 +81,8 @@ function loadProductHomeHtml(heading = 'GIÀY SNEAKER AUTHENTIC') {
 						</div>
 					</div>
 				</div>
+				<div class="--separate-line"></div>
+				
 			</div>
 			<div class="product-main">
 				<div class="pm-wrapper">
@@ -87,7 +90,6 @@ function loadProductHomeHtml(heading = 'GIÀY SNEAKER AUTHENTIC') {
 						<div class="pm-filter">
 							<select name="" id="pm-filter-select" >
 								<option value="mac-dinh" selected>Mặc định</option>
-								<option value="moi-nhat">Mới nhất</option>
 								<option value="tang-dan">Tăng dần</option>
 								<option value="giam-dan">Giảm dần</option>
 							</select>

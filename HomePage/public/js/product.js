@@ -1,11 +1,16 @@
+function loadProductFilterSidebar(filter = '', input = '', page = 1) {
+	handleProductByFilter(filter, input, page);
+	loadPaginationByFilter(filter, input, page);
+	document.body.scrollTop = 0; // For Safari
+	document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
 function loadProductByFilter(filter = '', input = '', page = 1) {
 	loadProductHomeHtml();
 	handleProductByFilter(filter, input, page);
 	loadPaginationByFilter(filter, input, page);
 	document.body.scrollTop = 0; // For Safari
 	document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-	//
-	// saveKeyFilter(filter, input);
 }
 
 function handleProductByFilter(filter, input, page) {
@@ -48,13 +53,6 @@ function handleProductByFilter(filter, input, page) {
 					if (selectVal === 'giam-dan') {
 						let dataSort = dataTemp.sort(
 							(a, b) => b.priceProduct - a.priceProduct
-						);
-						console.log(dataSort);
-						renderProduct(dataSort);
-					}
-					if (selectVal === 'moi-nhat') {
-						let dataSort = dataTemp.sort(
-							(a, b) => b.idProduct - a.idProduct
 						);
 						console.log(dataSort);
 						renderProduct(dataSort);

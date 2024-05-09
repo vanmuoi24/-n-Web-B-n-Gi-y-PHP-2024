@@ -119,16 +119,22 @@ function renderLiveResult(result) {
 										</div>
                               <div class="nbcs-info">
                                  <p class="nbcs-name">${product.nameProduct}</p>
-                                 <p class="nbcs-price --is-not-discount">${formatCurrency(
-												product.priceProduct
-											)}</p>
-											<p class="nbcs-price">${formatCurrency(
-												product.priceProduct -
-													(product.priceProduct *
-														product.discountProduct
-															.percentDiscount) /
-														100
-											)}</p>
+                                 <p class="nbcs-price ${
+												product.discountProduct.idDiscount
+													? '--is-not-discount'
+													: ''
+											} ">${formatCurrency(product.priceProduct)}</p>
+											<p class="nbcs-price">${
+												product.discountProduct.idDiscount
+													? formatCurrency(
+															product.priceProduct -
+																(product.priceProduct *
+																	product.discountProduct
+																		.percentDiscount) /
+																	100
+													  )
+													: ''
+											}</p>
                               </div>
                            </a>
                      </li>

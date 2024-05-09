@@ -8,10 +8,22 @@ class OrderModel
    }
    public function add($data)
    {
+      $MaKM = 'null';
+      $sql_kmai = "SELECT * FROM chuongtrinhkhuyenmai WHERE LoaiChuongTrinh LIKE 'Khuyến mãi'";
+      $rs_kmai = $this->conn->query($sql_kmai);
+      $row_kmai = $rs_kmai->fetch_assoc();
+      if (
+         (int)$data['total'] >= (int)($row_kmai['DieuKien'])
+         && strtotime($row_kmai['NgayKetThuc']) >= strtotime(date('Y-m-d'))
+      ) {
+         $MaKM = $row_kmai['MaKM'];
+      }
+
+
       $stateInit = 1;
       $thueMacDinh = 8.00;
+
       //
-      $MaKM = ($data['freeship'] ? $data['freeship'] : 'KM000');
       $MaKH = $data['id'];
       $NgayBan = $data['datePay'];
       $TongTien = $data['total'];
@@ -23,7 +35,10 @@ class OrderModel
 
 
       //insert "hoadon"
-      $sql_hoadon = "INSERT INTO hoadon(MaKM, MaKH, NgayBan, TongTien, Thue, trangthai, LuuY) VALUES ('$MaKM','$MaKH','$NgayBan','$TongTien','$Thue','$TrangThai','$LuuY')";
+      $sql_hoadon = "INSERT INTO hoadon(MaKM, MaKH, NgayBan, TongTien, Thue, trangthai, LuuY) VALUES ($MaKM,'$MaKH','$NgayBan','$TongTien','$Thue','$TrangThai','$LuuY')";
+
+      // echo $sql_hoadon;
+      // die();
       $hd_rs = $this->conn->query($sql_hoadon);
       //insert "cthoadon"
       $maHD = $this->conn->insert_id;
@@ -130,6 +145,21 @@ class OrderModel
          ];
       }
    }
+   public function promotion($date)
+   {
+      $isStillExp = false;
+      $sql_kmai = "SELECT * FROM chuongtrinhkhuyenmai WHERE LoaiChuongTrinh LIKE 'Khuyến mãi'";
+      $rs_kmai = $this->conn->query($sql_kmai);
+      $row_kmai = $rs_kmai->fetch_assoc();
+      if (
+         strtotime($row_kmai['NgayKetThuc']) >= strtotime($date)
+      )
+         $isStillExp = !$isStillExp;
+
+
+      if ($isStillExp) return ['status' => 1];
+      else return ['status' => 0];
+   }
    public function reorder($id)
    {
       $sql = "UPDATE `hoadon` SET `trangthai`='1' WHERE hoadon.MaHD = '$id'";
@@ -158,7 +188,7 @@ class OrderModel
 
       $sql_cthd = "SELECT * FROM chitiethoadon
                INNER JOIN giay ON chitiethoadon.MaGiay = giay.MaGiay 
-               LEFT JOIN chitietchuongtrinhkhuyenmai ON chitiethoadon.MaGiay = chitietchuongtrinhkhuyenmai.MaGiayKM 
+               LEFT JOIN chitietkhuyenmai ON chitiethoadon.MaGiay = chitietkhuyenmai.MaGiayKM 
                WHERE chitiethoadon.MaHD = '$idOrder'
       ";
       $result_cthd = $this->conn->query($sql_cthd);

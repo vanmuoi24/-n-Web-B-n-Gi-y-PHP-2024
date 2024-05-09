@@ -89,7 +89,7 @@ function renderOrderByStatus(data) {
 	document.querySelector('.oc-table').innerHTML = htmls;
 }
 function handleOrder(id) {
-	const accountID = JSON.parse(localStorage.getItem('accountID'));
+	const accountID = JSON.parse(sessionStorage.getItem('username')).tendn;
 	let xhr = new XMLHttpRequest();
 	xhr.open(
 		'GET',
@@ -202,7 +202,8 @@ function loadOrderByStatus(idStatus) {
 
 function loadOrderDetailPage(idOrder) {
 	loadOrderDetail();
-	const accountID = JSON.parse(localStorage.getItem('accountID'));
+	const accountID = JSON.parse(sessionStorage.getItem('username')).tendn;
+
 	handleOrderDetail(accountID, idOrder);
 }
 function handleOrderDetail(accountID, idOrder) {
@@ -246,7 +247,7 @@ function renderOrderDetail(data) {
 		</button>
 	`;
 	let btnReOrderHtmls = `
-		<button onclick="reOrder(${data.id})" 
+		<button onclick="reOrder(${data.info.id})" 
 			class="btn btn--primary odr-btn-cancel"
 		>
 			MUA LẠI
