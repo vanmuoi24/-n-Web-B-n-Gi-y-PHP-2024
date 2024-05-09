@@ -8,12 +8,7 @@ class PaginationController
    {
       $this->PaginationModel = new PaginationModel($conn);
    }
-   public function getProductByPage($page)
-   {
-      $pagination = $this->PaginationModel->pagination($page);
 
-      return json_encode($pagination);
-   }
 
    public function getPaginationByFilter($filter, $input)
    {

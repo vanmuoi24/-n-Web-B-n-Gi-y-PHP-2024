@@ -115,3 +115,42 @@ function showProductNextPage(ele) {
 	document.body.scrollTop = 0; // For Safari
 	document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
+//
+
+function loadPaginationFilterSidebar(filter, input, page) {
+	//
+	let url = '';
+	if (filter && input) {
+		url = `type=pagination&filter=${filter}&input=${input}&page=${page}`;
+	} else {
+		url = `type=paginationHome&page=${page}`;
+	}
+	console.log('url: ', url);
+	handlePaginationSidebar(url, filter, input, page);
+}
+
+function handlePaginationSidebar(url, filter, input, page) {
+	let xhr = new XMLHttpRequest();
+	xhr.open('GET', `../../mvc/API/index.php?${url}`, true);
+	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			let currPage = page;
+			let dataTotalPage = JSON.parse(xhr.responseText);
+			console.log('dataTotalPage: ', dataTotalPage);
+			if (dataTotalPage.totalPage <= 1) {
+				document.querySelector('.pmbpagi__list').innerHTML = '';
+				return;
+			}
+			console.log(
+				'pagination: ',
+				dataTotalPage.totalPage,
+				currPage,
+				filter,
+				input
+			);
+			renderPagination(dataTotalPage.totalPage, currPage, filter, input);
+		}
+	};
+	xhr.send();
+}

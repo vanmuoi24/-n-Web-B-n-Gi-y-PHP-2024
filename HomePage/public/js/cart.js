@@ -315,41 +315,6 @@ function renderCart(data) {
 	document.querySelector('.mcl-list').innerHTML = tableHtml;
 	document.querySelector('.mcr-prev-total-value').innerText =
 		formatCurrency(totalPrice);
-
-	//
-	if (totalPrice < 3990000) {
-		document
-			.getElementsByClassName('mcr-ship-value')[0]
-			.classList.add('unactive');
-		document
-			.getElementsByClassName('mcr-ship-price')[0]
-			.classList.add('unactive');
-		document
-			.getElementsByClassName('mcr-ship-value')[1]
-			.classList.remove('unactive');
-		document
-			.getElementsByClassName('mcr-ship-price')[1]
-			.classList.remove('unactive');
-		document.querySelector('.mcr-total-value').innerText = `${formatCurrency(
-			totalPrice + 35000
-		)}`;
-	} else {
-		document
-			.getElementsByClassName('mcr-ship-value')[1]
-			.classList.add('unactive');
-		document
-			.getElementsByClassName('mcr-ship-price')[1]
-			.classList.add('unactive');
-		document
-			.getElementsByClassName('mcr-ship-value')[0]
-			.classList.remove('unactive');
-		document
-			.getElementsByClassName('mcr-ship-price')[0]
-			.classList.remove('unactive');
-		document.querySelector('.mcr-total-value').innerText = `${formatCurrency(
-			totalPrice
-		)}`;
-	}
 }
 function decreaseQuantityCart(idProduct, idSize) {
 	// console.log(idProduct, idSize);
@@ -459,25 +424,7 @@ function loadCartPage() {
 														<p class="mcr-prev-total-value"></p>
 													</td>
 												</tr>
-												<tr>
-													<td>
-														<p class="mcr-ship">Giao hàng</p>
-													</td>
-													<td>
-														<p class="mcr-ship-value">Freeship (3-4 ngày)</p>
-														<p class="mcr-ship-price" style="text-align:right; margin-top:4px">0 đ</p>
-														<p class="mcr-ship-value">Tiêu chuẩn (3-4 ngày)</p>
-														<p class="mcr-ship-price" style="text-align:right; margin-top:4px">35.000 đ</p>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<p class="mcr-total">Tổng</p>
-													</td>
-													<td>
-														<p class="mcr-total-value"></p>
-													</td>
-												</tr>
+												
 												<tr>
 													<td colspan="2">
 														<div onclick="loadPayPage()" class="btn btn--primary mcr-btn">TIẾN HÀNH THANH TOÁN</div>

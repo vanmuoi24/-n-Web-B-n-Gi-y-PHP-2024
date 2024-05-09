@@ -44,4 +44,9 @@ class OrderController
       $result = $this->OrderModel->check($id, $size, $quantity);
       return json_encode($result);
    }
+   public function checkPromotion($date)
+   {
+      $result = $this->OrderModel->promotion($date);
+      return json_encode($result);
+   }
 }

@@ -28,6 +28,26 @@ class HomeModel
    }
    public function getHomeProduct($page = 1)
    {
+      date_default_timezone_set('Asia/Ho_Chi_Minh');
+      //check date khuyen mai
+      $flag = true; // mac dinh la het han
+      $id_km = 4; //ma khuyen mai co dinh
+      $sql_check = "SELECT * FROM chuongtrinhkhuyenmai WHERE MaKM = $id_km";
+      $result_check = $this->conn->query($sql_check);
+      $row_check = $result_check->fetch_assoc();
+      //
+      $nowDate =  date('Y-m-d');
+      $overDate = $row_check['NgayKetThuc'];
+
+
+
+      $sql_km = '';
+
+      if (strtotime($overDate) >= strtotime($nowDate)) {
+         $sql_km .= "LEFT JOIN chitietkhuyenmai ON giay.MaGiay = chitietkhuyenmai.MaGiayKM";
+         $flag = !$flag;
+      }
+
 
       $offset = ($page - 1) * $this->limit;
       $sql = " SELECT * FROM giay 
@@ -35,11 +55,12 @@ class HomeModel
       INNER JOIN mausac ON giay.MaMau = mausac.MaMau 
       INNER JOIN xuatxu ON giay.MaXX = xuatxu.MaXX 
       INNER JOIN thuonghieu ON giay.MaThuongHieu = thuonghieu.MaThuongHieu 
-      LEFT JOIN chitietchuongtrinhkhuyenmai ON giay.MaGiay = chitietchuongtrinhkhuyenmai.MaGiayKM 
-         ORDER BY giay.MaGiay DESC
-         LIMIT $offset, $this->limit";
+      $sql_km 
+      ORDER BY giay.MaGiay DESC LIMIT $offset, $this->limit";
       $result = $this->conn->query($sql);
       //
+
+
       $data = array();
       if ($result->num_rows > 0) {
          while ($row = $result->fetch_assoc()) {
@@ -57,8 +78,8 @@ class HomeModel
                'nameType' => $row['TenLoai'],
             );
             $discount = array(
-               'idDiscount' => $row['MaKM'],
-               'percentDiscount' => $row['TiLeKMTheo'],
+               'idDiscount' => (!$flag) ? $row['MaKM'] : null,
+               'percentDiscount' => (!$flag) ? $row['TiLeKMTheo'] : null,
 
             );
             $product[] = array(

@@ -16,7 +16,7 @@ function loadSidebar() {
 			dataSidebar.type.map((item) => {
 				htmls += `
 					<li class="pst-item">
-						<a onclick="showProductByType(\'${item.id}\')" class="pst-link">${item.name}</a>
+						<a onclick="showProductByType(this)" data-id=${item.id} class="pst-link">${item.name}</a>
 					</li>
 				`;
 			});
@@ -26,7 +26,7 @@ function loadSidebar() {
 			dataSidebar.material.map((item) => {
 				htmls += `
 					<li class="psm-item">
-						<div onclick="showProductByMaterial(\'${item.name}\')" class="psm-link">Chất liệu ${item.name}</div>
+						<a onclick="showProductByMaterial(this, \'${item.name}\')" class="psm-link">${item.name}</a>
 					</li>
 				`;
 			});
@@ -36,7 +36,7 @@ function loadSidebar() {
 			dataSidebar.color.map((item) => {
 				htmls += `
 					<li class="psc-item">
-						<a onclick="showProductByColor(\'${item.id}\')" class="psc-link">Màu ${item.name}</a>
+						<a onclick="showProductByColor(this)" data-id=${item.id} class="psc-link">Màu ${item.name}</a>
 					</li>
 				
 				`;
