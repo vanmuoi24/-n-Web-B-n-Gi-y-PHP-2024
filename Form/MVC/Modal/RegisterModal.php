@@ -23,6 +23,15 @@ class RegisterModal
         // $sql_khachhang = "INSERT INTO khachhang (MaKH,Ho,Ten,DiaChi,Email,SDT) VALUES (?,?,?,?,?,?)  ";
         // $stmt = $this->conn->prepare($sql_khachhang);
         // $stmt->bind_param('ssssss', $tendn, $ho, $ten, $diachi, $email,$sdt);
+<<<<<<< HEAD
+=======
+        $sql_check_tendn = "SELECT COUNT(*) AS total FROM taikhoan WHERE TenDN = ?";
+        $stmt_check_tendn = $this->conn->prepare($sql_check_tendn);
+        $stmt_check_tendn->bind_param('s', $tendn);
+        $stmt_check_tendn->execute();
+        $result_check_tendn = $stmt_check_tendn->get_result();
+        $row_check_tendn = $result_check_tendn->fetch_assoc();
+>>>>>>> 89e0c6cbaee36158731d09428225eca167971e66
 
         // $sql_check_tendn = "SELECT COUNT(*) AS total FROM taikhoan WHERE TenDN = ?";
         // $stmt_check_tendn = $this->conn->prepare($sql_check_tendn);
@@ -65,3 +74,7 @@ class RegisterModal
         ));
     }
 }
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 89e0c6cbaee36158731d09428225eca167971e66
