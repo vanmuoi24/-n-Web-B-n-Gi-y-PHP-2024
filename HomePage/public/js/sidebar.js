@@ -15,12 +15,10 @@ function loadSidebar() {
 			let htmls = '';
 			dataSidebar.type.map((item) => {
 				htmls += `
-					<li class="pst-item">
-						<a onclick="showProductByType(this)" data-id=${item.id} class="pst-link">${item.name}</a>
-					</li>
+				<option class="pst-opt" value="${item.id}">${item.name}</option>
 				`;
 			});
-			sblistType.innerHTML = htmls;
+			sblistType.innerHTML += htmls;
 			//material
 			htmls = '';
 			dataSidebar.material.map((item) => {
@@ -59,10 +57,11 @@ function sidebarHomeHtml() {
 	return `
 						<div class="product-sidebar">
                      <div class="ps-collection">
-                        <h2>COLLECTION</h2>
-                        <div class="pst-content">
-                           <ul class="pst-list">
-                           </ul>
+                        <h2 style="display:inline-block">LOẠI</h2>
+                        <div class="pst-content" style="display:inline-block">
+									<select class="pst-list" onchange="showProductByType(this)">
+                              <option class="pst-opt" value="default">--</option>
+                           </select>
                         </div>
                      </div>
                      <div class="--separate-line"></div>
@@ -111,4 +110,59 @@ function sidebarHomeHtml() {
                      </div>
                   </div>
 	`;
+}
+function loadSidebarResponsive() {
+	const sblistColor = document.querySelector('.psc-list.active');
+	const sblistMaterial = document.querySelector('.psm-list.active');
+	const sblistType = document.querySelector('.pst-list.active');
+	const sblistSize = document.querySelector('.pss-select.active');
+	//
+	let xhr = new XMLHttpRequest();
+	xhr.open('GET', '../../mvc/API/index.php?type=sidebarHome', true);
+	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			let dataSidebar = JSON.parse(xhr.responseText);
+			console.log('dataSidebar: ', dataSidebar);
+			//type
+			let htmls = '';
+			dataSidebar.type.map((item) => {
+				htmls += `
+				<option class="pst-opt" value="${item.id}">${item.name}</option>
+				`;
+			});
+			sblistType.innerHTML += htmls;
+			//material
+			htmls = '';
+			dataSidebar.material.map((item) => {
+				htmls += `
+					<li class="psm-item">
+						<a onclick="showProductByMaterial(this, \'${item.name}\')" class="psm-link">${item.name}</a>
+					</li>
+				`;
+			});
+			sblistMaterial.innerHTML = htmls;
+			//color
+			htmls = '';
+			dataSidebar.color.map((item) => {
+				htmls += `
+					<li class="psc-item">
+						<a onclick="showProductByColor(this)" data-id=${item.id} class="psc-link">Màu ${item.name}</a>
+					</li>
+				
+				`;
+			});
+			sblistColor.innerHTML = htmls;
+			//size
+			htmls = '';
+			dataSidebar.size.map((item) => {
+				htmls += `
+					<option class="pss-opt" value="${item.id}">${item.name}</option>
+				`;
+			});
+			sblistSize.innerHTML += htmls;
+		}
+	};
+
+	xhr.send();
 }

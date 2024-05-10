@@ -54,26 +54,35 @@ class GiayModel
 
     public function delete($id)
     {
-        // Kiểm tra dữ liệu đầu vào
-        $id = $this->conn->real_escape_string($id);
+
 
         $sqlCheckChiTietHoaDon = "SELECT * FROM chitiethoadon WHERE MaGiay = '$id'";
         $resultChiTietHoaDon = $this->conn->query($sqlCheckChiTietHoaDon);
-
         $sqlCheckChiTietPhieuNhap = "SELECT * FROM chitietphieunhap WHERE MaGiay = '$id'";
         $resultChiTietPhieuNhap = $this->conn->query($sqlCheckChiTietPhieuNhap);
-
         if ($resultChiTietHoaDon->num_rows > 0 || $resultChiTietPhieuNhap->num_rows > 0) {
-            // Sản phẩm đang được sử dụng, không thể xóa
-            return array("success" => false, "error" => "Không thể xóa sản phẩm vì sản phẩm đang được sử dụng trong các phiếu nhập hoặc hóa đơn.");
-        }
 
-        // Thực hiện xóa sản phẩm
-        $sqlDeleteGiay = "DELETE FROM giay WHERE MaGiay = '$id'";
-        if ($this->conn->query($sqlDeleteGiay) === TRUE) {
-            return array("success" => true);
+            $response = array(
+                'EM' => "Sản phẩm đã tồn ở phiếu nhập hoặc hóa  đơn",
+                'EC' => "1",
+                'DT' => ""
+            );
+            return json_encode($response);
         } else {
-            return array("success" => false, "error" => "Lỗi khi xóa sản phẩm từ bảng giay: " . $this->conn->error);
+            $sqlDeleteGiaySize = "DELETE FROM giay_size WHERE MaGiaySize = '$id'";
+
+            if ($this->conn->query($sqlDeleteGiaySize) === TRUE) {
+                $sqlDeleteGiay = "DELETE FROM giay WHERE MaGiay = '$id'";
+
+                $this->conn->query($sqlDeleteGiay);
+
+                $response = array(
+                    'EM' => "Xóa thành công ",
+                    'EC' => "0",
+                    'DT' => ""
+                );
+                return json_encode($response);
+            }
         }
     }
 

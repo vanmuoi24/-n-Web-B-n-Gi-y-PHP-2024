@@ -31,10 +31,12 @@ function loadProductHomeHtml(heading = 'GIÀY SNEAKER AUTHENTIC') {
 		<div class="product-wrapper">
 			<div class="product-sidebar">
 				<div class="ps-collection">
-					<h2>COLLECTION</h2>
-					<div class="pst-content">
-						<ul class="pst-list">
-						</ul>
+					<h2 style="display:inline-block">LOẠI</h2>
+					<div class="pst-content" style="display:inline-block">
+						
+						<select class="pst-list" onchange="showProductByType(this)">
+							<option class="pst-opt" value="default">--</option>
+						</select>
 					</div>
 				</div>
 				<div class="--separate-line"></div>
@@ -82,11 +84,14 @@ function loadProductHomeHtml(heading = 'GIÀY SNEAKER AUTHENTIC') {
 					</div>
 				</div>
 				<div class="--separate-line"></div>
-				
+				<div class="btn btn--primary" style="margin-top:24px" onclick="cancelFilter()">Bỏ lọc</div>
 			</div>
 			<div class="product-main">
 				<div class="pm-wrapper">
-					<div class="pm-top">
+					<div class="pm-top active">
+						<div class="pm-filter-more active">
+							<div class="btn btn--primary" onclick="showFilter()">Bộ lọc</div>	
+						</div>	
 						<div class="pm-filter">
 							<select name="" id="pm-filter-select" >
 								<option value="mac-dinh" selected>Mặc định</option>

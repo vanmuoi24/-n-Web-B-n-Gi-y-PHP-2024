@@ -11,7 +11,7 @@ function Manage_permissions() {
                             </div>
                         </div>
                         <div style="display:flex" class="group_btn">
-                            <input type="text" name="" id="">
+                            <input type="text" name="" id="namequyen">
                             <Button onclick="handleadd_posi()">Thêm Mới <i class="fa-solid fa-plus"></i> </Button>
                         </div>
                         <div class="quyen">
@@ -168,25 +168,38 @@ function listManage_posiion() {
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4 && xhr.status == 200) {
       var response = JSON.parse(xhr.responseText);
-      const quyen = document.querySelectorAll(".quyen table tbody")[0];
-      let table = "";
-      response.map((item, index) => {
-        table += `
+      listquyen(response);
+
+      let namequyen = document.getElementById("namequyen");
+      namequyen.addEventListener("input", function () {
+        let keyword = namequyen.value.trim().toUpperCase(); // Chuyển thành chữ hoa
+        const filteredData = response.filter((item, index) => {
+          return item.tennhomquyen.toUpperCase().includes(keyword);
+        });
+        listquyen(filteredData);
+      });
+    }
+  };
+  xhr.send();
+}
+
+function listquyen(response) {
+  const quyen = document.querySelectorAll(".quyen table tbody")[0];
+  let table = "";
+  response.map((item, index) => {
+    table += `
         <tr>
           <td>${item.manhomquyen}</td>
           <td>${item.tennhomquyen}</td>
           <td>2</td>
-          <td><button><i class="fa-solid fa-x"></i></button>
+          <td>
               <button onclick = "handleedit('${item.manhomquyen}')"><i class="fa-solid fa-pen" ></i></button>
           </td>
       </tr>
 
       `;
-        quyen.innerHTML = table;
-      });
-    }
-  };
-  xhr.send();
+    quyen.innerHTML = table;
+  });
 }
 
 function handleadd_posi() {

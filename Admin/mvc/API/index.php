@@ -101,7 +101,9 @@ switch ($type) {
     case 'dsthongke':
         echo $thongke->DsThongKe();
         break;
-
+    case 'topthongke':
+        echo $thongke->TopSanPhamBanChay();
+        break;
     case 'dschitietHD':
         $id = isset($_GET['id']) ? $_GET['id'] : null;
         echo json_encode($thongke->chitietHD($id));

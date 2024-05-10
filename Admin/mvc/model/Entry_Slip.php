@@ -263,6 +263,7 @@ class Entry_SlipModel
     {
         try {
             // Lấy dữ liệu từ $data
+            $GioiTinh = $data['Grender'];
             $MaGiay = $data['ma_giay'];
             $Tengia = $data['ten_giay'];
             $GiaNhap = $data['gia_nhap'];
@@ -275,6 +276,7 @@ class Entry_SlipModel
             $NaNCC = $data['nhacungcap'];
             $MaNV = $data['Manv'];
             $HinhAnh = $data['hinh_anh'];
+            $XX = "XX001";
             $MaPN = isset($data['ma_pn']) ? $data['ma_pn'] : null;
 
             // Bắt đầu giao dịch
@@ -312,14 +314,17 @@ class Entry_SlipModel
                 $this->conn->query($sql_update_giay);
             } else {
                 // Sản phẩm chưa tồn tại, thêm mới vào bảng giay
-                $sql_them_sanpham = "INSERT INTO giay (MaGiay, Tengia, DonGia, MaLoai, MaThuongHieu, MaMau, ChatLieu, HinhAnh) VALUES ('$MaGiay', '$Tengia', '$GiaNhap', '$MaLoai', '$MaThuongHieu', '$MaMau', '$ChatLieu', '$HinhAnh')";
+                $sql_them_sanpham = "INSERT INTO giay (MaGiay, Tengia, DonGia, MaLoai, MaThuongHieu, MaMau, ChatLieu, HinhAnh,DoiTuongSuDung,MaXX) VALUES ('$MaGiay', '$Tengia', '$GiaNhap', '$MaLoai', '$MaThuongHieu', '$MaMau', '$ChatLieu', '$HinhAnh','$GioiTinh','$XX')";
                 $this->conn->query($sql_them_sanpham);
+                $sql_themgiaysize = "INSERT INTO giay_size (MaGiaySize, MaSz, SoLuong)  VALUES ('$MaGiay','$MaSize','$SoLuong') ";
+                $this->conn->query($sql_themgiaysize);
             }
 
             // Kiểm tra xem có MaPN được cung cấp không
             if ($MaPN) {
                 // Thêm chi tiết phiếu nhập vào phiếu nhập có sẵn
                 $sql_them_chitietphieunhap = "INSERT INTO chitietphieunhap (MaPN, MaGiay, SoLuong,GiaNhap,Masize) VALUES ('$MaPN', '$MaGiay', '$SoLuong','$GiaNhap','$MaSize')";
+
                 $this->conn->query($sql_them_chitietphieunhap);
             } else {
                 // Tạo phiếu nhập mới

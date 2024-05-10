@@ -1,3 +1,4 @@
+//fix
 function activeFilter(ele = false) {
 	document
 		.querySelectorAll('.pst-link')
@@ -8,33 +9,43 @@ function activeFilter(ele = false) {
 	document
 		.querySelectorAll('.psc-link')
 		.forEach((item) => item.classList.remove('active'));
-	if (!ele.classList.contains('pss-select')) {
-		document.querySelector('.pss-select').value = 'default';
-	}
-	if (!ele) {
-		console.log('loctien');
-	} else ele.classList.add('active');
+	document.querySelector('.pss-select').value = 'default';
+	document.querySelector('.pst-list').value = 'default';
+	ele.classList.add('active');
 }
 function showProductByType(ele) {
+	if (ele.value == 'default') {
+		loadProductByFilter();
+		return;
+	}
+	console.log('type', ele.value);
+
+	loadProductFilterSidebar('type', ele.value);
 	activeFilter(ele);
-	loadProductFilterSidebar('type', ele.dataset.id);
 }
+// function showProductByType(ele) {
+// 	activeFilter(ele);
+// 	loadProductFilterSidebar('type', ele.dataset.id);
+// }
 function showProductByMaterial(ele, id) {
-	activeFilter(ele);
 	loadProductFilterSidebar('material', id);
+	hideFilter();
+	activeFilter(ele);
 }
 function showProductByColor(ele) {
-	activeFilter(ele);
 	loadProductFilterSidebar('color', ele.dataset.id);
+	hideFilter();
+	activeFilter(ele);
 }
 function showProductBySize(ele) {
-	activeFilter(ele);
 	if (ele.value == 'default') {
-		loadProductFilter();
+		loadProductByFilter();
 		return;
 	}
 
 	loadProductFilterSidebar('size', ele.value);
+	hideFilter();
+	activeFilter(ele);
 }
 
 function showProductByPrice() {
@@ -51,6 +62,7 @@ function showProductByPrice() {
 			'Vui lòng kiểm tra lại giá trị nhập!!!';
 		return;
 	}
-	activeFilter();
 	loadProductFilterSidebar('price', `${from}-${to}`);
+	hideFilter();
+	activeFilter();
 }

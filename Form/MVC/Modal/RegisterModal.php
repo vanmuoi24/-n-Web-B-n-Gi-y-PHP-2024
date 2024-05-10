@@ -20,24 +20,28 @@ class RegisterModal
         $ten = "";
         for ($i = 1; $i < count($hoten); $i++)
             $ten .= $hoten[$i] . " ";
-        $sql_khachhang = "INSERT INTO khachhang (MaKH,Ho,Ten,DiaChi,Email,SDT) VALUES (?,?,?,?,?,?)  ";
-        $stmt = $this->conn->prepare($sql_khachhang);
-        $stmt->bind_param('ssssss', $tendn, $ho, $ten, $diachi, $email,$sdt);
-        $sql_check_tendn = "SELECT COUNT(*) AS total FROM taikhoan WHERE TenDN = ?";
-        $stmt_check_tendn = $this->conn->prepare($sql_check_tendn);
-        $stmt_check_tendn->bind_param('s', $tendn);
-        $stmt_check_tendn->execute();
-        $result_check_tendn = $stmt_check_tendn->get_result();
-        $row_check_tendn = $result_check_tendn->fetch_assoc();
+        // $sql_khachhang = "INSERT INTO khachhang (MaKH,Ho,Ten,DiaChi,Email,SDT) VALUES (?,?,?,?,?,?)  ";
+        // $stmt = $this->conn->prepare($sql_khachhang);
+        // $stmt->bind_param('ssssss', $tendn, $ho, $ten, $diachi, $email,$sdt);
 
-        if ($row_check_tendn['total'] > 0) {
-            $response = array(
+        // $sql_check_tendn = "SELECT COUNT(*) AS total FROM taikhoan WHERE TenDN = ?";
+        // $stmt_check_tendn = $this->conn->prepare($sql_check_tendn);
+        // $stmt_check_tendn->bind_param('s', $tendn);
+        // $stmt_check_tendn->execute();
+        // $result_check_tendn = $stmt_check_tendn->get_result();
+        // $row_check_tendn = $result_check_tendn->fetch_assoc();
+
+
+        $sql_check = "SELECT * FROM taikhoan 
+      WHERE  taikhoan.TenDN = '$tendn'";
+        $rsCheck = $this->conn->query($sql_check);
+        if ($rsCheck->num_rows > 0)
+            return array(
                 'EM' => "Tên Đăng Nhập Đã Tồn Tại",
                 'EC' => "0",
                 'DT' => ""
             );
-            return json_encode($response);
-        }
+
 
         $sql_khachhang = "INSERT INTO khachhang (MaKH, Ho, Ten, DiaChi, Email, SDT) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt_khachhang = $this->conn->prepare($sql_khachhang);
@@ -48,18 +52,16 @@ class RegisterModal
             return "Lỗi khi thêm thông tin khách hàng: " . $stmt_khachhang->error;
         }
 
-        $sql_taikhoan = "INSERT INTO taikhoan ( TenDN, MatKhau, NgayTao) VALUES ( ?, ?, NOW())";
+        $sql_taikhoan = "INSERT INTO taikhoan ( TenDN, MatKhau, NgayTao, nhomquyen) VALUES ( ?, ?, NOW(), 24)";
         $stmt_taikhoan = $this->conn->prepare($sql_taikhoan);
         $stmt_taikhoan->bind_param('ss', $tendn, $xacnhanmk);
         $stmt_taikhoan->execute();
 
 
-        $response = array(
+        return (array(
             'EM' => "Tạo Tài Khoàn Thành Công",
             'EC' => "1",
             'DT' => $data
-        );
-        return json_encode($response);
+        ));
     }
 }
-?>

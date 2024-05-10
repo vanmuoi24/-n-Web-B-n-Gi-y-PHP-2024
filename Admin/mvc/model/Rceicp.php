@@ -76,6 +76,7 @@ class HoadonModel
                     'MaHD' => $row['MaHD'],
                     'MaNV' => $row['MaNV'],
                     'MaKM' => $row['MaKM'],
+                    'TrangThai' => $row['trangthai'],
                     'MaKH' => array(
                         'MaKH' => $row['MaKH'],
                         'Loai' => $row['Loai'],
@@ -88,7 +89,7 @@ class HoadonModel
                     ),
                     'NgayBan' => $row['NgayBan'],
                     'TongTien' => $row['TongTien'],
-                    'trangthai' => $row['trangthai']
+
 
                 );
                 $data['chitiethoadon'] = $chitietHD;
@@ -150,12 +151,28 @@ class HoadonModel
         $trangThaiMoi = $data['select'];
         $maHD = $data['mahd'];
 
-        $sql = "UPDATE hoadon SET trangthai = '$trangThaiMoi' WHERE MaHD = '$maHD'";
 
-        if ($this->conn->query($sql) === TRUE) {
-            return true; // Cập nhật thành công
+        $sqlUpdateHoaDon = "UPDATE hoadon SET trangthai = '$trangThaiMoi' WHERE MaHD = '$maHD'";
+        $updateHoaDonResult = $this->conn->query($sqlUpdateHoaDon);
+
+        if ($updateHoaDonResult === TRUE) {
+            if ($trangThaiMoi == '3') {
+
+                $sqlUpdateChiTietHoaDon = "UPDATE chitiethoadon 
+                                     
+                                       INNER JOIN giay_size ON chitiethoadon.MaSizeGiay = giay_size.MaSz 
+                                       SET giay_size.SoLuong =  giay_size.SoLuong - chitiethoadon.SoLuongBan
+                                       WHERE chitiethoadon.MaHD = '$maHD'";
+                $updateChiTietHoaDonResult = $this->conn->query($sqlUpdateChiTietHoaDon);
+
+                if ($updateChiTietHoaDonResult === FALSE) {
+                    return false;
+                }
+            }
+
+            return true;
         } else {
-            return false; // Lỗi khi cập nhật
+            return false;
         }
     }
 }

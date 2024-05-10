@@ -26,7 +26,7 @@ body {
 }
 .container {
 	width: 1440px;
-	max-width: 100%;
+	max-width: 95%;
 	margin: 0 auto;
 }
 .container-second {
@@ -223,6 +223,9 @@ input {
 	opacity: 0.2;
 	background-color: var(--grey-darker-color);
 	margin: 40px 0 40px 0;
+}
+.--separate-line.active {
+	margin: 10px 0 10px 0;
 }
 .--is-relative {
 	position: relative;

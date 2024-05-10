@@ -20,15 +20,15 @@ function handlePromotion() {
       <div class="voucher">
           <div style="width: 20%">
               <select id="selectPosi">
-                  <option value="">Loại chương trình</option>
+                  <option value="1">Tất chương trình</option>
                   <option value="Giảm giá">Giảm giá</option>
-                  <option value="Quà tặng">Quà tặng</option>
+                  <option value="Quà Tặng">Quà tặng</option>
               </select>
           </div>
           <div style="width: 60%">
-              <input type="text" style="width: 100%" />
+              <input type="text" style="width: 100%" id="searchnamePosi"  />
           </div>
-          <div style="width: 20%"><button>Tìm Kiếm</button></div>
+          <div style="width: 20%" id="searchnamePosi1"><button>Tìm Kiếm</button></div>
       </div>
       <hr style="margin-top: 20px" />
       <div style="overflow-x: auto" class="voucher_table">
@@ -68,7 +68,7 @@ function handlePromotion() {
                   </div>
                   <div class="input_add_one">
                       <label for="">Giá Trị Giảm Giá : </label>
-                      <input type="text" id="sortPrice" />
+                      <input type="number" id="sortPrice" />
                   </div>
                   <div class="input_add_one">
                       <label for="">Điều Kiện Giảm Giá : </label>
@@ -123,7 +123,7 @@ function handlePromotion() {
 </button>
 </div>
             <div class="table-wrapper">
-           
+
                 <table id="myTable">
                     <thead>
                         <tr>
@@ -187,48 +187,68 @@ function getlistvocher() {
     if (xhr.readyState == 4 && xhr.status == 200) {
       if (xhr.readyState == 4 && xhr.status == 200) {
         var data = JSON.parse(xhr.responseText);
+        getlisttablevoucher(data);
         console.log(data);
-        let tablevoucher = document.querySelectorAll(".voucher_table table")[0];
-        let tableitem = `  <tr>
-        <th>MãKM</th>
-        <th>Ngày Bắt Đầu</th>
-        <th>Ngày Kết Thúc</th>
-        <th>Tên Chương Trình</th>
-        <th>Loại Chương Trình</th>
-        <th>Điều Kiện</th>
-        <th>Tac Vu</th>
-    </tr>
- `;
-        data.forEach((item, index) => {
-          tableitem += `
-          <tr>
-                    <td>${item.MaKM}</td>
-                    <td>${item.NgayBatDau}</td>
-                    <td>${item.NgayKetThuc}</td>
-                    <td>${item.TenChuongTrinh}</td>
-                    <td>${item.LoaiChuongTrinh}</td>
-                    <td>${item.DieuKien}</td>
-                   
-                    <td style="
-                    display: flex;
-                    gap: 20px;
-                    align-items: center;
-                    justify-content: center;
-                    ">
-                        <i class="fa-solid fa-eye" style="color: 0078ff"></i>
-                        <i class="fa-solid fa-pen" style="color: rgb(37, 186, 216)"></i>
-                        <i class="fa-solid fa-trash-can" style="color: red"></i>
-                    </td>
-                </tr>   
-          `;
+        let posi = document.getElementById("selectPosi");
+        document.getElementById("selectPosi").addEventListener("change", () => {
+          if (posi.value == "1") {
+            getlisttablevoucher(data);
+          } else {
+            let mapData = [];
+            data.map((item) => {
+              if (posi.value == item.LoaiChuongTrinh) {
+                mapData.push(item);
+              }
+            });
+            getlisttablevoucher(mapData);
+          }
         });
-        tablevoucher.innerHTML = tableitem;
+        document
+          .getElementById("searchnamePosi")
+          .addEventListener("input", () => {
+            let searchnamePosi =
+              document.getElementById("searchnamePosi").value;
+            const filteredData = data.filter((item, index) => {
+              return item.TenChuongTrinh.includes(searchnamePosi);
+            });
+            getlisttablevoucher(filteredData);
+          });
       }
     }
   };
 
   xhr.send();
 }
+
+function getlisttablevoucher(data) {
+  let tablevoucher = document.querySelectorAll(".voucher_table table")[0];
+  let tableitem = `  <tr>
+  <th>MãKM</th>
+  <th>Ngày Bắt Đầu</th>
+  <th>Ngày Kết Thúc</th>
+  <th>Tên Chương Trình</th>
+  <th>Loại Chương Trình</th>
+  <th>Điều Kiện</th>
+
+</tr>
+`;
+  data.forEach((item, index) => {
+    tableitem += `
+    <tr>
+              <td>${item.MaKM}</td>
+              <td>${item.NgayBatDau}</td>
+              <td>${item.NgayKetThuc}</td>
+              <td>${item.TenChuongTrinh}</td>
+              <td>${item.LoaiChuongTrinh}</td>
+              <td>${item.DieuKien}</td>
+             
+            
+          </tr>   
+    `;
+  });
+  tablevoucher.innerHTML = tableitem;
+}
+
 function list_posiBoxProduct(data) {
   let mttable = document.querySelectorAll(".table-wrapper tbody")[0];
   let table = "";
@@ -304,6 +324,9 @@ function handlesavePosiProduct() {
 }
 
 function saveallPosi() {
+  if (!validateFormPosi()) {
+    return;
+  }
   let inputAll = document.querySelector("#allProduct");
   let sortPrice = document.getElementById("sortPrice").value;
   let statusSort = document.getElementById("statusSort").value;
@@ -312,7 +335,15 @@ function saveallPosi() {
   let allOptions = inputAll.options;
   let selectPosi = document.getElementById("selectPosiall");
   let nameevent = document.getElementById("nameevent").value;
-
+  let add_new_voucher = document.getElementsByClassName("add_new_voucher")[0];
+  let posi = document.querySelectorAll(
+    ".header, .header_content ,.Mange_item,.voucher_table "
+  );
+  add_new_voucher.classList.remove("add_cover");
+  posi.forEach((posion) => {
+    posion.style.opacity = "1";
+    posion.style.pointerEvents = "auto";
+  });
   let allValues = [];
   for (let i = 0; i < allOptions.length; i++) {
     allValues.push(allOptions[i].value);
@@ -337,6 +368,38 @@ function saveallPosi() {
       console.log(JSON.parse(JSON.parse(response)));
     }
   };
-
+  getlistvocher();
   xhr.send(JSON.stringify(data));
+}
+function validateFormPosi() {
+  let nameevent = document.getElementById("nameevent").value;
+  let firtday = document.getElementById("firtday").value;
+  let lastday = document.getElementById("lastday").value;
+  let sortPrice = document.getElementById("sortPrice").value;
+
+  if (sortPrice === "") {
+    alert("Vui Lòng Nhập Số Giá Trị Giảm Giá");
+    return false;
+  }
+  if (nameevent.trim() === "") {
+    alert("Vui lòng nhập Tên Chương Trình.");
+    return false;
+  }
+
+  if (firtday === "") {
+    alert("Vui lòng chọn Ngày Bắt Đầu.");
+    return false;
+  }
+
+  if (lastday === "") {
+    alert("Vui lòng chọn Ngày Kết Thúc.");
+    return false;
+  }
+
+  if (new Date(firtday) > new Date(lastday)) {
+    alert("Ngày Kết Thúc phải sau hoặc bằng Ngày Bắt Đầu.");
+    return false;
+  }
+
+  return true;
 }

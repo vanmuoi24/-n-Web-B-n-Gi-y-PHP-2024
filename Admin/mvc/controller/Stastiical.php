@@ -24,4 +24,9 @@ class ThongKeController
         $dssearchday = $this->ThongKeModel->seacrchday($data);
         return json_encode($dssearchday);
     }
+    public function  TopSanPhamBanChay()
+    {
+        $ds = $this->ThongKeModel->TopSanPhamBanChay();
+        return json_encode($ds);
+    }
 }

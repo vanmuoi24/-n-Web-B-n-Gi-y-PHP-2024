@@ -9,7 +9,7 @@ function handleStastical() {
     </div>
     <div class="thong-ke">
         <ul>
-           
+          
         </ul>
     </div>
     <div class="client_status">
@@ -30,6 +30,10 @@ function handleStastical() {
     <div class="searchinput">
       <div style="" onclick="handlesearchStatic()"><button>Tìm Kiếm <i class="fa-solid fa-magnifying-glass"></i></button></div>
     </div>
+
+    <div class="searchinput">
+    <div style="" onclick="handleViewTopProduct()"><button>Xem Sản Phẩm Bán Chạy Nhất <i class="fa-solid fa-eye"></i></button></div>
+  </div>
   </div>
     <div class="table_product">
         <table id="table_product">
@@ -56,10 +60,9 @@ function handleStastical() {
       <i class="fa-regular fa-circle-xmark" onclick="handlecloss1()"></i>
       </div>
       <table>
-
-
       </table>
     </div>
+
 </div>
 </div>                
     
@@ -79,7 +82,7 @@ function cityop() {
 }
 function cityopmove() {
   let poss = document.querySelectorAll(
-    ".header ,.header_content,.thong-ke,.loc,.Mange_item, .client_status"
+    ".header ,.header_content,.thong-ke,.loc,.Mange_item, .client_status,.table_product"
   );
   poss.forEach((poss) => {
     poss.style.opacity = "1";
@@ -170,6 +173,22 @@ function displaylist(data) {
         <span>Doanh thu:</span>
         <span id="doanh-thu">${formatCurrency(doanhthu)} </span>
     </li>
+    <table  style="background-color: white ; position:absolute ; width:80%  ; display:none ; z-index:100; " >
+    <thead><tr>
+    <th>Top </th>
+    <th>Mã Sản Phẩm</th> 
+    <th>Số Lượng Bán</th> 
+    <th style="
+    display: flex;
+    justify-content: space-between;
+"><span>Tên Sản Phẩm</span> <i  style ="font-size:1.4rem ; 	cursor: pointer;" class="fas fa-times-circle"  onclick="handleClossProduct()"></i></th></thead>
+   <tbody>
+   
+   
+   
+   </tbody>
+  </table>
+    </li>
   `;
 
   let tbody = "";
@@ -202,6 +221,8 @@ function formatCurrency(amount) {
   }).format(amount);
 }
 function handlechitiet(id) {
+  let table_product = document.getElementsByClassName("table_product")[0];
+  table_product.style.opacity = "0.1";
   let item_cthd = document.getElementsByClassName("item_cthd")[0];
   item_cthd.style.display = "block";
   var xhr = new XMLHttpRequest();
@@ -248,7 +269,6 @@ function handlesearchStatic() {
     if (xhr.readyState == 4 && xhr.status == 200) {
       var response = JSON.parse(xhr.responseText);
 
-      console.log();
       displaylist({
         hoadon: JSON.parse(response).hoadon,
         chitiet: JSON.parse(response).chitiet,
@@ -256,4 +276,57 @@ function handlesearchStatic() {
     }
   };
   xhr.send(JSON.stringify(data));
+}
+function handleViewTopProduct() {
+  let thong_ke = document.querySelectorAll(".thong-ke table")[0];
+  let header_content = document.getElementsByClassName("header_content")[0];
+  let header = document.getElementsByClassName("header")[0];
+  header.style.opacity = "0.05";
+  header_content.style.opacity = "0.05";
+  thong_ke.style.display = "";
+  let table_product = document.getElementsByClassName("table_product")[0];
+  table_product.style.opacity = "0.05";
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "../../mvc/API/index.php?type=topthongke", true);
+  xhr.setRequestHeader("Content-type", "application/json");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      var response = JSON.parse(xhr.responseText);
+      let tbody = document.querySelectorAll(".thong-ke  table tbody")[0];
+      console.log(tbody);
+
+      let table_top = "";
+      let dem = 1;
+      response.map((item) => {
+        table_top += `
+  <tr>
+
+  <td>
+  ${dem++}
+  </td>
+ 
+  <td>
+  ${item.MaGiay}
+  </td>
+  <td>
+  ${item.TongSoLuongBan}
+  </td>
+  <td>
+  ${item.Tengia}
+  
+  </td>
+  </tr>
+  
+  
+  `;
+      });
+      tbody.innerHTML = table_top;
+    }
+  };
+  xhr.send();
+}
+function handleClossProduct() {
+  let thong_ke = document.querySelectorAll(".thong-ke table")[0];
+  thong_ke.style.display = "none";
+  cityopmove();
 }

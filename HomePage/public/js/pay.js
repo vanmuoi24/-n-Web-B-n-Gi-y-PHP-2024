@@ -296,6 +296,7 @@ function renderTotal(ship = 0) {
 		? JSON.parse(localStorage.getItem('carts'))
 		: [];
 	let totalPrice = 0;
+	let feeShip = 0;
 	dataCart.forEach((item) => {
 		let price = (
 			item.priceDiscountProduct
@@ -326,9 +327,7 @@ function renderShip(status) {
 	if (!status) {
 		document.querySelector('.pr-ship-wrapper').innerHTML = `
 				<p class="pr-ship">Giao hàng</p>
-				<p class="pr-ship-value">Tiêu chuẩn (3-4 ngày) <br> ${formatCurrency(
-					feeShip
-				)}</p>
+				<p class="pr-ship-value">Tiêu chuẩn (3-4 ngày) <br> ${formatCurrency(35000)}</p>
 		`;
 		renderTotal(35000);
 	} else {

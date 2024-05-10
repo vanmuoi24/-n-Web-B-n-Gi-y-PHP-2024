@@ -44,6 +44,7 @@ function handleProduct() {
   Mange_client.innerHTML = ProductOut;
 
   phantrang(6, 0, sortOrder);
+  sort();
 }
 
 function handledeleteitem(id) {
@@ -54,11 +55,14 @@ function handledeleteitem(id) {
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4 && xhr.status == 200) {
         var response = JSON.parse(xhr.responseText);
-        if (response.success) {
-          alert("Xóa sản phẩm thành công!");
-          phantrang(6, (currentPage - 1) * 6, sortOrder);
-        } else {
-          alert("Lỗi khi xóa: " + response.error);
+        let check = JSON.parse(JSON.parse(response));
+        console.log(check);
+        if (check.EC == "1") {
+          alert(check.EM);
+        }
+        if (check.EC == "0") {
+          alert(check.EM);
+          phantrang(6, 0, sortOrder);
         }
       }
     };
@@ -79,6 +83,7 @@ function phantrang(limit, offset, sortOrder) {
       if (data.length > 0) {
         totalPages = response.totalPages;
         updatePageContent(data);
+
         updatePageNumbers(currentPage, totalPages);
       } else {
         console.log("Không có dữ liệu để hiển thị.");
@@ -86,6 +91,20 @@ function phantrang(limit, offset, sortOrder) {
     }
   };
   xhr.send("limit=" + limit + "&offset=" + offset + "&sortOrder=" + sortOrder);
+}
+
+function sort(data) {
+  document.getElementById("handledowdata1").addEventListener("click", () => {
+    data.sort((a, b) => a.DonGia - b.DonGia);
+    updatePageContent(data);
+  });
+
+  let handleupdata1 = document.getElementById("handleupdata1");
+
+  handleupdata1.addEventListener("click", () => {
+    data.sort((a, b) => b.DonGia - a.DonGia);
+    updatePageContent(data);
+  });
 }
 
 function updatePageNumbers() {
@@ -132,7 +151,7 @@ function updatePageContent(data) {
                         <th>Tên Sản Phẩm  <i class="fa-solid fa-arrow-down" onclick="handledowdata()"></i> <i class="fa-solid fa-arrow-up" onclick="handleupdata()"></i></th>
                         <th>Thương Hiệu</th>
                         <th>Hình Ảnh</th>
-                        <th>Giá Tiền</th>
+                        <th>Giá Tiền  <i class="fa-solid fa-arrow-down" id="handledowdata1"></i> <i class="fa-solid fa-arrow-up" id="handleupdata1"></i></th>
                         <th>Hành Động</th>
                     </tr>`;
   let dem = 0;
@@ -144,9 +163,7 @@ function updatePageContent(data) {
                 <td>${item.Tengia}</td>
                 <td>${item.ThuongHieu.TenThuongHieu}</td>
            
-                <td><img src="${
-                  item.HinhAnh
-                }" alt="" style="width: 50px" /></td>
+                <td><img src="${item.HinhAnh}" style="width: 50px" /></td>
                 <td>${formatCurrency(item.DonGia)}</td>
                 <td>
                     <i class="fa-solid fa-eye" style="color: #04b64b" onclick=handleview('${
@@ -159,6 +176,7 @@ function updatePageContent(data) {
             </tr>`;
   });
   tablevoucher.innerHTML = tableitem;
+  sort(data);
 }
 
 function formatCurrency(amount) {
@@ -170,12 +188,12 @@ function formatCurrency(amount) {
 
 function handledowdata() {
   sortOrder = "asc";
-  phantrang(6, (currentPage - 1) * 6, sortOrder); // Sửa đổi ở đây
+  phantrang(6, (currentPage - 1) * 6, sortOrder);
 }
 
 function handleupdata() {
   sortOrder = "desc";
-  phantrang(6, (currentPage - 1) * 6, sortOrder); // Sửa đổi ở đây
+  phantrang(6, (currentPage - 1) * 6, sortOrder);
 }
 
 function handleview(id) {

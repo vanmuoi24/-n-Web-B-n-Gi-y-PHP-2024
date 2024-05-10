@@ -92,13 +92,34 @@ class ThongKeModel
             while ($row = $result1->fetch_assoc()) {
                 $item1[] = array(
                     'MaGiay' => $row['MaGiay'],
-                    'SoLuong' => $row['SoLuong'],
+                    'SoLuong' => $row['SoLuongBan'],
                     'GiaBan' => $row['GiaBan'],
                     'Tengia' => $row['Tengia'],
                     'MaHD' => $row['MaHD'],
                     'HinhAnh' => $row['HinhAnh']
                 );
                 $data['chitiet'] = $item1;
+            }
+        }
+        return $data;
+    }
+
+    public  function TopSanPhamBanChay()
+    {
+        $sql = "SELECT chitiethoadon.MaGiay, SUM(chitiethoadon.SoLuongBan) AS TongSoLuongBan, giay.Tengia
+        FROM chitiethoadon
+        INNER JOIN giay ON chitiethoadon.MaGiay = giay.MaGiay 
+        GROUP BY chitiethoadon.MaGiay, giay.Tengia
+        ORDER BY TongSoLuongBan DESC
+        LIMIT 3";
+
+
+        $result = $this->conn->query($sql);
+        $data = array();
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $data[] = $row;
             }
         }
         return $data;

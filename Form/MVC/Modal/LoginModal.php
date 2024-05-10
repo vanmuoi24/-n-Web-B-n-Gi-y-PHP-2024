@@ -36,14 +36,14 @@ class LoginModal
 
                 )
             );
-            return json_encode($response);
+            return ($response);
         } else {
             $response = array(
                 'EM' => "Đăng Nhập Thất Bại",
                 'EC' => "-1",
                 'DT' => ""
             );
-            return json_encode($response);
+            return ($response);
         }
     }
 }

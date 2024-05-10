@@ -43,7 +43,18 @@ function handleReceipt() {
                         <span id="ma_pn_error" class="error-message"></span>
                     </div>
                 </div>
-      
+                <div class="add_item_content0" id="lablepn" ">
+                <label>Chọn Đối Tượng Sử Dụng : </label>
+                <select id="Grender">
+                        <option value="">Giới Tính</option>
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+
+                    </select>
+                <div>
+                   
+                </div>
+            </div>
               <div class="add_item_content">
                   <label>Chọn Sản Phẩm Đã Có</label>
                   <div>                  
@@ -123,8 +134,9 @@ function handleReceipt() {
                     <span id="nhacungcap_error" class="error-message"></span>
                 </div>
                 <div class="add_item_content1" style="width: 50%; ">
-                <input type="file" id="chooseFile" accept="image/*" onchange="previewImage(event)"  style="width: 100%; height: 40px;" />
-                <img id="preview"   style="width: 40%; "  />
+                <input type="file" id="chooseFile" accept="image/*" onchange="previewImage(event)" style="width: 100%; height: 40px;" />
+                <img id="preview" src="" style="width: 40%;" />
+                
 
                 <span id="nhacungcap_error" class="error-message"></span>
             </div>
@@ -170,6 +182,28 @@ function handleReceipt() {
   Mange_client.innerHTML = entry;
   handlegetList();
 }
+function showimgsave() {
+  const fileInput = document.getElementById("fileInput");
+  const previewImage = document.getElementById("PreviewImage");
+
+  fileInput.addEventListener("change", function () {
+    const previewImage = document.getElementById("PreviewImage");
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = function () {
+      previewImage.src = reader.result;
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      previewImage.src = "";
+    }
+  });
+}
+
 function previewImage(event) {
   const preview = document.getElementById("preview");
   const file = event.target.files[0];
@@ -400,7 +434,7 @@ function tableproduct() {
         <th>Số Lượng</th>
         <th>Hình Ảnh</th>
         <th>Giá Tiền</th>
-        <th style="display: flex; align-items: center;">Hành Động <i class="fas fa-times-circle" onclick="handleshowinput()"></i></th>
+        <th style="display: flex; align-items: center;"> <i class="fas fa-times-circle" onclick="handleshowinput()"></i></th>
     </tr>
  `;
 
@@ -411,7 +445,7 @@ function tableproduct() {
           <td>${index++}</td>
           <td>${item.Tengia}</td>
           <td>${item.ThuongHieu.TenThuongHieu}</td>
-          <td>${item.SoLuong}</td>
+         
           <td>
           <img src="${item.HinhAnh}" alt="" style="width: 50px" />
           </td>
@@ -535,7 +569,7 @@ function lockInputs() {
 }
 
 function handlesavepn() {
-  if (!validateForm()) {
+  if (!validateForm2()) {
     return;
   }
 
@@ -545,18 +579,23 @@ function handlesavepn() {
 
   let so_luong = document.getElementById("so_luong");
   let gia_nhap = document.getElementById("gia_nhap");
-  let hinh_anh = document.getElementById("preview");
+
   let size = document.getElementById("size");
+  let Grender = document.getElementById("Grender");
   let selectedValue = size.value;
   let [value, quantity] = selectedValue.split(" ");
   let dataMNV = localStorage.getItem("MaNV");
+  const hinh_anh = document.getElementById("preview").src;
+
   const datainput = {
     Manv: dataMNV,
     so_luong: parseFloat(so_luong.value),
     gia_nhap: parseFloat(gia_nhap.value),
-    hinh_anh: hinh_anh.src,
+    hinh_anh: hinh_anh,
     value: value,
+    Grender: Grender.value,
   };
+
   inputsAndSelects.forEach((element) => {
     datainput[element.id] = element.value;
   });
@@ -581,7 +620,7 @@ function handlesavepn() {
   cityopmove();
 }
 
-function validateForm() {
+function validateForm2() {
   var ma_giay = document.getElementById("ma_giay");
   var ma_giay_value = ma_giay.value.trim();
   var ma_giay_error = document.getElementById("ma_giay_error");

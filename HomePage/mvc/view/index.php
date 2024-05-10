@@ -15,6 +15,7 @@
    <link rel="stylesheet" href="../../public/css/base.css" />
    <link rel="stylesheet" href="../../public/css/reset.css" />
    <link rel="stylesheet" href="../../public/css/index.css" />
+   <link rel="stylesheet" href="../../public/css/responsive.css" />
    <title>SGU SHOES</title>
 </head>
 
@@ -288,34 +289,102 @@
                <i class="fa-solid fa-xmark"></i>Close
             </div>
          </div>
-      </div>
-      <div class="cart-body">
-         <!-- CART EMPTY -->
-         <div class="cb__empty">
-            <div class="cbe-wrapper">
-               <p class="cbe-icon">
-                  <i class="fa-solid fa-cart-shopping"></i>
-               </p>
-               <p class="cbe-text">Chưa Có Sản Phẩm Trong Giỏ Hàng</p>
+         <div class="cart-body">
+            <!-- CART EMPTY -->
+            <div class="cb__empty">
+               <div class="cbe-wrapper">
+                  <p class="cbe-icon">
+                     <i class="fa-solid fa-cart-shopping"></i>
+                  </p>
+                  <p class="cbe-text">Chưa Có Sản Phẩm Trong Giỏ Hàng</p>
+               </div>
+
             </div>
+            <!-- CART LIST -->
+            <div class="cb__carts">
+               <ul class="cbc-list">
 
+               </ul>
+            </div>
          </div>
-         <!-- CART LIST -->
-         <div class="cb__carts">
-            <ul class="cbc-list">
+         <div class="cart-bottom">
+            <div class="cbottom__pay">
+               <div class="cbp__total">
+                  <p class="cbp__title">Tạm tính:</p>
+                  <p class="cbp__price"></p>
+               </div>
+               <div class="cbp__mycart" onclick="loadCartPage()">XEM GIỎ HÀNG</div>
 
-            </ul>
+               <div onclick="loadPayPage()" class="btn btn--primary cbp__btn">THANH TOÁN</div>
+            </div>
          </div>
       </div>
-      <div class="cart-bottom">
-         <div class="cbottom__pay">
-            <div class="cbp__total">
-               <p class="cbp__title">Tạm tính:</p>
-               <p class="cbp__price"></p>
-            </div>
-            <div class="cbp__mycart" onclick="loadCartPage()">XEM GIỎ HÀNG</div>
 
-            <div onclick="loadPayPage()" class="btn btn--primary cbp__btn">THANH TOÁN</div>
+   </div>
+   <div class="filter">
+      <div class="filter-container">
+         <div class="filter-top">
+            <div class="ft__close" onclick="hideFilter()">
+               <i class="fa-solid fa-xmark"></i>Close
+            </div>
+            <p class="ft__title">BỘ LỌC</p>
+         </div>
+         <div class="filter-body">
+            <div class="product-sidebar active">
+               <div class="ps-collection active">
+                  <h2 style="display:inline-block">LOẠI</h2>
+                  <div class="pst-content" style="display:inline-block">
+                     <select class="pst-list active" onchange="showProductByType(this)">
+                        <option class="pst-opt" value="default">--</option>
+                     </select>
+                  </div>
+               </div>
+               <div class="--separate-line active"></div>
+               <div class="ps-material active">
+                  <h2>CHẤT LIỆU</h2>
+                  <div class="psm-content">
+                     <ul class="psm-list active">
+                     </ul>
+                  </div>
+               </div>
+               <div class="--separate-line active"></div>
+               <div class="ps-color active">
+                  <h2>MÀU SẮC</h2>
+                  <div class="psc-content">
+                     <ul class="psc-list active">
+                     </ul>
+                  </div>
+               </div>
+               <div class="--separate-line active"></div>
+               <div class="ps-size active">
+                  <h2>SIZE</h2>
+                  <div class="pss-content">
+                     <select class="pss-select active" onchange="showProductBySize(this)">
+                        <option class="pss-opt" value="default">--</option>
+                     </select>
+                  </div>
+               </div>
+               <div class="--separate-line active"></div>
+
+               <div class="ps-price">
+                  <h2>KHOẢNG GIÁ</h2>
+                  <div class="psp-content">
+                     <div id="form-filter-price" class="psp-form">
+                        <div class="psp-form-group active">
+                           <span style="font-size: 1.4rem">Từ</span>
+                           <input type="number" name="from-price" id="from-price" class="psp-from-price">
+                           <span style="font-size: 1.4rem">Đến</span>
+                           <input type="number" name="to-price" id="to-price" class="psp-to-price">
+                        </div>
+                        <p class="ps-price-error"></p>
+                        <button id="submit-price" onclick="showProductByPrice()" class="psp-submit-price">
+                           Lọc giá
+                        </button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div style="margin-top: 24px" onclick="cancelFilter()" class="btn btn--primary">Bỏ lọc</div>
          </div>
       </div>
    </div>
