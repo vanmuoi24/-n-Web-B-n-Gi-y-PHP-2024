@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // document.getElementById('signup').addEventListener('click', () => {
 // 	if (!Validate_Register()) return;
 // 	var fullnameValue = document.getElementById('fullname').value;
@@ -131,18 +130,6 @@ document.getElementById('signup').addEventListener('click', () => {
 	var passwordValue = document.getElementById('password').value;
 	var confirmPasswordValue = document.getElementById('confirmpassword').value;
 
-=======
-document.getElementById('signup').addEventListener('click', () => {
-	if (!Validate_Register()) return;
-	var fullnameValue = document.getElementById('fullname').value;
-	var emailValue = document.getElementById('email').value;
-	var phoneValue = document.getElementById('phone').value;
-	var addressValue = document.getElementById('address').value;
-	var usernameValue = document.getElementById('username').value;
-	var passwordValue = document.getElementById('password').value;
-	var confirmPasswordValue = document.getElementById('confirmpassword').value;
-
->>>>>>> 89e0c6cbaee36158731d09428225eca167971e66
 	let data = {
 		fullnameValue: fullnameValue,
 		emailValue: emailValue,
@@ -158,7 +145,6 @@ document.getElementById('signup').addEventListener('click', () => {
 	xhr.onreadystatechange = function () {
 		if (xhr.readyState == 4 && xhr.status == 200) {
 			var response = JSON.parse(xhr.responseText);
-<<<<<<< HEAD
 			console.log(response);
 			if (response.EC == '1') {
 				alert(response.EM);
@@ -167,13 +153,6 @@ document.getElementById('signup').addEventListener('click', () => {
 			if (response.EC == '0') {
 				alert(response.EM);
 			}
-=======
-			let res = JSON.parse(JSON.parse(response));
-			if (res.EC == '1') {
-				alert(res.EM);
-				window.location.href = '../../MVC/View/LoginView.php';
-			}
->>>>>>> 89e0c6cbaee36158731d09428225eca167971e66
 		}
 	};
 	console.log(data);
@@ -186,14 +165,9 @@ function Validate_Register() {
 	var pattern_email =
 		/^[a-z]+[a-z-_\.0-9]{2,}@[a-z]+[a-z-_\.0-9]{2,}\.[a-z]{2,}$/i;
 	var pattern_username = /^[KH]+\d{5}$/;
-<<<<<<< HEAD
 	// var pattern_password = /^{5}$/;
 	// var pattern_password =
 	// 	/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_-])[0-9a-zA-Z!@#$%^&*()_-]{8,16}$/;
-=======
-	var pattern_password =
-		/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_-])[0-9a-zA-Z!@#$%^&*()_-]{8,16}$/;
->>>>>>> 89e0c6cbaee36158731d09428225eca167971e66
 
 	// Lấy các phần tử và thông báo lỗi
 	var fullname = document.getElementById('fullname').value;
@@ -262,14 +236,8 @@ function Validate_Register() {
 	if (password.trim() === '') {
 		password_error.textContent = 'Vui lòng nhập mật khẩu';
 		isValid = false;
-<<<<<<< HEAD
 	} else if (password.trim().length < 5) {
 		password_error.textContent = 'Mật khẩu phải ít nhât 5 kí tự';
-=======
-	} else if (!pattern_password.test(password.trim())) {
-		password_error.textContent =
-			'Mật khẩu gồm số, chữ thường, chữ in, kí tự đặc biệt';
->>>>>>> 89e0c6cbaee36158731d09428225eca167971e66
 		isValid = false;
 	}
 

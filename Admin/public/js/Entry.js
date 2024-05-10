@@ -1,6 +1,6 @@
 function handleReceipt() {
-  const Mange_client = document.getElementsByClassName("Mange_client")[0];
-  const entry = `
+	const Mange_client = document.getElementsByClassName('Mange_client')[0];
+	const entry = `
     <div class="admin_home">
     </div>
     <div>
@@ -72,7 +72,7 @@ function handleReceipt() {
                 <div class=" add_item_content2">
                     <label>Chất Liệu : </label>
                     <div>
-                        <input type="text" name="chat_lieu" id="chat_lieu" value="" placeholder="vd: vải"  />
+<input type="text" name="chat_lieu" id="chat_lieu" value="" placeholder="vd: vải"  />
                         <span id="chat_lieu_error" class="error-message"></span>
                     </div>
                 </div>
@@ -133,7 +133,7 @@ function handleReceipt() {
                     </select>
                     <span id="nhacungcap_error" class="error-message"></span>
                 </div>
-                <div class="add_item_content1" style="width: 50%; ">
+<div class="add_item_content1" style="width: 50%; ">
                 <input type="file" id="chooseFile" accept="image/*" onchange="previewImage(event)" style="width: 100%; height: 40px;" />
                 <img id="preview" src="" style="width: 40%;" />
                 
@@ -179,177 +179,177 @@ function handleReceipt() {
     </div>
   `;
 
-  Mange_client.innerHTML = entry;
-  handlegetList();
+	Mange_client.innerHTML = entry;
+	handlegetList();
 }
 function showimgsave() {
-  const fileInput = document.getElementById("fileInput");
-  const previewImage = document.getElementById("PreviewImage");
+	const fileInput = document.getElementById('fileInput');
+	const previewImage = document.getElementById('PreviewImage');
 
-  fileInput.addEventListener("change", function () {
-    const previewImage = document.getElementById("PreviewImage");
+	fileInput.addEventListener('change', function () {
+		const previewImage = document.getElementById('PreviewImage');
 
-    const file = fileInput.files[0];
-    const reader = new FileReader();
+		const file = fileInput.files[0];
+		const reader = new FileReader();
 
-    reader.onloadend = function () {
-      previewImage.src = reader.result;
-    };
+		reader.onloadend = function () {
+			previewImage.src = reader.result;
+		};
 
-    if (file) {
-      reader.readAsDataURL(file);
-    } else {
-      previewImage.src = "";
-    }
-  });
+		if (file) {
+			reader.readAsDataURL(file);
+		} else {
+			previewImage.src = '';
+		}
+	});
 }
 
 function previewImage(event) {
-  const preview = document.getElementById("preview");
-  const file = event.target.files[0];
-  const reader = new FileReader();
+	const preview = document.getElementById('preview');
+	const file = event.target.files[0];
+	const reader = new FileReader();
 
-  reader.onloadend = function () {
-    const imageUrl = reader.result;
-    console.log("Đường dẫn ảnh:", imageUrl);
+	reader.onloadend = function () {
+		const imageUrl = reader.result;
+		console.log('Đường dẫn ảnh:', imageUrl);
 
-    preview.src = imageUrl;
-  };
+		preview.src = imageUrl;
+	};
 
-  if (file) {
-    reader.readAsDataURL(file);
-  } else {
-    preview.src = "#";
-  }
+	if (file) {
+		reader.readAsDataURL(file);
+	} else {
+		preview.src = '#';
+	}
 }
 
 function hanldeAddEntry() {
-  localStorage.setItem("MaNV", "NV001");
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "../../mvc/API/index.php?type=ds4table", true);
-  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-      var data = JSON.parse(xhr.responseText);
-      console.log("check", data);
-      let loaiop = document.getElementById("loai");
-      let size1 = document.getElementById("size");
-      let thuong_hieu = document.getElementById("thuong_hieu");
-      let mausac = document.getElementById("mausac");
-      let nhacungcap = document.getElementById("nhacungcap");
-      let option1 = "";
-      let option2 = "";
-      let option3 = "";
-      let option4 = "";
-      let option5 = "";
-      data.loai.map((item, index) => {
-        option1 += `
+	localStorage.setItem('MaNV', 'NV001');
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', '../../mvc/API/index.php?type=ds4table', true);
+	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			var data = JSON.parse(xhr.responseText);
+			console.log('check', data);
+			let loaiop = document.getElementById('loai');
+			let size1 = document.getElementById('size');
+			let thuong_hieu = document.getElementById('thuong_hieu');
+			let mausac = document.getElementById('mausac');
+			let nhacungcap = document.getElementById('nhacungcap');
+			let option1 = '';
+			let option2 = '';
+			let option3 = '';
+			let option4 = '';
+			let option5 = '';
+			data.loai.map((item, index) => {
+				option1 += `
         <option value="${item.MaLoai}">${item.TenLoai}</option>
          `;
-      });
-      data.size.map((item, index) => {
-        option2 += `
+			});
+			data.size.map((item, index) => {
+				option2 += `
         <option value="${item.MaSize}">${item.KichThuoc}</option>
          `;
-      });
-      data.thuonghieu.map((item, index) => {
-        option3 += `
+			});
+			data.thuonghieu.map((item, index) => {
+				option3 += `
         <option value="${item.MaThuongHieu}">${item.TenThuongHieu}</option>
          `;
-      });
-      data.mausac.map((item, index) => {
-        option4 += `
+			});
+			data.mausac.map((item, index) => {
+				option4 += `
         <option value="${item.MaMau}">${item.TenMau}</option>
          `;
-      });
-      data.nhacungcap.map((item, index) => {
-        option5 += `
+			});
+			data.nhacungcap.map((item, index) => {
+				option5 += `
         <option value="${item.MaNCC}">${item.TenNCC}</option>
          `;
-      });
-      loaiop.innerHTML = option1;
-      size1.innerHTML = option2;
-      nhacungcap.innerHTML = option5;
-      thuong_hieu.innerHTML = option3;
-      mausac.innerHTML = option4;
-    }
-  };
-  xhr.send();
+			});
+			loaiop.innerHTML = option1;
+			size1.innerHTML = option2;
+			nhacungcap.innerHTML = option5;
+			thuong_hieu.innerHTML = option3;
+			mausac.innerHTML = option4;
+		}
+	};
+	xhr.send();
 
-  const for_add_item = document.getElementsByClassName("for_add_item")[0];
-  for_add_item.style.display = "block";
-  let table = document.querySelectorAll(".voucher_table table")[0];
-  table.style.opacity = "0.1";
-  table.style.pointerEvents = "none";
-  cityop();
+	const for_add_item = document.getElementsByClassName('for_add_item')[0];
+	for_add_item.style.display = 'block';
+	let table = document.querySelectorAll('.voucher_table table')[0];
+	table.style.opacity = '0.1';
+	table.style.pointerEvents = 'none';
+	cityop();
 }
 
 function hanldeexit() {
-  const entry_table = document.getElementsByClassName("for_add_item")[0];
-  entry_table.style.display = "none";
-  let table = document.querySelectorAll(".voucher_table table")[0];
-  table.style.opacity = "1";
-  table.style.pointerEvents = "auto";
-  cityopmove();
+	const entry_table = document.getElementsByClassName('for_add_item')[0];
+	entry_table.style.display = 'none';
+	let table = document.querySelectorAll('.voucher_table table')[0];
+	table.style.opacity = '1';
+	table.style.pointerEvents = 'auto';
+	cityopmove();
 }
 
 function cityop() {
-  let poss = document.querySelectorAll(".header ,.header_content,.Mange_item");
-  poss.forEach((poss) => {
-    poss.style.opacity = "0.1";
-    poss.style.pointerEvents = "none";
-  });
+	let poss = document.querySelectorAll('.header ,.header_content,.Mange_item');
+	poss.forEach((poss) => {
+		poss.style.opacity = '0.1';
+		poss.style.pointerEvents = 'none';
+	});
 }
 
 function cityopmove() {
-  let poss = document.querySelectorAll(".header ,.header_content,.Mange_item");
-  poss.forEach((poss) => {
-    poss.style.opacity = "1";
-    poss.style.pointerEvents = "auto";
-  });
+	let poss = document.querySelectorAll('.header ,.header_content,.Mange_item');
+	poss.forEach((poss) => {
+		poss.style.opacity = '1';
+		poss.style.pointerEvents = 'auto';
+	});
 }
 
 function handlsaveid() {
-  let poss = document.querySelectorAll(".header ,.header_content,.Mange_item");
-  poss.forEach((poss) => {
-    poss.style.opacity = "0.1";
-    poss.style.pointerEvents = "none";
-  });
-  const entry_table = document.getElementsByClassName("for_add_item")[0];
-  entry_table.style.display = "none";
-  const table_product = document.getElementsByClassName("table_product")[0];
-  table_product.style.display = "block";
-  tableproduct();
+	let poss = document.querySelectorAll('.header ,.header_content,.Mange_item');
+	poss.forEach((poss) => {
+		poss.style.opacity = '0.1';
+		poss.style.pointerEvents = 'none';
+	});
+	const entry_table = document.getElementsByClassName('for_add_item')[0];
+	entry_table.style.display = 'none';
+	const table_product = document.getElementsByClassName('table_product')[0];
+	table_product.style.display = 'block';
+	tableproduct();
 }
 
 function handleshowinput() {
-  const table_product = document.getElementsByClassName("table_product")[0];
-  table_product.style.display = "none";
-  let table = document.querySelectorAll(".voucher_table table")[0];
-  table.style.opacity = "1";
-  table.style.pointerEvents = "auto";
-  cityopmove();
+	const table_product = document.getElementsByClassName('table_product')[0];
+	table_product.style.display = 'none';
+	let table = document.querySelectorAll('.voucher_table table')[0];
+	table.style.opacity = '1';
+	table.style.pointerEvents = 'auto';
+	cityopmove();
 }
 function handleclosscthd() {
-  const table_cthd = document.getElementsByClassName("table_cthd")[0];
-  table_cthd.style.display = "none";
-  let table = document.querySelectorAll(".voucher_table table")[0];
-  table.style.opacity = "1";
-  table.style.pointerEvents = "auto";
-  cityopmove();
+	const table_cthd = document.getElementsByClassName('table_cthd')[0];
+	table_cthd.style.display = 'none';
+	let table = document.querySelectorAll('.voucher_table table')[0];
+	table.style.opacity = '1';
+	table.style.pointerEvents = 'auto';
+	cityopmove();
 }
 function handlegetList() {
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "../../mvc/API/index.php?type=dsphieunhap", true);
-  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-      var data = JSON.parse(xhr.responseText);
-      console.log(data);
-      const voucher_table = document.querySelectorAll(
-        ".voucher_table table"
-      )[0];
-      let table_item = `
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', '../../mvc/API/index.php?type=dsphieunhap', true);
+	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			var data = JSON.parse(xhr.responseText);
+			console.log(data);
+			const voucher_table = document.querySelectorAll(
+				'.voucher_table table'
+			)[0];
+			let table_item = `
         <tr>
             <th>STT</th>
             <th>MaPN</th>
@@ -360,9 +360,9 @@ function handlegetList() {
             <th>Tác Vụ</th>
         </tr> 
       `;
-      let dem = 0;
-      data.map((item, index) => {
-        table_item += `
+			let dem = 0;
+			data.map((item, index) => {
+				table_item += `
         <tr>
             <td>${dem++}</td>
             <td>${item.MaPN}</td>
@@ -372,32 +372,34 @@ function handlegetList() {
             <td>${item.MaNCC.TenNCC}</td>
             <td>
             <i class="fa-solid fa-eye" style="color: 0078ff" onclick="handleviewctph('${
-              item.MaPN
-            }')"></i>
+					item.MaPN
+				}')"></i>
         </tr> 
         
         `;
-        voucher_table.innerHTML = table_item;
-      });
-    }
-  };
-  xhr.send();
+				voucher_table.innerHTML = table_item;
+			});
+		}
+	};
+	xhr.send();
 }
 function handleviewctph(id) {
-  console.log(id);
-  const table_cthd = document.getElementsByClassName("table_cthd")[0];
-  table_cthd.style.display = "block";
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "../../mvc/API/index.php?type=dschitiethd&id=" + id, true);
-  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-      var data = JSON.parse(xhr.responseText);
-      console.log(JSON.parse(data));
-      const table_cthd_body = document.querySelector(".table_cthd table tbody");
-      let table_ct = "";
-      JSON.parse(data).forEach((item) => {
-        table_ct += `
+	console.log(id);
+	const table_cthd = document.getElementsByClassName('table_cthd')[0];
+	table_cthd.style.display = 'block';
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', '../../mvc/API/index.php?type=dschitiethd&id=' + id, true);
+	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			var data = JSON.parse(xhr.responseText);
+			console.log(JSON.parse(data));
+			const table_cthd_body = document.querySelector(
+				'.table_cthd table tbody'
+			);
+			let table_ct = '';
+			JSON.parse(data).forEach((item) => {
+				table_ct += `
           <tr>
             <td>${item.MaGiay}</td>
             <td>${item.MaPN}</td>
@@ -406,27 +408,27 @@ function handleviewctph(id) {
             <td>${formatCurrency(item.GiaNhap)}</td>
           </tr>
         `;
-      });
-      table_cthd_body.innerHTML = table_ct;
-    }
-  };
-  let table = document.querySelectorAll(".voucher_table table")[0];
-  table.style.opacity = "0.1";
-  table.style.pointerEvents = "none";
-  xhr.send();
-  cityop();
+			});
+			table_cthd_body.innerHTML = table_ct;
+		}
+	};
+	let table = document.querySelectorAll('.voucher_table table')[0];
+	table.style.opacity = '0.1';
+	table.style.pointerEvents = 'none';
+	xhr.send();
+	cityop();
 }
 
 function tableproduct() {
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", "../../mvc/API/index.php?type=giay", true);
-  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-      if (xhr.readyState == 4 && xhr.status == 200) {
-        var data = JSON.parse(xhr.responseText);
-        let tablevoucher = document.getElementById("table_product");
-        let tableitem = `  
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET', '../../mvc/API/index.php?type=giay', true);
+	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				var data = JSON.parse(xhr.responseText);
+				let tablevoucher = document.getElementById('table_product');
+				let tableitem = `  
         <tr>
         <th>STT</th>
         <th>Tên Sản Phẩm</th>
@@ -438,9 +440,9 @@ function tableproduct() {
     </tr>
  `;
 
-        data.forEach((item, index) => {
-          index++;
-          tableitem += `
+				data.forEach((item, index) => {
+					index++;
+					tableitem += `
           <tr>
           <td>${index++}</td>
           <td>${item.Tengia}</td>
@@ -452,268 +454,271 @@ function tableproduct() {
           <td>${formatCurrency(item.DonGia)}</td>
           <td>
           <i class="fa-regular fa-hand-pointer" onclick="handleitemproduct('${
-            item.MaGiay
-          }')"></i>
+					item.MaGiay
+				}')"></i>
           </td>
       </tr>
           `;
-        });
-        tablevoucher.innerHTML = tableitem;
-      }
-    }
-  };
+				});
+				tablevoucher.innerHTML = tableitem;
+			}
+		}
+	};
 
-  xhr.send();
+	xhr.send();
 }
 
 function handleitemproduct(id) {
-  const table_product = document.getElementsByClassName("table_product")[0];
-  table_product.style.display = "none";
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "../../mvc/API/index.php?type=dssanpham&id=" + id, true);
-  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-      var response = JSON.parse(xhr.responseText);
-      console.log(JSON.parse(response));
-      filterdataproduct(JSON.parse(response));
-    }
-  };
-  xhr.send();
+	const table_product = document.getElementsByClassName('table_product')[0];
+	table_product.style.display = 'none';
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', '../../mvc/API/index.php?type=dssanpham&id=' + id, true);
+	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			var response = JSON.parse(xhr.responseText);
+			console.log(JSON.parse(response));
+			filterdataproduct(JSON.parse(response));
+		}
+	};
+	xhr.send();
 }
 
 function filterdataproduct(data) {
-  console.log(data, "check");
-  const entry_table = document.getElementsByClassName("for_add_item")[0];
-  entry_table.style.display = "block";
-  document.getElementById("ma_giay").value = data.giay.MaGiay;
-  document.getElementById("ten_giay").value = data.giay.Tengia;
-  document.getElementById("chat_lieu").value = data.giay.ChatLieu;
-  document.getElementById("gia_nhap").value = data.giay.DonGia;
-  document.getElementById("preview").src = data.giay.HinhAnh;
-  var loai = document.getElementById("loai");
-  var selectElement = document.getElementById("thuong_hieu");
-  var size = document.getElementById("size");
-  var mausac = document.getElementById("mausac");
-  var nhacungcap = document.getElementById("nhacungcap");
-  let size1 = document.getElementById("size");
+	console.log(data, 'check');
+	const entry_table = document.getElementsByClassName('for_add_item')[0];
+	entry_table.style.display = 'block';
+	document.getElementById('ma_giay').value = data.giay.MaGiay;
+	document.getElementById('ten_giay').value = data.giay.Tengia;
+	document.getElementById('chat_lieu').value = data.giay.ChatLieu;
+	document.getElementById('gia_nhap').value = data.giay.DonGia;
+	document.getElementById('preview').src = data.giay.HinhAnh;
+	var loai = document.getElementById('loai');
+	var selectElement = document.getElementById('thuong_hieu');
+	var size = document.getElementById('size');
+	var mausac = document.getElementById('mausac');
+	var nhacungcap = document.getElementById('nhacungcap');
+	let size1 = document.getElementById('size');
 
-  for (var i = 0; i < selectElement.options.length; i++) {
-    if (selectElement.options[i].text === data.giay.ThuongHieu.TenThuongHieu) {
-      selectElement.options[i].selected = true;
-      break;
-    }
-  }
-  for (var i = 0; i < loai.options.length; i++) {
-    if (loai.options[i].text === data.giay.Loai.TenLoai) {
-      loai.options[i].selected = true;
-      break;
-    }
-  }
+	for (var i = 0; i < selectElement.options.length; i++) {
+		if (
+			selectElement.options[i].text === data.giay.ThuongHieu.TenThuongHieu
+		) {
+			selectElement.options[i].selected = true;
+			break;
+		}
+	}
+	for (var i = 0; i < loai.options.length; i++) {
+		if (loai.options[i].text === data.giay.Loai.TenLoai) {
+			loai.options[i].selected = true;
+			break;
+		}
+	}
 
-  for (var i = 0; i < mausac.options.length; i++) {
-    if (mausac.options[i].text === data.giay.MauSac.TenMau) {
-      mausac.options[i].selected = true;
-      break;
-    }
-  }
-  for (var i = 0; i < nhacungcap.options.length; i++) {
-    if (nhacungcap.options[i].text === data.nhacungcap.TenNCC) {
-      nhacungcap.options[i].selected = true;
-      break;
-    }
-  }
-  let option2 = "";
+	for (var i = 0; i < mausac.options.length; i++) {
+		if (mausac.options[i].text === data.giay.MauSac.TenMau) {
+			mausac.options[i].selected = true;
+			break;
+		}
+	}
+	for (var i = 0; i < nhacungcap.options.length; i++) {
+		if (nhacungcap.options[i].text === data.nhacungcap.TenNCC) {
+			nhacungcap.options[i].selected = true;
+			break;
+		}
+	}
+	let option2 = '';
 
-  data.size.map((item, index) => {
-    option2 += `
-    <option value="${item.MaSz + " " + item.SoLuong}">${item.KichThuoc}</option>
+	data.size.map((item, index) => {
+		option2 += `
+    <option value="${item.MaSz + ' ' + item.SoLuong}">${item.KichThuoc}</option>
      `;
-  });
+	});
 
-  size1.innerHTML = option2;
-  let value_quality = document.getElementById("so_luong");
-  document.getElementById("size").addEventListener("change", () => {
-    let selectedValue = size1.value;
-    let [value, quantity] = selectedValue.split(" ");
-    value_quality.value = quantity;
+	size1.innerHTML = option2;
+	let value_quality = document.getElementById('so_luong');
+	document.getElementById('size').addEventListener('change', () => {
+		let selectedValue = size1.value;
+		let [value, quantity] = selectedValue.split(' ');
+		value_quality.value = quantity;
 
-    console.log("Giá trị đã chọn:", value);
-    console.log("Số lượng:", quantity);
-  });
+		console.log('Giá trị đã chọn:', value);
+		console.log('Số lượng:', quantity);
+	});
 
-  lockInputs();
-  let lablepn = document.getElementById("lablepn");
+	lockInputs();
+	let lablepn = document.getElementById('lablepn');
 
-  if (!data.chitiet) {
-    let mapn = document.getElementById("ma_pn");
+	if (!data.chitiet) {
+		let mapn = document.getElementById('ma_pn');
 
-    lablepn.style.display = "none";
-    mapn.value = "";
-  } else if (data.chitiet) {
-    let mapn = document.getElementById("ma_pn");
+		lablepn.style.display = 'none';
+		mapn.value = '';
+	} else if (data.chitiet) {
+		let mapn = document.getElementById('ma_pn');
 
-    lablepn.style.display = "block";
-    mapn.value = data.chitiet.MaPN;
-    mapn.disabled = true;
-  }
+		lablepn.style.display = 'block';
+		mapn.value = data.chitiet.MaPN;
+		mapn.disabled = true;
+	}
 }
 
 function lockInputs() {
-  const inputsAndSelects = document.querySelectorAll(
-    "#loai , #thuong_hieu, #mausac,#ma_giay,#chat_lieu,#ten_giay,#nhacungcap ,#preview ,#chooseFile"
-  );
-  inputsAndSelects.forEach((element) => {
-    element.disabled = true;
-  });
+	const inputsAndSelects = document.querySelectorAll(
+		'#loai , #thuong_hieu, #mausac,#ma_giay,#chat_lieu,#ten_giay,#nhacungcap ,#preview ,#chooseFile'
+	);
+	inputsAndSelects.forEach((element) => {
+		element.disabled = true;
+	});
 }
 
 function handlesavepn() {
-  if (!validateForm2()) {
-    return;
-  }
+	if (!validateForm2()) {
+		return;
+	}
 
-  const inputsAndSelects = document.querySelectorAll(
-    "#loai , #thuong_hieu, #mausac, #ma_giay, #chat_lieu, #ten_giay, #ma_pn,#nhacungcap"
-  );
+	const inputsAndSelects = document.querySelectorAll(
+		'#loai , #thuong_hieu, #mausac, #ma_giay, #chat_lieu, #ten_giay, #ma_pn,#nhacungcap'
+	);
 
-  let so_luong = document.getElementById("so_luong");
-  let gia_nhap = document.getElementById("gia_nhap");
+	let so_luong = document.getElementById('so_luong');
+	let gia_nhap = document.getElementById('gia_nhap');
 
-  let size = document.getElementById("size");
-  let Grender = document.getElementById("Grender");
-  let selectedValue = size.value;
-  let [value, quantity] = selectedValue.split(" ");
-  let dataMNV = localStorage.getItem("MaNV");
-  const hinh_anh = document.getElementById("preview").src;
+	let size = document.getElementById('size');
+	let Grender = document.getElementById('Grender');
+	let selectedValue = size.value;
+	let [value, quantity] = selectedValue.split(' ');
+	let dataMNV = localStorage.getItem('MaNV');
+	const hinh_anh = document.getElementById('preview').src;
 
-  const datainput = {
-    Manv: dataMNV,
-    so_luong: parseFloat(so_luong.value),
-    gia_nhap: parseFloat(gia_nhap.value),
-    hinh_anh: hinh_anh,
-    value: value,
-    Grender: Grender.value,
-  };
+	const datainput = {
+		Manv: dataMNV,
+		so_luong: parseFloat(so_luong.value),
+		gia_nhap: parseFloat(gia_nhap.value),
+		hinh_anh: hinh_anh,
+		value: value,
+		Grender: Grender.value,
+	};
 
-  inputsAndSelects.forEach((element) => {
-    datainput[element.id] = element.value;
-  });
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "../../mvc/API/index.php?type=themsanphamoi", true);
-  xhr.setRequestHeader("Content-type", "application/json");
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-      var response = JSON.parse(xhr.responseText);
-      console.log(JSON.parse(JSON.parse(response)));
-    }
-  };
+	inputsAndSelects.forEach((element) => {
+		datainput[element.id] = element.value;
+	});
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', '../../mvc/API/index.php?type=themsanphamoi', true);
+	xhr.setRequestHeader('Content-type', 'application/json');
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			var response = JSON.parse(xhr.responseText);
+			console.log(JSON.parse(JSON.parse(response)));
 
-  xhr.send(JSON.stringify(datainput));
-  const entry_table = document.getElementsByClassName("for_add_item")[0];
-  entry_table.style.display = "none";
-  let table = document.querySelectorAll(".voucher_table table")[0];
-  table.style.opacity = "1";
-  table.style.pointerEvents = "auto";
-  handlegetList();
+			handlegetList();
+		}
+	};
 
-  cityopmove();
+	xhr.send(JSON.stringify(datainput));
+	const entry_table = document.getElementsByClassName('for_add_item')[0];
+	entry_table.style.display = 'none';
+	let table = document.querySelectorAll('.voucher_table table')[0];
+	table.style.opacity = '1';
+	table.style.pointerEvents = 'auto';
+
+	cityopmove();
 }
 
 function validateForm2() {
-  var ma_giay = document.getElementById("ma_giay");
-  var ma_giay_value = ma_giay.value.trim();
-  var ma_giay_error = document.getElementById("ma_giay_error");
-  var ten_giay = document.getElementById("ten_giay");
-  var ten_giay_value = ten_giay.value.trim();
-  var ten_giay_error = document.getElementById("ten_giay_error");
-  var chat_lieu = document.getElementById("chat_lieu");
-  var chat_lieu_value = chat_lieu.value.trim();
-  var chat_lieu_error = document.getElementById("chat_lieu_error");
-  var so_luong = document.getElementById("so_luong");
-  var so_luong_value = so_luong.value.trim();
-  var so_luong_error = document.getElementById("so_luong_error");
-  var gia_nhap = document.getElementById("gia_nhap");
-  var gia_nhap_value = gia_nhap.value.trim();
-  var gia_nhap_error = document.getElementById("gia_nhap_error");
-  var loai = document.getElementById("loai");
-  var loai_value = loai.value;
-  var loai_error = document.getElementById("loai_error");
-  var thuong_hieu = document.getElementById("thuong_hieu");
-  var thuong_hieu_value = thuong_hieu.value;
-  var thuong_hieu_error = document.getElementById("thuong_hieu_error");
-  var size = document.getElementById("size");
-  var size_value = size.value;
-  var size_error = document.getElementById("size_error");
-  var mausac = document.getElementById("mausac");
-  var mausac_value = mausac.value;
-  var mausac_error = document.getElementById("mausac_error");
+	var ma_giay = document.getElementById('ma_giay');
+	var ma_giay_value = ma_giay.value.trim();
+	var ma_giay_error = document.getElementById('ma_giay_error');
+	var ten_giay = document.getElementById('ten_giay');
+	var ten_giay_value = ten_giay.value.trim();
+	var ten_giay_error = document.getElementById('ten_giay_error');
+	var chat_lieu = document.getElementById('chat_lieu');
+	var chat_lieu_value = chat_lieu.value.trim();
+	var chat_lieu_error = document.getElementById('chat_lieu_error');
+	var so_luong = document.getElementById('so_luong');
+	var so_luong_value = so_luong.value.trim();
+	var so_luong_error = document.getElementById('so_luong_error');
+	var gia_nhap = document.getElementById('gia_nhap');
+	var gia_nhap_value = gia_nhap.value.trim();
+	var gia_nhap_error = document.getElementById('gia_nhap_error');
+	var loai = document.getElementById('loai');
+	var loai_value = loai.value;
+	var loai_error = document.getElementById('loai_error');
+	var thuong_hieu = document.getElementById('thuong_hieu');
+	var thuong_hieu_value = thuong_hieu.value;
+	var thuong_hieu_error = document.getElementById('thuong_hieu_error');
+	var size = document.getElementById('size');
+	var size_value = size.value;
+	var size_error = document.getElementById('size_error');
+	var mausac = document.getElementById('mausac');
+	var mausac_value = mausac.value;
+	var mausac_error = document.getElementById('mausac_error');
 
-  var nhacungcap = document.getElementById("nhacungcap");
-  var nhacungcap_value = nhacungcap.value;
-  var nhacungcap_error = document.getElementById("nhacungcap_error");
-  ma_giay_error.textContent = "";
-  ten_giay_error.textContent = "";
-  chat_lieu_error.textContent = "";
-  so_luong_error.textContent = "";
-  gia_nhap_error.textContent = "";
-  loai_error.textContent = "";
-  thuong_hieu_error.textContent = "";
-  size_error.textContent = "";
-  mausac_error.textContent = "";
-  nhacungcap_error.textContent = "";
-  var isValid = true;
-  if (ma_giay_value === "") {
-    ma_giay_error.textContent = "Vui lòng nhập mã giày";
-    ma_giay.classList.add("error-border");
-    isValid = false;
-  }
-  if (ten_giay_value === "") {
-    ten_giay_error.textContent = "Vui lòng nhập tên giày";
-    isValid = false;
-  }
-  if (chat_lieu_value === "") {
-    chat_lieu_error.textContent = "Vui lòng nhập chất liệu";
-    isValid = false;
-  }
-  // Validate Số Lượng
-  if (so_luong_value === "") {
-    so_luong_error.textContent = "Vui lòng nhập số lượng";
-    isValid = false;
-  } else if (isNaN(so_luong_value)) {
-    so_luong_error.textContent = "Số lượng phải là số ";
-    isValid = false;
-  }
+	var nhacungcap = document.getElementById('nhacungcap');
+	var nhacungcap_value = nhacungcap.value;
+	var nhacungcap_error = document.getElementById('nhacungcap_error');
+	ma_giay_error.textContent = '';
+	ten_giay_error.textContent = '';
+	chat_lieu_error.textContent = '';
+	so_luong_error.textContent = '';
+	gia_nhap_error.textContent = '';
+	loai_error.textContent = '';
+	thuong_hieu_error.textContent = '';
+	size_error.textContent = '';
+	mausac_error.textContent = '';
+	nhacungcap_error.textContent = '';
+	var isValid = true;
+	if (ma_giay_value === '') {
+		ma_giay_error.textContent = 'Vui lòng nhập mã giày';
+		ma_giay.classList.add('error-border');
+		isValid = false;
+	}
+	if (ten_giay_value === '') {
+		ten_giay_error.textContent = 'Vui lòng nhập tên giày';
+		isValid = false;
+	}
+	if (chat_lieu_value === '') {
+		chat_lieu_error.textContent = 'Vui lòng nhập chất liệu';
+		isValid = false;
+	}
+	// Validate Số Lượng
+	if (so_luong_value === '') {
+		so_luong_error.textContent = 'Vui lòng nhập số lượng';
+		isValid = false;
+	} else if (isNaN(so_luong_value)) {
+		so_luong_error.textContent = 'Số lượng phải là số ';
+		isValid = false;
+	}
 
-  // Validate Giá Nhập
-  if (gia_nhap_value === "") {
-    gia_nhap_error.textContent = "Vui lòng nhập giá nhập";
-    isValid = false;
-  } else if (isNaN(gia_nhap_value)) {
-    gia_nhap_error.textContent = "Giá nhập phải là số ";
-    isValid = false;
-  }
+	// Validate Giá Nhập
+	if (gia_nhap_value === '') {
+		gia_nhap_error.textContent = 'Vui lòng nhập giá nhập';
+		isValid = false;
+	} else if (isNaN(gia_nhap_value)) {
+		gia_nhap_error.textContent = 'Giá nhập phải là số ';
+		isValid = false;
+	}
 
-  if (loai_value === "") {
-    loai_error.textContent = "Vui lòng chọn loại";
-    isValid = false;
-  }
-  if (thuong_hieu_value === "") {
-    thuong_hieu_error.textContent = "Vui lòng chọn thương hiệu";
-    isValid = false;
-  }
-  if (size_value === "") {
-    size_error.textContent = "Vui lòng chọn size";
-    isValid = false;
-  }
-  if (mausac_value === "") {
-    mausac_error.textContent = "Vui lòng chọn màu sắc";
-    isValid = false;
-  }
-  if (nhacungcap_value === "") {
-    nhacungcap_error.textContent = "Vui lòng chọn nhà cung cấp";
-    isValid = false;
-  }
+	if (loai_value === '') {
+		loai_error.textContent = 'Vui lòng chọn loại';
+		isValid = false;
+	}
+	if (thuong_hieu_value === '') {
+		thuong_hieu_error.textContent = 'Vui lòng chọn thương hiệu';
+		isValid = false;
+	}
+	if (size_value === '') {
+		size_error.textContent = 'Vui lòng chọn size';
+		isValid = false;
+	}
+	if (mausac_value === '') {
+		mausac_error.textContent = 'Vui lòng chọn màu sắc';
+		isValid = false;
+	}
+	if (nhacungcap_value === '') {
+		nhacungcap_error.textContent = 'Vui lòng chọn nhà cung cấp';
+		isValid = false;
+	}
 
-  return isValid;
+	return isValid;
 }
