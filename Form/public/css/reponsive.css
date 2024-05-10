@@ -22,6 +22,9 @@
 		margin-top: 10px;
 		margin-bottom: 10px;
 	}
+	.bottom__content {
+		display: block;
+	}
 	.error--message {
 		margin-bottom: -2px;
 	}
