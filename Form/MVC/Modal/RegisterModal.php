@@ -20,9 +20,9 @@ class RegisterModal
         $ten = "";
         for ($i = 1; $i < count($hoten); $i++)
             $ten .= $hoten[$i] . " ";
-        $sql_khachhang = "INSERT INTO khachhang (MaKH,Ho,Ten,DiaChi,Email,SDT) VALUES (?,?,?,?,?,?)  ";
-        $stmt = $this->conn->prepare($sql_khachhang);
-        $stmt->bind_param('ssssss', $tendn, $ho, $ten, $diachi, $email,$sdt);
+        // $sql_khachhang = "INSERT INTO khachhang (MaKH,Ho,Ten,DiaChi,Email,SDT) VALUES (?,?,?,?,?,?)  ";
+        // $stmt = $this->conn->prepare($sql_khachhang);
+        // $stmt->bind_param('ssssss', $tendn, $ho, $ten, $diachi, $email,$sdt);
         $sql_check_tendn = "SELECT COUNT(*) AS total FROM taikhoan WHERE TenDN = ?";
         $stmt_check_tendn = $this->conn->prepare($sql_check_tendn);
         $stmt_check_tendn->bind_param('s', $tendn);
